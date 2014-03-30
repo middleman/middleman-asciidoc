@@ -24,107 +24,13 @@ If you already have a Middleman project: Add `gem "middleman-asciidoc"` to your 
 activate :asciidoc
 ```
 
-You can also pass options to Rouge:
+You can also pass options to Asciidoc:
 
 ```ruby
-activate :asciidoc, :line_numbers => true
+activate :asciidoc, :asciidoc_attributes => %w(foo=bar)
 ```
 
 The full set of options can be seen on your preview server's `/__middleman/config/` page.
-
-## Helper
-
-The extension adds a new `code` helper to Middleman that you can use from your templates:
-
-```erb
-<% code("ruby") do %>
-def my_cool_method(message)
-  puts message
-end
-<% end %>
-```
-
-That'll produce asciidoc-highlighted HTML wrapped in `<pre class="highlight ruby">`.
-
-## CSS
-
-On a default (i.e. unstyled) Middleman project, it will appear as if `middleman-asciidoc` isn't working, since obviously no CSS has been applied to color your code. You can use any Pygments-compatible stylesheet to style your code.
-
-You can also let Rouge generate some CSS for you by creating a new stylesheet with a `.css.erb` extension in your Middleman project, and then including:
-
-```erb
-<%= Rouge::Themes::ThankfulEyes.render(:scope => '.highlight') %>
-```
-
-Rouge has `ThankfulEyes`, `Colorful`, `Github`, `Base16`, `Base16::Solarized` (like Octopress), `Base16::Monokai`, and `Monokai` themes.
-
-## Markdown
-
-The extension also makes code blocks in Markdown produce highlighted code. Make sure you're using RedCarpet or Kramdown as your Markdown engine (in `config.rb`):
-
-```ruby
-set :markdown_engine, :redcarpet
-set :markdown, :fenced_code_blocks => true, :smartypants => true
-
-## OR
-
-set :markdown_engine, :kramdown
-```
-
-Now your Markdown will work just like it does [on GitHub](http://github.github.com/github-flavored-markdown/) - you can write something like this with Redcarpet:
-
-<pre>
-```ruby
-def my_cool_method(message)
-  puts message
-end
-```
-</pre>
-
-or with Kramdown:
-
-<pre>
-~~~ ruby
-def my_cool_method(message)
-  puts message
-end
-~~~
-</pre>
-
-## Haml
-
-When using Haml, a `:code` filter is exposed for outputting highlighted code. Because Haml filters don't allow arguments, you must use a special comment to indicate the language of the code to be highlighted (or let Rouge guess):
-
-```haml
-#example
-  :code
-    # lang: ruby
-
-    def foo
-      puts 'bar'
-    end
-```
-
-With the special `# lang: <language tag>` comment on the first line, the `:code` filter is just like calling the `code` helper, but without the indentation problems that Haml might otherwise have. However, if you prefer, you can use the `code` helper along with the `:preserve` filter, as explained below.
-
-## Indentation Problems
-
-Some templating languages, like Haml, will indent your HTML for you,
-which will mess up code formatted in `<pre>` tags. When
-using Haml, either use the `:code` filter (recommended), use the
-[`:preserve`](http://haml.info/docs/yardoc/file.REFERENCE.html#preserve-filter)
-filter, or add `set :haml, { ugly: true }` in your `config.rb` to turn off
-Haml's automatic indentation.
-
-Example of using `:preserve`:
-
-```haml
-- code('ruby') do
-  :preserve
-    def foo
-      puts 'bar'
-    end
-```
 
 ## Community
 
