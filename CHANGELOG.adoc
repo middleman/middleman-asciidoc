@@ -1,0 +1,5 @@
+= Middleman AsciiDoc Changelog
+
+== 1.0.0 (pending) - @mojavelinux
+
+* AsciiDoc support split out into its own extension.

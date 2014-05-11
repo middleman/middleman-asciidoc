@@ -1,0 +1,41 @@
+= Contributing
+:free-software-uri: http://www.fsf.org/licensing/essays/free-sw.html
+:issues-uri: https://github.com/middleman/middleman-syntax/issues
+:gist-uri: https://gist.github.com/
+:fork-uri: http://help.github.com/fork-a-repo/
+:branch-uri: http://learn.github.com/p/branching.html
+:pr-uri: http://help.github.com/send-pull-requests/
+
+In the spirit of {free-software-uri}[free software], *everyone* is encouraged to help improve this project.
+
+Here are some ways _you_ can contribute:
+
+* by using alpha, beta, and prerelease versions
+* by reporting bugs
+* by suggesting new features
+* by writing or editing documentation
+* by writing specifications
+* by writing code (*no patch is too small*: fix typos, add comments, clean up inconsistent whitespace)
+* by refactoring code
+* by closing {issues-uri}[issues]
+* by reviewing patches
+
+== Submitting an Issue
+
+We use the {issues-uri}[GitHub issue tracker] to track bugs and features.
+Before submitting a bug report or feature request, check to make sure it hasn't already been submitted.
+When submitting a bug report, please include a {gist-uri}[Gist] that includes a stack trace and any details that may be necessary to reproduce the bug, including your gem version, Ruby version, and operating system.
+Ideally, a bug report should include a pull request with failing specs.
+
+== Submitting a Pull Request
+
+. {fork-uri}[Fork the repository.]
+. {branch-uri}[Create a topic branch.]
+. Add specs for your unimplemented feature or bug fix.
+. Run +bundle exec rake cucumber+.
+  If your specs pass, return to step 3.
+. Implement your feature or bug fix.
+. Run +bundle exec rake cucumber+.
+  If your specs fail, return to step 5.
+. Add, commit, and push your changes.
+. {pr-uri}[Submit a pull request.]

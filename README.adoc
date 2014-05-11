@@ -1,0 +1,70 @@
+= Middleman AsciiDoc
+Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+:middleman-uri: http://middlemanapp.com
+:asciidoc-uri: http://asciidoc.org
+:asciidoctor-uri: http://asciidoctor.org
+:license-uri: https://github.com/middleman/middleman-asciidoc/blob/master/LICENSE.md
+:gem-uri: https://rubygems.org/gems/middleman-asciidoc
+:gem-badge: https://badge.fury.io/rb/middleman-asciidoc.png
+:buildstatus-uri: http://travis-ci.org/middleman/middleman-asciidoc
+:buildstatus-badge: https://travis-ci.org/middleman/middleman-asciidoc.png
+:depstatus-uri: https://gemnasium.com/middleman/middleman-asciidoc
+:depstatus-badge: https://gemnasium.com/middleman/middleman-asciidoc.png?travis
+:codequality-uri: https://codeclimate.com/github/middleman/middleman-asciidoc
+:codequality-badge: https://codeclimate.com/github/middleman/middleman-asciidoc.png
+
+Middleman AsciiDoc (+middleman-asciidoc+) is an extension for the {middleman-uri}[Middleman] static site generator that adds support for the {asciidoc-uri}[AsciiDoc] markup language using {asciidoctor-uri}[Asciidoctor].
+
+ifdef::env-github[]
+image:{gem-badge}[Gem Version,link={gem-uri}]
+image:{buildstatus-badge}[Build Status,link={buildstatus-uri}]
+image:{depstatus-badge}[Dependency Status,link={depstatus-badge}]
+image:{codequality-badge}[Code Quality,link={codequality-badge}]
+endif::[]
+
+== Installation
+
+If you're just getting started, install the +middleman+ gem and generate a new project:
+
+```bash
+$ gem install middleman
+  middleman init MY_PROJECT
+```
+
+If you have an existing Middleman project, add +gem "middleman-asciidoc"+ to your +Gemfile+ and run +bundle install+.
+
+== Configuration
+
+```ruby
+activate :asciidoc
+```
+
+You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor:
+
+```ruby
+activate :asciidoc, :asciidoc_attributes => %w(foo=bar)
+```
+
+The full set of options can be seen on your preview server's +/__middleman/config/+ page.
+
+== Community
+
+The official community forum is available at: http://forum.middlemanapp.com
+
+== Bug Reports
+
+Github Issues are used for managing bug reports and feature requests. If you run into issues, please search the issues and submit new problems at https://github.com/middleman/middleman-asciidoc/issues.
+
+The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner. Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[Pull Requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
+
+== How to Run Cucumber Tests
+
+. Checkout Repository: `git clone https://github.com/middleman/middleman-asciidoc.git`
+. Install Bundler: +gem install bundler+
+. Run +bundle install+ inside the project root to install the gem dependencies.
+. Run test cases: +bundle exec rake test+
+
+== License
+
+Copyright (C) 2014 Dan Allen.
+MIT Licensed, see {license-uri}[LICENSE] for details.
