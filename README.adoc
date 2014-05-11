@@ -19,7 +19,7 @@ ifdef::env-github[]
 image:{gem-badge}[Gem Version,link={gem-uri}]
 image:{buildstatus-badge}[Build Status,link={buildstatus-uri}]
 image:{depstatus-badge}[Dependency Status,link={depstatus-badge}]
-image:{codequality-badge}[Code Quality,link={codequality-badge}]
+//image:{codequality-badge}[Code Quality,link={codequality-badge}]
 endif::[]
 
 == Installation
