@@ -1,6 +1,6 @@
-# Middleman-Asciidoc
+# Middleman AsciiDoc
 
-`middleman-asciidoc` is an extension for the [Middleman] static site generator that adds support for AsciidDoc via [Asciidoctor](http://asciidoctor.org/)
+`middleman-asciidoc` is an extension for the [Middleman] static site generator that adds support for AsciiDoc via [Asciidoctor](http://asciidoctor.org/)
 
 [![Gem Version](https://badge.fury.io/rb/middleman-asciidoc.png)][gem]
 [![Build Status](https://travis-ci.org/middleman/middleman-asciidoc.png)][travis]
@@ -24,7 +24,7 @@ If you already have a Middleman project: Add `gem "middleman-asciidoc"` to your 
 activate :asciidoc
 ```
 
-You can also pass options to Asciidoc:
+You can also pass options to AsciiDoc:
 
 ```ruby
 activate :asciidoc, :asciidoc_attributes => %w(foo=bar)

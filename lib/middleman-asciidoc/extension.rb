@@ -1,8 +1,8 @@
 require 'asciidoctor'
 
 module Middleman
-  module Asciidoc
-    class AsciidocExtension < ::Middleman::Extension
+  module AsciiDoc
+    class AsciiDocExtension < ::Middleman::Extension
       option :asciidoc_attributes, [], 'AsciiDoc custom attributes (Array)'
 
       def initialize(app, options_hash={}, &block)

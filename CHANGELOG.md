@@ -1,4 +1,4 @@
 1.0.0
 -----
 
-* Asciidoc support broken out into its own extension.
+* AsciiDoc support split out into its own extension.
