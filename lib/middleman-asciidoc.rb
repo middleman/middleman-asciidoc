@@ -1,7 +1,5 @@
 require 'middleman-core'
 require 'middleman-asciidoc/version'
+require 'middleman-asciidoc/extension'
 
-Middleman::Extensions.register :asciidoc do
-  require 'middleman-asciidoc/extension'
-  Middleman::AsciiDoc::AsciiDocExtension
-end
+::Middleman::Extensions.register(:asciidoc, Middleman::AsciiDoc::AsciiDocExtension)
