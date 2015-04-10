@@ -24,7 +24,7 @@ module Middleman
 
       def manipulate_resource_list(resources)
         resources.each do |resource|
-          path = resource.source_file
+          path = resource.request_path
           next unless path.present? && File.extname(path) == '.adoc'
 
           # read the AsciiDoc header only to set page options and data
