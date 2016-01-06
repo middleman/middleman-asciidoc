@@ -12,7 +12,7 @@ gem 'yard',     '~> 0.8.0', :require => false
 gem 'thor', '~> 0.19.0'
 gem 'cucumber', '~> 1.3.1'
 gem 'fivemat'
-gem 'aruba',    '=> 0.12'
+gem 'aruba',    '>= 0.12'
 
 # Code Quality
 gem 'cane', :platforms => [:mri_19, :mri_20], :require => false
