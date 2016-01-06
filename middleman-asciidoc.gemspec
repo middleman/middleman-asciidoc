@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'middleman-core', ['>= 4.0.0.pre.0', '< 4.1']
-  s.add_runtime_dependency 'asciidoctor', '~> 0.1.4'
+  s.add_runtime_dependency 'asciidoctor', '>= 1.5.4'
 end
