@@ -77,12 +77,8 @@ Feature: AsciiDoc Support
       </head>
       <body>
       <h1>Page Title</h1>
-      <div id="preamble">
-      <div class="sectionbody">
       <div class="paragraph">
       <p>Hello, AsciiDoc!</p>
-      </div>
-      </div>
       </div>
       </body>
       </html>
