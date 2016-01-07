@@ -25,14 +25,18 @@ endif::[]
 
 == Installation
 
-If you're just getting started, install the `middleman` gem and generate a new project:
+If you're just getting started, install the Middleman gem:
+
+ $ gem install middleman
+
+then generate a new project:
 
  $ gem install middleman
    middleman init MY_PROJECT
 
-If you are working with an existing project, you can skip the previous step.
+If you're working with an existing project, you can skip the previous steps.
 
-Next, add `gem "middleman-asciidoc"` to your [path]_Gemfile_ and run `bundle`.
+Finally, add `gem "middleman-asciidoc"` to your [path]_Gemfile_ and run `bundle`.
 
 == Configuration
 
