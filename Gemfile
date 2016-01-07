@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
-
-# Specify your gem's dependencies in middleman-syntax.gemspec
+# Runtime dependencies are defined in middleman-asciidoc.gemspec
 gemspec
 
-gem 'rake',     '~> 10.1.0', :require => false
-gem 'yard',     '~> 0.8.0', :require => false
+# Build and doc tools
+gem 'rake', '~> 10.3', require: false
+gem 'yard', '~> 0.8', require: false
 
 # Test tools
-gem 'thor', '~> 0.19.0'
-gem 'cucumber', '~> 1.3.1'
-gem 'fivemat'
-gem 'aruba',    '>= 0.12'
+gem 'cucumber', '~> 2.0', require: false
+gem 'aruba', '~> 0.7.4', require: false
 
-# Code Quality
-gem 'cane', :platforms => [:mri_19, :mri_20], :require => false
+# Code quality tools
+gem 'cane', platforms: [:mri_19, :mri_20], require: false
+
+# Middleman itself (use for testing against development version)
+#gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
