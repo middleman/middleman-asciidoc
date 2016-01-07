@@ -1,9 +1,13 @@
+sudo: false
+git:
+  depth: 1
+language: ruby
 rvm:
-  - 1.9.3
+  - 2.3.0
+  - 2.2.4
+  - 2.1.8
   - 2.0.0
-  - 2.1.0
-  - jruby-19mode
-
-script: "bundle exec rake test"
-
-env: TEST=true
+  - jruby-9.0.4.0
+script: bundle exec rake cucumber
+env:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
