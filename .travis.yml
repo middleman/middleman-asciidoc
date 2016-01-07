@@ -7,7 +7,7 @@ rvm:
   - 2.2.4
   - 2.1.8
   - 2.0.0
-  - jruby-9.0.4.0
+  #- jruby-9.0.4.0
 script: bundle exec rake cucumber
 env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
