@@ -1,37 +1,38 @@
 = Middleman AsciiDoc
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
-:middleman-uri: http://middlemanapp.com
-:asciidoc-uri: http://asciidoc.org
-:asciidoctor-uri: http://asciidoctor.org
-:license-uri: https://github.com/middleman/middleman-asciidoc/blob/master/LICENSE.md
-:gem-uri: https://rubygems.org/gems/middleman-asciidoc
-:gem-badge: https://badge.fury.io/rb/middleman-asciidoc.png
-:buildstatus-uri: http://travis-ci.org/middleman/middleman-asciidoc
-:buildstatus-badge: https://travis-ci.org/middleman/middleman-asciidoc.png
-:depstatus-uri: https://gemnasium.com/middleman/middleman-asciidoc
-:depstatus-badge: https://gemnasium.com/middleman/middleman-asciidoc.png?travis
-:codequality-uri: https://codeclimate.com/github/middleman/middleman-asciidoc
-:codequality-badge: https://codeclimate.com/github/middleman/middleman-asciidoc.png
+:uri-repo: https://github.com/middleman/middleman-asciidoc
+:uri-middleman: https://middlemanapp.com
+:uri-asciidoc: http://asciidoc.org
+:uri-asciidoctor: http://asciidoctor.org
+:uri-license: {uri-repo}/blob/master/LICENSE.adoc
+:uri-gem: https://rubygems.org/gems/middleman-asciidoc
+:badge-gem: https://badge.fury.io/rb/middleman-asciidoc.png
+:uri-buildstatus: http://travis-ci.org/middleman/middleman-asciidoc
+:badge-buildstatus: https://travis-ci.org/middleman/middleman-asciidoc.png
+:uri-depstatus: https://gemnasium.com/middleman/middleman-asciidoc
+:badge-depstatus: https://gemnasium.com/middleman/middleman-asciidoc.png?travis
+:uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
+:badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
 
-Middleman AsciiDoc (+middleman-asciidoc+) is an extension for the {middleman-uri}[Middleman] static site generator that adds support for the {asciidoc-uri}[AsciiDoc] markup language using {asciidoctor-uri}[Asciidoctor].
+Middleman AsciiDoc (gem: `middleman-asciidoc`) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] markup language using {uri-asciidoctor}[Asciidoctor].
 
 ifdef::env-github[]
-image:{gem-badge}[Gem Version,link={gem-uri}]
-image:{buildstatus-badge}[Build Status,link={buildstatus-uri}]
-image:{depstatus-badge}[Dependency Status,link={depstatus-badge}]
-//image:{codequality-badge}[Code Quality,link={codequality-badge}]
+image:{badge-gem}[Gem Version,link={uri-gem}]
+image:{badge-buildstatus}[Build Status,link={uri-buildstatus}]
+image:{badge-depstatus}[Dependency Status,link={badge-depstatus}]
+//image:{badge-codequality}[Code Quality,link={badge-codequality}]
 endif::[]
 
 == Installation
 
-If you're just getting started, install the +middleman+ gem and generate a new project:
+If you're just getting started, install the `middleman` gem and generate a new project:
 
-```bash
-$ gem install middleman
-  middleman init MY_PROJECT
-```
+ $ gem install middleman
+   middleman init MY_PROJECT
 
-If you have an existing Middleman project, add +gem "middleman-asciidoc"+ to your +Gemfile+ and run +bundle install+.
+If you are working with an existing project, you can skip the previous step.
+
+Next, add `gem "middleman-asciidoc"` to your [path]_Gemfile_ and run `bundle`.
 
 == Configuration
 
@@ -45,26 +46,39 @@ You can also pass AsciiDoc configuration options to the underlying Asciidoctor p
 activate :asciidoc, :asciidoc_attributes => %w(foo=bar)
 ```
 
-The full set of options can be seen on your preview server's +/__middleman/config/+ page.
+The full set of options can be seen on your preview server's config page at [path]_/__middleman/config/_.
 
 == Community
 
 The official community forum is available at: http://forum.middlemanapp.com
 
-== Bug Reports
+== Bug reports
 
-Github Issues are used for managing bug reports and feature requests. If you run into issues, please search the issues and submit new problems at https://github.com/middleman/middleman-asciidoc/issues.
+Github Issues are used for managing bug reports and feature requests.
+If you run into issues, please search the issues and submit new problems at https://github.com/middleman/middleman-asciidoc/issues.
 
-The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner. Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[Pull Requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
+The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner.
+Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[Pull Requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
 
-== How to Run Cucumber Tests
+== How to run Cucumber tests
 
-. Checkout Repository: `git clone https://github.com/middleman/middleman-asciidoc.git`
-. Install Bundler: +gem install bundler+
-. Run +bundle install+ inside the project root to install the gem dependencies.
-. Run test cases: +bundle exec rake test+
+. Clone the repository:
+
+ $ git clone https://github.com/middleman/middleman-asciidoc.git
+
+. Install Bundler (if not already installed):
+
+ $ gem install bundler
+
+. Run Bundler inside the project root to install the gem dependencies:
+
+ $ bundle
+
+. Run test cases (based on Cucumber):
+
+ $ bundle exec rake cucumber
 
 == License
 
-Copyright (C) 2014 Dan Allen.
-MIT Licensed, see {license-uri}[LICENSE] for details.
+Copyright (C) 2014-2016 Dan Allen.
+MIT Licensed, see {uri-license}[LICENSE] for details.
