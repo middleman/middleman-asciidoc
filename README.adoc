@@ -72,7 +72,7 @@ Even better, if you know Ruby, you can submit https://help.github.com/articles/u
 
 . Run Bundler inside the project root to install the gem dependencies:
 
- $ bundle
+ $ NOKOGIRI_USE_SYSTEM_LIBRARIES=1 bundle
 
 . Run test cases (based on Cucumber):
 
