@@ -12,6 +12,17 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Rendering html with extension
+    Given the Server is running at "asciidoc-app"
+    When I go to "/hello-with-extension.html"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
+      </div>
+      """
+
   Scenario: Rendering html with default layout
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
@@ -65,6 +76,24 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Rendering html using title from document
+    Given the Server is running at "asciidoc-app"
+    When I go to "/hello-with-title.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Page Title</title>
+      </head>
+      <body>
+      <h1>Page Title</h1>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
   Scenario: Rendering html using title from document
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-title.html"
