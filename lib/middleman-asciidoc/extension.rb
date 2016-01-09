@@ -51,7 +51,8 @@ module Middleman
           page[:date] = (doc.attr 'date') unless (doc.attr 'date').nil?
           # TODO grab all the author information
           page[:author] = (doc.attr 'author') unless (doc.attr 'author').nil?
-
+          
+          resource.destination_path << ".html"
           resource.add_metadata options: opts, locals: { asciidoc: page }
         end
       end
