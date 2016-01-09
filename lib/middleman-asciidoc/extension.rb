@@ -52,7 +52,10 @@ module Middleman
           # TODO grab all the author information
           page[:author] = (doc.attr 'author') unless (doc.attr 'author').nil?
           
-          resource.destination_path << ".html" unless resource.destination_path.include? ".html"
+          unless resource.destination_path.end_with? '.html'
+            # NOTE we must use << or else the layout gets disabled
+            resource.destination_path << '.html'
+          end
           resource.add_metadata options: opts, locals: { asciidoc: page }
         end
       end

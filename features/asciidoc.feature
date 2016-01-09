@@ -12,7 +12,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering html with extension
+  Scenario: Rendering html with double file extension
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-extension.html"
     Then I should see:
