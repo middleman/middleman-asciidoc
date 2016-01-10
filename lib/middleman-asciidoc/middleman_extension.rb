@@ -1,1 +1,1 @@
-require 'middleman-syntax'
+require 'middleman-asciidoc'
