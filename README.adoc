@@ -1,5 +1,8 @@
-= Middleman AsciiDoc
+= AsciiDoc support for Middleman 4
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+// Settings:
+ifdef::env-github[:badges:]
+// URIs:
 :uri-repo: https://github.com/middleman/middleman-asciidoc
 :uri-middleman: https://middlemanapp.com
 :uri-asciidoc: http://asciidoc.org
@@ -16,7 +19,10 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 
 Middleman AsciiDoc (gem: `middleman-asciidoc`) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] markup language using {uri-asciidoctor}[Asciidoctor].
 
-ifdef::env-github[]
+NOTE: This extension is designed for Middleman >= 4.0.0.
+Prior to Middleman 4, AsciiDoc support was provided by Middleman out of the box.
+
+ifdef::badges[]
 image:{badge-gem}[Gem Version,link={uri-gem}]
 image:{badge-buildstatus}[Build Status,link={uri-buildstatus}]
 image:{badge-depstatus}[Dependency Status,link={badge-depstatus}]
