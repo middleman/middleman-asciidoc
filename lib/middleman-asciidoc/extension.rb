@@ -5,7 +5,7 @@ module Middleman
     class AsciiDocExtension < ::Middleman::Extension
       option :asciidoc_attributes, [], 'AsciiDoc custom attributes (Array)'
 
-      def initialize(app, options_hash={}, &block)
+      def initialize app, options_hash = {}, &block
         super
 
         app.config.define_setting :asciidoc, {
@@ -18,14 +18,14 @@ module Middleman
       def after_configuration
         # QUESTION should base_dir be equal to docdir instead?
         app.config[:asciidoc][:base_dir] = app.source_dir
-        app.config[:asciidoc][:attributes].concat(Array(options[:asciidoc_attributes]))
+        app.config[:asciidoc][:attributes].concat Array(options[:asciidoc_attributes])
         app.config[:asciidoc][:attributes] << %(imagesdir=#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])})
       end
 
       def manipulate_resource_list(resources)
         default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
         resources.each do |resource|
-          next unless (path = resource.source_file).present? && (::File.extname path) == '.adoc'
+          next unless (path = resource.source_file).present? && (path.end_with? '.adoc')
 
           # read the AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
@@ -34,6 +34,7 @@ module Middleman
             parse_header_only: true,
             attributes: { 'page-layout' => %(#{resource.options[:layout] || default_page_layout}@) }
           opts = {}
+          page = {}
 
           # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
           if doc.attr? 'page-layout'
@@ -48,16 +49,20 @@ module Middleman
             opts[:header_footer] = true
           end
 
-          # TODO override attributes to set docfile, docdir, docname, etc
-          # alternative is to set :renderer_options, which get merged into options by the rendering extension
-          #opts[:attributes] = config[:asciidoc][:attributes].dup
-          #opts[:attributes].concat %W(docfile=#{path} docdir=#{File.dirname path} docname=#{(File.basename path).sub(/\.adoc$/, '')})
-
-          page = {}
-          page[:title] = doc.doctitle
-          page[:date] = (doc.attr 'date') unless (doc.attr 'date').nil?
-          # TODO grab all the author information
-          page[:author] = (doc.attr 'author') unless (doc.attr 'author').nil?
+          doc.attributes.each do |(key,val)|
+            case key
+            when 'doctitle'
+              page[:title] = val
+            when 'author', 'email', 'date'
+              page[key.to_sym] = val
+            when 'revdate'
+              page[:date] ||= val
+            else
+              if (key.start_with? 'page-') && !(key.start_with? 'page-layout')
+                page[key[5..-1].to_sym] = val
+              end
+            end
+          end
           
           # QUESTION should we use resource.ext == '.html' instead?
           unless resource.destination_path.end_with? '.html'
@@ -65,7 +70,7 @@ module Middleman
             resource.destination_path << '.html'
           end
 
-          resource.add_metadata options: opts, locals: { asciidoc: page }
+          resource.add_metadata options: opts, page: page
         end
       end
     end
