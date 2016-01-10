@@ -1,2 +1,2 @@
-:page-layout: false
+:page-layout!:
 Hello, AsciiDoc!
