@@ -51,6 +51,7 @@ module Middleman
           # TODO grab all the author information
           page[:author] = (doc.attr 'author') unless (doc.attr 'author').nil?
           
+          # QUESTION should we use resource.ext == '.html' instead?
           unless resource.destination_path.end_with? '.html'
             # NOTE we must use << or else the layout gets disabled
             resource.destination_path << '.html'
