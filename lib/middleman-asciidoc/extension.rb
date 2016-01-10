@@ -9,9 +9,9 @@ module Middleman
         super
 
         app.config.define_setting :asciidoc, {
-          :safe => :safe,
-          :backend => :html5,
-          :attributes => %W(env=middleman env-middleman middleman-version=#{::Middleman::VERSION})
+          safe: :safe,
+          backend: :html5,
+          attributes: ['env=middleman', 'env-middleman', %(middleman-version=#{::Middleman::VERSION})]
         }, 'AsciiDoc engine options (Hash)'
       end
 
@@ -24,8 +24,7 @@ module Middleman
 
       def manipulate_resource_list(resources)
         resources.each do |resource|
-          path = resource.source_file
-          next unless path.present? && File.extname(path) == '.adoc'
+          next unless (path = resource.source_file).present? && (::File.extname path) == '.adoc'
 
           # read the AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
@@ -56,6 +55,7 @@ module Middleman
             # NOTE we must use << or else the layout gets disabled
             resource.destination_path << '.html'
           end
+
           resource.add_metadata options: opts, locals: { asciidoc: page }
         end
       end
