@@ -1,41 +1,77 @@
 = Contributing
-:free-software-uri: http://www.fsf.org/licensing/essays/free-sw.html
-:issues-uri: https://github.com/middleman/middleman-syntax/issues
-:gist-uri: https://gist.github.com/
-:fork-uri: http://help.github.com/fork-a-repo/
-:branch-uri: http://learn.github.com/p/branching.html
-:pr-uri: http://help.github.com/send-pull-requests/
+:uri-free-software: http://www.fsf.org/licensing/essays/free-sw.html
+:uri-repo: https://github.com/middleman/middleman-asciidoc
+:uri-issues: {uri-repo}/issues
+:uri-fork: http://help.github.com/fork-a-repo/
+:uri-branch: http://learn.github.com/p/branching.html
+:uri-pr: http://help.github.com/send-pull-requests/
 
-In the spirit of {free-software-uri}[free software], *everyone* is encouraged to help improve this project.
+In the spirit of {uri-free-software}[free software], *everyone* is encouraged to help improve this project.
+This guide suggests ways to get involved and covers the workflow the development team uses for submitting and managing contributions.
 
+== Get involved
+
+Thanks for stopping by!
+Now's your chance to get involved.
 Here are some ways _you_ can contribute:
 
-* by using alpha, beta, and prerelease versions
-* by reporting bugs
-* by suggesting new features
-* by writing or editing documentation
-* by writing specifications
-* by writing code (*no patch is too small*: fix typos, add comments, clean up inconsistent whitespace)
-* by refactoring code
-* by closing {issues-uri}[issues]
-* by reviewing patches
+- Use alpha, beta, and prerelease versions
+  * We love testers!
+- Report bugs
+  * Don't be shy. Let us know when things aren't working. Don't suffer in silence.
+- Suggest new features
+  * Innovation FTW!
+- Write, edit or review documentation
+  * Others want to know how it works too. Once you figure it out, please share!
+- Add specifications (i.e., cucumber tests)
+- Write code
+  * *No patch is too small!* (e.g., fix typos, add comments, clean up inconsistent whitespace)
+- Refactor code
+- Resolve {uri-issues}[issues]
+- Review open pull requests
 
-== Submitting an Issue
+== Our development process
 
-We use the {issues-uri}[GitHub issue tracker] to track bugs and features.
-Before submitting a bug report or feature request, check to make sure it hasn't already been submitted.
-When submitting a bug report, please include a {gist-uri}[Gist] that includes a stack trace and any details that may be necessary to reproduce the bug, including your gem version, Ruby version, and operating system.
-Ideally, a bug report should include a pull request with failing specs.
+This section covers the workflow the development team uses when making contributions.
+If you follow these recommendations, you'll maximize the chance of your contribution being accepted in a timely manner.
 
-== Submitting a Pull Request
+=== Submitting an issue
 
-. {fork-uri}[Fork the repository.]
-. {branch-uri}[Create a topic branch.]
-. Add specs for your unimplemented feature or bug fix.
-. Run +bundle exec rake cucumber+.
-  If your specs pass, return to step 3.
-. Implement your feature or bug fix.
-. Run +bundle exec rake cucumber+.
-  If your specs fail, return to step 5.
+We use the {uri-issues}[GitHub issue tracker] to track bugs and features.
+Before submitting a bug report or feature request, check to make sure an issue hasn't already been submitted for it.
+
+When submitting a bug report, please include any details that may be necessary to reproduce the bug, including the version of the gem, the version of Ruby you are using and your operating system.
+Ideally, a bug report should include a pull request with a failing cucumber test.
+
+=== Submitting a pull request (GitHub Flow)
+
+. {uri-fork}[Fork the repository.]
++
+[subs=attributes+]
+ $ git clone {uri-repo}
+
+. {uri-branch}[Create a branch to manage your changes.]
+
+ $ git checkout -b issue-n -t origin/master
++
+Please name the branch `issue-n` (where "n" is the issue number).
+
+. Implement your change and add a cucumber test to verify it.
+. Run the tests.
+
+ $ bundle exec rake cucumber
++
+If your tests don't pass, return to step 3.
+
 . Add, commit, and push your changes.
-. {pr-uri}[Submit a pull request.]
+  * Your commit message should start with `resolves #n` (where "n" is the issue number)
+  * When your change is merged, the issue will be automatically closed.
+. {uri-pr}[Submit a pull request.]
+
+=== Message to project maintainers
+
+If you're a project maintainer, please follow the GitHub Flow instead of pushing directly to master, especially when resolving an issue.
+And please make sure to push the branch to your own fork when creating a pull request, not the upstream repository.
+
+You can merge your own pull request, but please allow a period of time for commit (24 hours is the general rule of thumb).
+This timeout period provides an opportunity for code review and encourages participation.
