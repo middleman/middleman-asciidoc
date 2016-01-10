@@ -37,8 +37,7 @@ If you're just getting started, install the Middleman gem:
 
 then generate a new project:
 
- $ gem install middleman
-   middleman init MY_PROJECT
+ $ middleman init MY_PROJECT
 
 If you're working with an existing project, you can skip the previous steps.
 
