@@ -23,23 +23,31 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
+        default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
         resources.each do |resource|
           next unless (path = resource.source_file).present? && (::File.extname path) == '.adoc'
 
           # read the AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          doc = Asciidoctor.load_file path, :safe => :safe, :parse_header_only => true
-
+          doc = ::Asciidoctor.load_file path,
+            safe: :safe,
+            parse_header_only: true,
+            attributes: { 'page-layout' => %(#{resource.options[:layout] || default_page_layout}@) }
           opts = {}
+
+          # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
           if doc.attr? 'page-layout'
-            case (layout = (doc.attr 'page-layout'))
-            when '', 'false'
-              opts[:layout] = false
+            if (layout = doc.attr 'page-layout').empty?
+              opts[:layout] = :_auto_layout
             else
               opts[:layout] = layout
             end
+            opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
+          else
+            opts[:layout] = false
+            opts[:header_footer] = true
           end
-          opts[:layout_engine] = (doc.attr 'page-layout-engine') if (doc.attr? 'page-layout-engine')
+
           # TODO override attributes to set docfile, docdir, docname, etc
           # alternative is to set :renderer_options, which get merged into options by the rendering extension
           #opts[:attributes] = config[:asciidoc][:attributes].dup
