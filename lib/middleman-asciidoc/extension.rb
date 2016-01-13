@@ -64,10 +64,10 @@ module Middleman
             end
           end
           
-          # QUESTION should we use resource.ext == '.html' instead?
-          unless resource.destination_path.end_with? '.html'
+          # QUESTION should we use resource.ext == doc.outfilesuffix instead?
+          unless resource.destination_path.end_with? doc.outfilesuffix
             # NOTE we must use << or else the layout gets disabled
-            resource.destination_path << '.html'
+            resource.destination_path << doc.outfilesuffix
           end
 
           resource.add_metadata options: opts, page: page
