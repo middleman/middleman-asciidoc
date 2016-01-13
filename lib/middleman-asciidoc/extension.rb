@@ -25,15 +25,16 @@ module Middleman
 
       def manipulate_resource_list(resources)
         default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
+        asciidoctor_opts = app.config[:asciidoc].merge parse_header_only: true
+        asciidoctor_opts[:attributes].unshift 'page-layout' # placeholder entry
         resources.each do |resource|
           next unless (path = resource.source_file).present? && (path.end_with? '.adoc')
 
           # read the AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          doc = ::Asciidoctor.load_file path,
-            safe: :safe,
-            parse_header_only: true,
-            attributes: { 'page-layout' => %(#{resource.options[:layout] || default_page_layout}@) }
+          asciidoctor_opts[:attributes][0] = %(page-layout=#{resource.options[:layout] || default_page_layout}@)
+          doc = Asciidoctor.load_file path, asciidoctor_opts
+
           opts = {}
           page = {}
 
