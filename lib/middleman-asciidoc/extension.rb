@@ -18,8 +18,8 @@ module Middleman
       def after_configuration
         # QUESTION should base_dir be equal to docdir instead?
         app.config[:asciidoc][:base_dir] = app.source_dir.expand_path.to_s
+        app.config[:asciidoc][:attributes] << %(imagesdir=#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
         app.config[:asciidoc][:attributes].concat Array(options[:asciidoc_attributes])
-        app.config[:asciidoc][:attributes] << %(imagesdir=#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])})
         # QUESTION should we convert attributes to a map at this point?
       end
 

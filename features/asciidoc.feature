@@ -153,6 +153,33 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Linking to an image with a custom imagesdir
+    Given the Server is running at "asciidoc-app"
+    When I go to "/custom-imagesdir.html"
+    Then I should see:
+      """
+      <div class="imageblock">
+      <div class="content">
+      <img src="img/tiger.gif" alt="tiger">
+      </div>
+      """
+
+  Scenario: imagesdir configuratino should override imagesdir defined in page
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, :asciidoc_attributes => %w(imagesdir=/img)
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/custom-imagesdir.html"
+    Then I should see:
+      """
+      <div class="imageblock">
+      <div class="content">
+      <img src="/img/tiger.gif" alt="tiger">
+      </div>
+      """
+
   Scenario: Configuring custom AsciiDoc attributes
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
