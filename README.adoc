@@ -70,7 +70,8 @@ The full set of options can be seen on your preview server's config page at [pat
 
 == Community
 
-The official community forum is available at: http://forum.middlemanapp.com
+The official community forum for Middleman can be found at http://forum.middlemanapp.com.
+For questions related to this extension or general questions about AsciiDoc, please post to the Asciidoctor discussion list at http://discuss.asciidoctor.org.
 
 == Bug reports
 
