@@ -43,8 +43,10 @@ If you're working with an existing project, you can skip the previous steps.
 
 Finally, add `gem 'middleman-asciidoc'` to your [path]_Gemfile_ and run `bundle`.
 
-IMPORTANT: AsciiDoc files in your site must have the file extension `.html.adoc`.
-Middleman will remove the `.adoc` part and write the converted output to the resulting file.
+NOTE: Each AsciiDoc file in the source directory (except files that begin with `_` or are in a directory that begins with `_`) becomes a page in the site.
+AsciiDoc files can have the file extension `.adoc` or `.html.adoc`.
+These extensions are stripped and replaced with the value of the `outfilesuffix` attribute, which defaults to `.html`.
+(For details, see the discussion in https://github.com/middleman/middleman-asciidoc/issues/7[issue #7]).
 
 == Configuration
 
