@@ -12,6 +12,7 @@ end
 require 'rake/clean'
 
 task :test => ['cucumber']
+task :default => ['test', 'build']
 
 begin
   require 'cane/rake_task'
