@@ -16,4 +16,4 @@ gem 'cane', platforms: [:mri_19, :mri_20], require: false
 
 # Middleman itself (use for testing against development version)
 #gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
-gem 'listen', '~> 3.0.0' # see https://github.com/middleman/middleman/pull/1891
+gem 'listen', '~> 3.0.0', require: false # see https://github.com/middleman/middleman/pull/1891
