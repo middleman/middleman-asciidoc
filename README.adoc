@@ -85,19 +85,19 @@ Even better, if you know Ruby, you can submit https://help.github.com/articles/u
 
 . Clone the repository:
 
- $ git clone https://github.com/middleman/middleman-asciidoc.git
+ $ git clone https://github.com/middleman/middleman-asciidoc.git && cd middleman-asciidoc
 
 . Install Bundler (if not already installed):
 
  $ gem install bundler
 
-. Run Bundler inside the project root to install the gem dependencies:
+. Run Bundler (from the project root) to install the gem dependencies:
 
  $ bundle
 
 . Run test cases (based on Cucumber) using Rake:
 
- $ rake cucumber
+ $ bundle exec rake cucumber
 
 == Copyright
 
