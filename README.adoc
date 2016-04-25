@@ -1,7 +1,14 @@
 = AsciiDoc support for Middleman 4
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 // Settings:
-ifdef::env-github[:badges:]
+:idprefix:
+:idseparator: -
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:status:
+:outfilesuffix: .adoc
+:note-caption: :paperclip:
+endif::[]
 // URIs:
 :uri-repo: https://github.com/middleman/middleman-asciidoc
 :uri-middleman: https://middlemanapp.com
@@ -22,7 +29,7 @@ Middleman AsciiDoc (gem: `middleman-asciidoc`) is an extension for the {uri-midd
 NOTE: This extension is designed for Middleman >= 4.0.0.
 Prior to Middleman 4, AsciiDoc support was provided by Middleman out of the box.
 
-ifdef::badges[]
+ifdef::status[]
 image:{badge-gem}[Gem Version,link={uri-gem}]
 image:{badge-buildstatus}[Build Status,link={uri-buildstatus}]
 image:{badge-depstatus}[Dependency Status,link={badge-depstatus}]
