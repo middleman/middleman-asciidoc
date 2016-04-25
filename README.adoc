@@ -41,7 +41,7 @@ then generate a new project:
 
 If you're working with an existing project, you can skip the previous steps.
 
-Finally, add `gem "middleman-asciidoc"` to your [path]_Gemfile_ and run `bundle`.
+Finally, add `gem 'middleman-asciidoc'` to your [path]_Gemfile_ and run `bundle`.
 
 IMPORTANT: AsciiDoc files in your site must have the file extension `.html.adoc`.
 Middleman will remove the `.adoc` part and write the converted output to the resulting file.
