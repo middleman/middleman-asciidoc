@@ -1,4 +1,4 @@
-require 'asciidoctor'
+require 'asciidoctor' unless defined? Asciidoctor
 
 module Middleman
   module AsciiDoc
