@@ -142,6 +142,35 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Including a file relative to document in subdirectory
+    Given the Server is running at "asciidoc-app"
+    When I go to "/manual/index.html"
+    Then I should see:
+      """
+      <h1>Manual</h1>
+      <div class="sect1">
+      <h2 id="_chapter_01">Chapter 01</h2>
+      <div class="sectionbody">
+      <div class="paragraph">
+      <p>content</p>
+      </div>
+      </div>
+      </div>
+      """
+
+  Scenario: Including a file relative to document in subdirectory when base_dir is set
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, base_dir: app.source_dir.expand_path
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/manual/index.html"
+    Then I should see:
+      """
+      <p>Unresolved directive in &lt;stdin&gt; - include::_chapters/ch01.adoc[]</p>
+      """
+
   Scenario: Linking to an image
     Given the Server is running at "asciidoc-app"
     When I go to "/gallery.html"
@@ -168,7 +197,7 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, :asciidoc_attributes => %w(imagesdir=/img)
+      activate :asciidoc, attributes: %w(imagesdir=/img)
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-imagesdir.html"
@@ -184,7 +213,7 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, :asciidoc_attributes => %w(foo=bar)
+      activate :asciidoc, attributes: %w(foo=bar)
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
@@ -194,7 +223,7 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, :asciidoc_attributes => %w(source-highlighter=html-pipeline)
+      activate :asciidoc, attributes: %w(source-highlighter=html-pipeline)
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/code.html"
