@@ -14,7 +14,6 @@ endif::[]
 :uri-middleman: https://middlemanapp.com
 :uri-asciidoc: http://asciidoc.org
 :uri-asciidoctor: http://asciidoctor.org
-:uri-license: {uri-repo}/blob/master/LICENSE.adoc
 :uri-gem: https://rubygems.org/gems/middleman-asciidoc
 :badge-gem: https://badge.fury.io/rb/middleman-asciidoc.png
 :uri-buildstatus: http://travis-ci.org/middleman/middleman-asciidoc
@@ -99,7 +98,8 @@ Even better, if you know Ruby, you can submit https://help.github.com/articles/u
 
  $ rake cucumber
 
-== License
+== Copyright
 
 Copyright (C) 2014-2016 Dan Allen.
-MIT Licensed, see {uri-license}[LICENSE] for details.
+Free use of this software is granted under the terms of the MIT License.
+For the full text of the license, see the <<LICENSE.adoc#,LICENSE>> file.
