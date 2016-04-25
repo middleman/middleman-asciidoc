@@ -63,7 +63,7 @@ activate :asciidoc
 You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor:
 
 ```ruby
-activate :asciidoc, :asciidoc_attributes => %w(foo=bar)
+activate :asciidoc, :attributes => %w(foo=bar)
 ```
 
 The full set of options can be seen on your preview server's config page at [path]_/__middleman/config/_.

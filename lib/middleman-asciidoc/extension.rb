@@ -3,40 +3,58 @@ require 'asciidoctor' unless defined? Asciidoctor
 module Middleman
   module AsciiDoc
     class AsciiDocExtension < ::Middleman::Extension
-      option :asciidoc_attributes, [], 'AsciiDoc custom attributes (Array)'
+      DEFAULT_ATTRIBUTES = ['env=middleman', 'env-middleman', %(middleman-version=#{::Middleman::VERSION})]
+      option :attributes, [], 'Custom AsciiDoc attributes (Array)'
+      option :backend, :html5, 'Moniker used to select output format (Symbol)'
+      option :base_dir, nil, 'Base directory to use for the current AsciiDoc document; if nil, defaults to docdir (String)'
+      option :safe, :safe, 'Safe mode level (Symbol)'
 
       def initialize app, options_hash = {}, &block
         super
-
-        app.config.define_setting :asciidoc, {
-          safe: :safe,
-          backend: :html5,
-          attributes: ['env=middleman', 'env-middleman', %(middleman-version=#{::Middleman::VERSION})]
-        }, 'AsciiDoc engine options (Hash)'
+        app.config.define_setting :asciidoc, {}, 'AsciiDoc processor options (Hash)'
+        # NOTE support global :asciidoc_attributes setting for backwards compatibility
+        app.config.define_setting :asciidoc_attributes, [], 'Custom AsciiDoc attributes (Array)'
       end
 
+      # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
-        # QUESTION should base_dir be equal to docdir instead?
-        app.config[:asciidoc][:base_dir] = app.source_dir.expand_path.to_s
-        app.config[:asciidoc][:attributes] << %(imagesdir=#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
-        app.config[:asciidoc][:attributes].concat Array(options[:asciidoc_attributes])
-        # QUESTION should we convert attributes to a map at this point?
+        if app.config.setting(:asciidoc).value_set?
+          warn 'Using `set :asciidoc` to define options is deprecated. Please define options on `activate :asciidoc` instead.'
+        end
+        app.config[:asciidoc].tap do |cfg|
+          (cfg[:attributes] ||= []).unshift %(imagesdir=#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
+          cfg[:attributes].unshift *DEFAULT_ATTRIBUTES
+          if options.setting(:attributes).value_set?
+            cfg[:attributes].concat Array(options[:attributes])
+          elsif app.config.setting(:asciidoc_attributes).value_set?
+            cfg[:attributes].concat Array(app.config[:asciidoc_attributes])
+          end
+          cfg[:base_dir] = (dir = options[:base_dir]) ? dir.to_s : dir if options.setting(:base_dir).value_set?
+          # QUESTION ^ should we call expand_path on :base_dir if non-nil?
+          cfg[:backend] = options[:backend] if options.setting(:backend).value_set?
+          cfg[:backend] = (cfg[:backend] || :html5).to_sym
+          cfg[:safe] = options[:safe] if options.setting(:safe).value_set?
+          cfg[:safe] = (cfg[:safe] || :safe).to_sym
+        end
       end
 
       def manipulate_resource_list(resources)
         default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
         asciidoctor_opts = app.config[:asciidoc].merge parse_header_only: true
         asciidoctor_opts[:attributes].unshift 'page-layout' # placeholder entry
+        use_docdir_as_base_dir = asciidoctor_opts[:base_dir].nil?
         resources.each do |resource|
           next unless (path = resource.source_file).present? && (path.end_with? '.adoc')
 
           # read the AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
           asciidoctor_opts[:attributes][0] = %(page-layout=#{resource.options[:layout] || default_page_layout}@)
+          asciidoctor_opts[:base_dir] = (::File.dirname path) if use_docdir_as_base_dir
           doc = Asciidoctor.load_file path, asciidoctor_opts
-
           opts = {}
           page = {}
+
+          opts[:base_dir] = asciidoctor_opts[:base_dir] if use_docdir_as_base_dir
 
           # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
           if doc.attr? 'page-layout'
