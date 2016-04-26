@@ -193,7 +193,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: imagesdir configuratino should override imagesdir defined in page
+  Scenario: imagesdir configuration should override imagesdir defined in page
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
@@ -209,11 +209,21 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Configuring custom AsciiDoc attributes
+  Scenario: Configuring custom AsciiDoc attributes as Array
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(foo=bar)
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/custom-attribute.html"
+    Then I should see "bar"
+
+  Scenario: Configuring custom AsciiDoc attributes as Hash
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: { 'foo' => 'bar' }
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
