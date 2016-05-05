@@ -1,4 +1,4 @@
 Hello, AsciiDoc!
-ifdef::env-middleman[]
+ifdef::site-gen-middleman[]
 Middleman, I am in you.
-endif::env-middleman[]
+endif::[]

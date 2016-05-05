@@ -3,7 +3,15 @@ require 'asciidoctor' unless defined? Asciidoctor
 module Middleman
   module AsciiDoc
     class AsciiDocExtension < ::Middleman::Extension
-      DEFAULT_ATTRIBUTES = { 'env' => 'middleman', 'env-middleman' => '', 'middleman-version' => ::Middleman::VERSION }
+      DEFAULT_ATTRIBUTES = {
+        'env' => 'site',
+        'env-site' => '',
+        'site-gen' => 'middleman',
+        'site-gen-middleman' => '',
+        'builder' => 'middleman',
+        'builder-middleman' => '',
+        'middleman-version' => ::Middleman::VERSION
+      }
       option :attributes, [], 'Custom AsciiDoc attributes (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format (Symbol)'
       option :base_dir, nil, 'Base directory to use for the current AsciiDoc document; if nil, defaults to docdir (String)'
