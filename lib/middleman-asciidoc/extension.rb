@@ -3,7 +3,7 @@ require 'asciidoctor' unless defined? Asciidoctor
 module Middleman
   module AsciiDoc
     class AsciiDocExtension < ::Middleman::Extension
-      DEFAULT_ATTRIBUTES = {
+      IMPLICIT_ATTRIBUTES = {
         'env' => 'site',
         'env-site' => '',
         'site-gen' => 'middleman',
@@ -43,7 +43,7 @@ module Middleman
           unless (attributes.key? 'imagesdir') || (attributes.key? '!imagesdir')
             attributes['imagesdir'] = %(#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
           end
-          cfg[:attributes] = attributes.update DEFAULT_ATTRIBUTES
+          cfg[:attributes] = attributes.update IMPLICIT_ATTRIBUTES
           cfg[:base_dir] = (dir = options[:base_dir]) ? dir.to_s : dir if options.setting(:base_dir).value_set?
           # QUESTION ^ should we call expand_path on :base_dir if non-nil?
           cfg[:backend] = options[:backend] if options.setting(:backend).value_set?
