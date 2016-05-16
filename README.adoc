@@ -1,5 +1,6 @@
-= AsciiDoc support for Middleman 4
+= AsciiDoc Support for Middleman 4
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
+v1.0.0.rc.1, 2016-05-16
 // Settings:
 :idprefix:
 :idseparator: -
@@ -23,7 +24,7 @@ endif::[]
 :uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
 :badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
 
-Middleman AsciiDoc (gem: `middleman-asciidoc`) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] markup language using {uri-asciidoctor}[Asciidoctor].
+Middleman AsciiDoc (gem: *middleman-asciidoc*) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] markup language powered by {uri-asciidoctor}[Asciidoctor].
 
 NOTE: This extension is designed for Middleman >= 4.0.0.
 Prior to Middleman 4, AsciiDoc support was provided by Middleman out of the box.
@@ -49,7 +50,7 @@ If you're working with an existing project, you can skip the previous steps.
 
 Finally, add `gem 'middleman-asciidoc'` to your [path]_Gemfile_ and run `bundle`.
 
-NOTE: Each AsciiDoc file in the source directory (except files that begin with `_` or are in a directory that begins with `_`) becomes a page in the site.
+NOTE: Each AsciiDoc file in the source directory (except files that begin with `+_+` or are in a directory that begins with `+_+`) becomes a page in the site.
 AsciiDoc files can have the file extension `.adoc` or `.html.adoc`.
 These extensions are stripped and replaced with the value of the `outfilesuffix` attribute, which defaults to `.html`.
 (For details, see the discussion in https://github.com/middleman/middleman-asciidoc/issues/7[issue #7]).
@@ -63,10 +64,10 @@ activate :asciidoc
 You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor:
 
 ```ruby
-activate :asciidoc, :attributes => %w(foo=bar)
+activate :asciidoc, attributes: %w(foo=bar)
 ```
 
-The full set of options can be seen on your preview server's config page at [path]_/__middleman/config/_.
+The full set of options can be seen on your preview server's config page at the path [path]_/__middleman/config/_.
 
 == Community
 
@@ -76,12 +77,15 @@ For questions related to this extension or general questions about AsciiDoc, ple
 == Bug reports
 
 Github Issues are used for managing bug reports and feature requests.
-If you run into issues, please search the issues and submit new problems at https://github.com/middleman/middleman-asciidoc/issues.
+If you run into issues, please search the issues and submit new problems in the project's https://github.com/middleman/middleman-asciidoc/issues[issue tracker].
 
 The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner.
-Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[Pull Requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
+Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[pull requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
 
-== How to run Cucumber tests
+== How to run tests
+
+The tests are based on Cucumber.
+Here's how to clone the project and run the tests.
 
 . Clone the repository:
 
@@ -101,6 +105,6 @@ Even better, if you know Ruby, you can submit https://help.github.com/articles/u
 
 == Copyright
 
-Copyright (C) 2014-2016 Dan Allen.
+Copyright (C) 2014-2016 Dan Allen and the Asciidoctor Project.
 Free use of this software is granted under the terms of the MIT License.
 For the full text of the license, see the <<LICENSE.adoc#,LICENSE>> file.

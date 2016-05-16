@@ -2,4 +2,13 @@
 
 == 1.0.0 (pending) - @mojavelinux
 
-* AsciiDoc support split out into its own extension.
+* Split AsciiDoc support out of Middleman core into its own extension.
+
+//^
+Distribution Packages::
+
+  * http://rubygems.org/gems/middleman-asciidoc[RubyGem (middleman-asciidoc)]
+
+https://github.com/middleman/middleman-asciidoc/issues?q=milestone%3Av1.0.0[issues resolved] |
+https://github.com/middleman/middleman-asciidoc/releases/tag/v1.0.0[git tag] |
+https://github.com/middleman/middleman-asciidoc/compare/1e7871a3237320239f31da10d982174f84497daa...v1.0.0[full diff]
