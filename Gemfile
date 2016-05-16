@@ -10,6 +10,7 @@ gem 'yard', '~> 0.8', require: false
 # Test tools
 gem 'cucumber', '~> 2.0', require: false
 gem 'aruba', '~> 0.7.4', require: false
+gem 'capybara', '~> 2.5.0', require: false
 
 # Code quality tools
 gem 'cane', platforms: [:mri_19, :mri_20], require: false
