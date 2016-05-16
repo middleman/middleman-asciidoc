@@ -15,25 +15,25 @@ endif::[]
 :uri-asciidoc: http://asciidoc.org
 :uri-asciidoctor: http://asciidoctor.org
 :uri-gem: https://rubygems.org/gems/middleman-asciidoc
-:badge-gem: https://badge.fury.io/rb/middleman-asciidoc.png
+:badge-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
 :uri-buildstatus: http://travis-ci.org/middleman/middleman-asciidoc
-:badge-buildstatus: https://travis-ci.org/middleman/middleman-asciidoc.png
+:badge-buildstatus: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
 :uri-depstatus: https://gemnasium.com/middleman/middleman-asciidoc
-:badge-depstatus: https://gemnasium.com/middleman/middleman-asciidoc.png?travis
-:uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
-:badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
+:badge-depstatus: https://img.shields.io/gemnasium/middleman/middleman-asciidoc.svg
+//:uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
+//:badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
+
+ifdef::status[]
+image:{badge-gem}[Gem Version Badge,link={uri-gem}]
+image:{badge-buildstatus}[Build Status Badge,link={uri-buildstatus}]
+image:{badge-depstatus}[Dependency Status Badge,link={badge-depstatus}]
+//image:{badge-codequality}[Code Quality Badge,link={badge-codequality}]
+endif::[]
 
 Middleman AsciiDoc (gem: *middleman-asciidoc*) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] markup language powered by {uri-asciidoctor}[Asciidoctor].
 
 NOTE: This extension is designed for Middleman >= 4.0.0.
 Prior to Middleman 4, AsciiDoc support was provided by Middleman out of the box.
-
-ifdef::status[]
-image:{badge-gem}[Gem Version,link={uri-gem}]
-image:{badge-buildstatus}[Build Status,link={uri-buildstatus}]
-image:{badge-depstatus}[Dependency Status,link={badge-depstatus}]
-//image:{badge-codequality}[Code Quality,link={badge-codequality}]
-endif::[]
 
 == Installation
 
