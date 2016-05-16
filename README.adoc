@@ -1,6 +1,5 @@
 = AsciiDoc Support for Middleman 4
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
-v1.0.0.rc.1, 2016-05-16
 // Settings:
 :idprefix:
 :idseparator: -
