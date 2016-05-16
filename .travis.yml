@@ -1,6 +1,6 @@
 sudo: false
-#git:
-#  depth: 1
+git:
+  depth: 1
 language: ruby
 rvm:
   - 2.3.0
