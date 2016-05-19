@@ -5,10 +5,8 @@ require 'middleman-asciidoc/version'
 Gem::Specification.new do |s|
   s.name = 'middleman-asciidoc'
   s.version = Middleman::AsciiDoc::VERSION
-  s.platform = Gem::Platform::RUBY
-
   s.summary = 'AsciiDoc support for Middleman'
-  s.description = 'AsciiDoc rendering and metadata support for Middleman'
+  s.description = 'AsciiDoc conversion and metadata support for Middleman'
 
   s.authors = ['Dan Allen']
   s.email = ['dan.j.allen@gmail.com']
