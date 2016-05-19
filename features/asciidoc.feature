@@ -94,24 +94,6 @@ Feature: AsciiDoc Support
       </body>
       </html>
       """
-  Scenario: Rendering html using title from document
-    Given the Server is running at "asciidoc-app"
-    When I go to "/hello-with-title.html"
-    Then I should see:
-      """
-      <!DOCTYPE html>
-      <html>
-      <head>
-      <title>Page Title</title>
-      </head>
-      <body>
-      <h1>Page Title</h1>
-      <div class="paragraph">
-      <p>Hello, AsciiDoc!</p>
-      </div>
-      </body>
-      </html>
-      """
 
   Scenario: Rendering html with title and layout from front matter
     Given the Server is running at "asciidoc-app"
