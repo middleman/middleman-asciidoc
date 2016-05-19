@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><%= current_resource.data.title || 'Fallback' %></title>
+<title><%= current_resource.data.title || 'Fallback' %></title><%
+if current_resource.data.key? :tags %>
+<meta name="tags" content="<%= current_resource.data[:tags] * ',' %>"><% end %>
 </head>
 <body>
 <%= yield %>

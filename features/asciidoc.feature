@@ -85,6 +85,7 @@ Feature: AsciiDoc Support
       <html>
       <head>
       <title>Page Title</title>
+      <meta name="tags" content="colophon,sample">
       </head>
       <body>
       <h1>Page Title</h1>
