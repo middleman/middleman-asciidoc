@@ -113,6 +113,25 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Merges page data in front matter and AsciiDoc header
+    Given the Server is running at "asciidoc-app"
+    When I go to "/hello-with-mixed-page-data.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Page Title</title>
+      </head>
+      <body>
+      <h1>Page Title</h1>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
   Scenario: Including a file relative to source root
     Given the Server is running at "asciidoc-app"
     When I go to "/master.html"

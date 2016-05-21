@@ -53,22 +53,23 @@ module Middleman
         end
       end
 
-      def manipulate_resource_list(resources)
+      def manipulate_resource_list resources
         default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
-        asciidoctor_opts = app.config[:asciidoc].merge parse_header_only: true
-        use_docdir_as_base_dir = asciidoctor_opts[:base_dir].nil?
+        asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
+        asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
+        use_docdir_as_base_dir = asciidoc_opts[:base_dir].nil?
         resources.each do |resource|
           next unless (path = resource.source_file).present? && (path.end_with? '.adoc')
 
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          asciidoctor_opts[:attributes]['page-layout'] = %(#{resource.options[:layout] || default_page_layout}@)
-          asciidoctor_opts[:base_dir] = (::File.dirname path) if use_docdir_as_base_dir
-          doc = Asciidoctor.load_file path, asciidoctor_opts
+          asciidoc_attrs['page-layout'] = %(#{resource.options[:layout] || default_page_layout}@)
+          asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
+          doc = Asciidoctor.load_file path, asciidoc_opts
           opts = {}
           page = {}
 
-          opts[:base_dir] = asciidoctor_opts[:base_dir] if use_docdir_as_base_dir
+          opts[:base_dir] = asciidoc_opts[:base_dir] if use_docdir_as_base_dir
 
           # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
           if doc.attr? 'page-layout'
