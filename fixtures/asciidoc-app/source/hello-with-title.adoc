@@ -1,5 +1,6 @@
 = Page Title
 :showtitle:
 :page-layout: default
+:page-tags: [colophon, sample]
 
 Hello, AsciiDoc!

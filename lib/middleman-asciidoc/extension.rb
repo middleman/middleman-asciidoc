@@ -84,21 +84,18 @@ module Middleman
             opts[:header_footer] = true
           end
 
-          doc.attributes.each do |(key,val)|
-            case key
-            when 'doctitle'
-              page[:title] = val
-            when 'author', 'email', 'date'
-              page[key.to_sym] = val
-            when 'revdate'
-              page[:date] ||= val
-            else
-              if (key.start_with? 'page-') && !(key.start_with? 'page-layout')
-                page[key[5..-1].to_sym] = val
-              end
-            end
+          page[:title] = doc.doctitle if doc.header?
+          ['author', 'email'].each do |key|
+            page[key.to_sym] = doc.attr key if doc.attr? key
           end
-          
+          page[:date] = ::DateTime.parse(doc.revdate).to_time if !(page.key? :date) && (doc.attr? 'revdate')
+
+          unless (adoc_front_matter = doc.attributes
+              .select {|name| name != 'page-layout' && name != 'page-layout-engine' && name.start_with?('page-') }
+              .map {|name, val| %(:#{name[5..-1]}: #{val}) }).empty?
+            page.update(::YAML.load(adoc_front_matter * "\n"))
+          end
+
           # QUESTION should we use resource.ext == doc.outfilesuffix instead?
           unless resource.destination_path.end_with? doc.outfilesuffix
             # NOTE we must use << or else the layout gets disabled
