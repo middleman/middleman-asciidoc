@@ -47,7 +47,15 @@ then generate a new project:
 
 If you're working with an existing project, you can skip the previous steps.
 
-Finally, add `gem 'middleman-asciidoc'` to your [path]_Gemfile_ and run `bundle`.
+Next, add this gem to your project's [.path]_Gemfile_.
+
+```ruby
+gem 'middleman-asciidoc'
+```
+
+Finally, run Bundler using the `bundle` command:
+
+ $ bundle
 
 NOTE: Each AsciiDoc file in the source directory (except files that begin with `+_+` or are in a directory that begins with `+_+`) becomes a page in the site.
 AsciiDoc files can have the file extension `.adoc` or `.html.adoc`.
@@ -66,7 +74,7 @@ You can also pass AsciiDoc configuration options to the underlying Asciidoctor p
 activate :asciidoc, attributes: %w(foo=bar)
 ```
 
-The full set of options can be seen on your preview server's config page at the path [path]_/__middleman/config/_.
+The full set of options can be seen on your preview server's config page at the path [.path]_/__middleman/config/_.
 
 == Community
 
