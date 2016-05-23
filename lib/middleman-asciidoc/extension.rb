@@ -92,7 +92,12 @@ module Middleman
           ['author', 'email'].each do |key|
             page[key.to_sym] = doc.attr key if doc.attr? key
           end
-          page[:date] = ::DateTime.parse(doc.revdate).to_time if !(page.key? :date) && (doc.attr? 'revdate')
+          if !(page.key? :date) && (doc.attr? 'revdate')
+            begin
+              page[:date] = ::DateTime.parse(doc.attr 'revdate').to_time
+            rescue
+            end
+          end
 
           unless (adoc_front_matter = doc.attributes
               .select {|name| name != 'page-layout' && name != 'page-layout-engine' && name.start_with?('page-') }
