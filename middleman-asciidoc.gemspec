@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name = 'middleman-asciidoc'
   s.version = Middleman::AsciiDoc::VERSION
   s.summary = 'AsciiDoc support for Middleman'
-  s.description = 'AsciiDoc conversion and metadata support for Middleman'
+  s.description = 'Converts AsciiDoc files in the source directory to HTML pages. Allows page data to be specified using AsciiDoc attributes defined in the document header (as an alternative to YAML front matter).'
 
   s.authors = ['Dan Allen']
   s.email = ['dan.j.allen@gmail.com']
