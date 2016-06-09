@@ -156,7 +156,7 @@ The AsciiDoc `page-` attributes override matching entries in the front matter he
 
 The most important of these page attributes is `page-layout`, which determines the layout that is applied to the page.
 Middleman will look for the first file that matches this root name under the source directory and use it as the layout.
-For example, if `page-layout` has the value page, Middleman might resolve a layout named [.path]_layout.erb_.
+For example, if `page-layout` has the value `page`, Middleman might resolve a layout named [.path]_page.erb_.
 You can fix the extension of the layout file using the `page-layout-engine` attribute.
 
 If a layout is not specified, or the value of the `page-layout` attribute is empty, the default layout for the site is used.
