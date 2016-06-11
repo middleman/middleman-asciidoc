@@ -13,8 +13,13 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/middleman/middleman-asciidoc'
   s.license = 'MIT'
 
-  s.files = `git ls-files -z`.split "\0"
-  s.test_files = `git ls-files -z -- {fixtures,features}/*`.split "\0"
+  files = begin
+    IO.popen('git ls-files -z') {|io| io.read }.split "\0"
+  rescue
+    Dir['**/*']
+  end
+  s.files = files.grep(/^(?:(?:features|fixtures|lib|)\/.+|Rakefile|(?:CHANGELOG|CONTRIBUTING|LICENSE|README)\.adoc)$/)
+  s.test_files = s.files.grep(/^(?:features|fixtures)\//)
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'middleman-core', '~> 4.0'
