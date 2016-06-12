@@ -101,7 +101,10 @@ module Middleman
 
           unless (adoc_front_matter = doc.attributes
               .select {|name| name != 'page-layout' && name != 'page-layout-engine' && name.start_with?('page-') }
-              .map {|name, val| %(:#{name[5..-1]}: #{val == '' ? '""' : val}) }).empty?
+              .map {|name, val|
+                  val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
+                  %(:#{name[5..-1]}: #{val})
+              }).empty?
             page.update(::YAML.load(adoc_front_matter * "\n"))
           end
 
