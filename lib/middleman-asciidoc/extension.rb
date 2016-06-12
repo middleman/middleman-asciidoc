@@ -35,10 +35,7 @@ module Middleman
         end
         app.config[:asciidoc].tap do |cfg|
           attributes = {}
-          if cfg.key? :attributes
-            attributes.update(attrs_as_hash cfg[:attributes])
-            attributes['!imagesdir'] = attributes.delete 'imagesdir!' if attributes.key? 'imagesdir!'
-          end
+          attributes.update(attrs_as_hash cfg[:attributes]) if cfg.key? :attributes
           if options.setting(:attributes).value_set?
             attributes.update(attrs_as_hash options[:attributes])
           elsif app.config.setting(:asciidoc_attributes).value_set?
@@ -119,13 +116,26 @@ module Middleman
       end
 
       def attrs_as_hash attrs
-        if Hash === attrs
-          attrs
+        if ::Hash === attrs
+          ::Hash[attrs.map {|key, val|
+            if key.end_with? '!'
+              [%(!#{key.chop}), '']
+            elsif val
+              [key, (key.start_with? '!') ? '' : val]
+            else
+              [(key.start_with? '!') ? key : %(!#{key}), '']
+            end
+          }]
         else
           Array(attrs).inject({}) do |accum, entry|
-            k, v = entry.split '=', 2
-            k = %(!#{k.chop}) if k.end_with? '!'
-            accum[k] = v || ''
+            key, val = entry.split '=', 2
+            if key.end_with? '!'
+              accum[%(!#{key.chop})] = ''
+            elsif key.start_with? '!'
+              accum[key] = ''
+            else
+              accum[key] = val || ''
+            end
             accum
           end
         end
