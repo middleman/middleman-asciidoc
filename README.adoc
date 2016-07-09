@@ -93,7 +93,7 @@ The following implicit attributes are automatically appended to this collection.
 * site-gen-middleman
 * builder=middleman
 * builder-middleman
-* middleman-version=(value of `::Middleman::VERSION` constant)
+* middleman-version=(value of `Middleman::VERSION` constant)
 * imagesdir=(value of http_prefix + images_dir in app config)@
   - skipped if `!imagesdir` is defined as a custom attribute
   - can be overridden in page (hence the trailing @)
