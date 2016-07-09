@@ -20,8 +20,9 @@ Gem::Specification.new do |s|
   rescue
     Dir['**/*']
   end
-  s.files = files.grep(/^(?:(?:features|fixtures|lib|)\/.+|Rakefile|(?:CHANGELOG|CONTRIBUTING|LICENSE|README)\.adoc)$/)
-  s.test_files = s.files.grep(/^(?:features|fixtures)\//)
+  s.files = files.grep /^(?:lib\/.+|Gemfile|Rakefile|(?:CHANGELOG|CONTRIBUTING|LICENSE|README)\.adoc|#{s.name}\.gemspec)$/
+  s.test_files = files.grep /^(?:features|fixtures)\/.+/
+
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'middleman-core', '~> 4.0'
