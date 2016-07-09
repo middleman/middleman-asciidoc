@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
   files = begin
-    IO.popen('git ls-files -z') {|io| io.read }.split "\0"
+    output = IO.popen('git ls-files -z', err: File::NULL) {|io| io.read }.split %(\0)
+    $?.success? ? output : Dir['**/*']
   rescue
     Dir['**/*']
   end
