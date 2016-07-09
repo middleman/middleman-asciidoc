@@ -102,7 +102,7 @@ module Middleman
                   val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
                   %(:#{name[5..-1]}: #{val})
               }).empty?
-            page.update(::YAML.load(adoc_front_matter * "\n"))
+            page.update(::YAML.load(adoc_front_matter * %(\n)))
           end
 
           # QUESTION should we use resource.ext == doc.outfilesuffix instead?
