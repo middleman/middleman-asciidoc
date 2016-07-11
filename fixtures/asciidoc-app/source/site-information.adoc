@@ -1,0 +1,5 @@
+= Site Information
+
+* site-root={site-root}
+* site-source={site-source}
+* site-destination={site-destination}

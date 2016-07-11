@@ -114,7 +114,14 @@ Feature: AsciiDoc Support
       </html>
       """
 
-  Scenario: Merges page data in front matter and AsciiDoc header
+  Scenario: Publishing site information as AsciiDoc attributes
+    Given the Server is running at "asciidoc-app"
+    When I go to "/site-information.html"
+    Then I should see content matching %r{<p>site-root=.+/tmp/aruba/asciidoc-app</p>}
+    Then I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-app/source</p>}
+    Then I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-app/build</p>}
+
+  Scenario: Merging page data in front matter and AsciiDoc header
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-mixed-page-data.html"
     Then I should see:
@@ -195,7 +202,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: imagesdir configuration should override imagesdir defined in page
+  Scenario: Overriding imagesdir attribute in page with imagesdir configuration
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """

@@ -34,7 +34,11 @@ module Middleman
           warn 'Using `set :asciidoc` to define options is deprecated. Please define options on `activate :asciidoc` instead.'
         end
         app.config[:asciidoc].tap do |cfg|
-          attributes = {}
+          attributes = {
+            'site-root' => app.root.to_s,
+            'site-source' => app.source_dir.to_s,
+            'site-destination' => (app.root_path.join app.config[:build_dir]).to_s
+          }
           attributes.update(attrs_as_hash cfg[:attributes]) if cfg.key? :attributes
           if options.setting(:attributes).value_set?
             attributes.update(attrs_as_hash options[:attributes])
