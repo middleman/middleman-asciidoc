@@ -151,7 +151,7 @@ module Middleman
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub(AttributeReferenceRx) { ((m = $&).start_with? '\\') ? m[1..-1] : (attrs.fetch $1, m) }
+          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? $&[1..-1] : ((attrs.fetch $1, $&).to_s.chomp '@') }
         else
           text
         end

@@ -255,7 +255,7 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, attributes: %w(bar=bar foo={bar}{baz})
+      activate :asciidoc, attributes: %w(bar=bar@ foo={bar}{baz})
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
@@ -265,7 +265,7 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, attributes: { 'bar' => 'bar', 'foo' => '{bar}{baz}' }
+      activate :asciidoc, attributes: { 'bar' => 'bar@', 'foo' => '{bar}{baz}' }
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
