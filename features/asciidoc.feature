@@ -120,6 +120,7 @@ Feature: AsciiDoc Support
     Then I should see content matching %r{<p>site-root=.+/tmp/aruba/asciidoc-app</p>}
     Then I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-app/source</p>}
     Then I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-app/build</p>}
+    Then I should see content matching %r{<p>site-environment=development</p>}
 
   Scenario: Merging page data in front matter and AsciiDoc header
     Given the Server is running at "asciidoc-app"
@@ -222,21 +223,21 @@ Feature: AsciiDoc Support
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, attributes: %w(foo=bar)
+      activate :asciidoc, attributes: %w(bar=bar foo={bar}{baz})
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
-    Then I should see "bar"
+    Then I should see "bar{baz}"
 
   Scenario: Configuring custom AsciiDoc attributes as Hash
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, attributes: { 'foo' => 'bar' }
+      activate :asciidoc, attributes: { 'bar' => 'bar', 'foo' => '{bar}{baz}' }
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/custom-attribute.html"
-    Then I should see "bar"
+    Then I should see "bar{baz}"
 
   Scenario: Highlighting source code
     Given a fixture app "asciidoc-app"

@@ -16,6 +16,8 @@ module Middleman
         'middleman-version' => ::Middleman::VERSION
       }
 
+      AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
+
       option :attributes, [], 'Custom AsciiDoc attributes (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format (Symbol)'
       option :base_dir, nil, 'Base directory to use for the current AsciiDoc document; if nil, defaults to docdir (String)'
@@ -37,18 +39,22 @@ module Middleman
           attributes = {
             'site-root' => app.root.to_s,
             'site-source' => app.source_dir.to_s,
-            'site-destination' => (app.root_path.join app.config[:build_dir]).to_s
-          }
-          attributes.update(attrs_as_hash cfg[:attributes]) if cfg.key? :attributes
+            'site-destination' => (app.root_path.join app.config[:build_dir]).to_s,
+            'site-environment' => app.environment.to_s
+          }.merge IMPLICIT_ATTRIBUTES
+          # NOTE handles deprecated `set :asciidoc, attributes: ...`
+          attributes = merge_attributes cfg[:attributes], attributes if cfg.key? :attributes
+          # NOTE handles `activate :asciidoc, attributes: ...`
           if options.setting(:attributes).value_set?
-            attributes.update(attrs_as_hash options[:attributes])
+            attributes = merge_attributes options[:attributes], attributes
+          # NOTE handles `set :asciidoc_attributes ...`
           elsif app.config.setting(:asciidoc_attributes).value_set?
-            attributes.update(attrs_as_hash app.config[:asciidoc_attributes])
+            attributes = merge_attributes options[:asciidoc_attributes], attributes
           end
           unless (attributes.key? 'imagesdir') || (attributes.key? '!imagesdir')
             attributes['imagesdir'] = %(#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
           end
-          cfg[:attributes] = attributes.update IMPLICIT_ATTRIBUTES
+          cfg[:attributes] = attributes
           cfg[:base_dir] = (dir = options[:base_dir]) ? dir.to_s : dir if options.setting(:base_dir).value_set?
           # QUESTION ^ should we call expand_path on :base_dir if non-nil?
           cfg[:backend] = options[:backend] if options.setting(:backend).value_set?
@@ -119,29 +125,30 @@ module Middleman
         end
       end
 
-      def attrs_as_hash attrs
-        if ::Hash === attrs
-          ::Hash[attrs.map {|key, val|
-            if key.end_with? '!'
-              [%(!#{key.chop}), '']
-            elsif val
-              [key, (key.start_with? '!') ? '' : val]
+      def merge_attributes attrs, initial = {}
+        if (is_array = ::Array === attrs) || ::Hash === attrs
+          attrs.each_with_object(initial) {|entry, new_attrs|
+            key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
+            if key.start_with? '!'
+              new_attrs[key[1..-1]] = nil
+            elsif key.end_with? '!'
+              new_attrs[key.chop] = nil
             else
-              [(key.start_with? '!') ? key : %(!#{key}), '']
+              new_attrs[key] = val ? (resolve_attribute_refs val, new_attrs) : nil
             end
-          }]
+          }
         else
-          Array(attrs).inject({}) do |accum, entry|
-            key, val = entry.split '=', 2
-            if key.end_with? '!'
-              accum[%(!#{key.chop})] = ''
-            elsif key.start_with? '!'
-              accum[key] = ''
-            else
-              accum[key] = val || ''
-            end
-            accum
-          end
+          initial
+        end
+      end
+
+      def resolve_attribute_refs text, attrs
+        if text.empty?
+          text
+        elsif text.include? '{'
+          text.gsub(AttributeReferenceRx) { ((m = $&).start_with? '\\') ? m[1..-1] : (attrs.fetch $1, m) }
+        else
+          text
         end
       end
     end

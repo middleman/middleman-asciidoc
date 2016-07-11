@@ -3,3 +3,4 @@
 * site-root={site-root}
 * site-source={site-source}
 * site-destination={site-destination}
+* site-environment={site-environment}
