@@ -39,7 +39,7 @@ module Middleman
           attributes = {
             'site-root' => app.root.to_s,
             'site-source' => app.source_dir.to_s,
-            'site-destination' => (app.root_path.join app.config[:build_dir]).to_s,
+            'site-destination' => (dest = (app.root_path.join app.config[:build_dir]).to_s),
             'site-environment' => app.environment.to_s
           }.merge IMPLICIT_ATTRIBUTES
           # NOTE handles deprecated `set :asciidoc, attributes: ...`
@@ -51,8 +51,13 @@ module Middleman
           elsif app.config.setting(:asciidoc_attributes).value_set?
             attributes = merge_attributes options[:asciidoc_attributes], attributes
           end
-          unless (attributes.key? 'imagesdir') || (attributes.key? '!imagesdir')
-            attributes['imagesdir'] = %(#{File.join((app.config[:http_prefix] || '/').chomp('/'), app.config[:images_dir])}@)
+          imagesdir = if attributes.key? 'imagesdir'
+            attributes['imagesdir']
+          else
+            attributes['imagesdir'] = %(#{::File.join ((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]}@)
+          end
+          if imagesdir && !(attributes.key? 'imagesoutdir') && (imagesdir.start_with? '/')
+            attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
           end
           cfg[:attributes] = attributes
           cfg[:base_dir] = (dir = options[:base_dir]) ? dir.to_s : dir if options.setting(:base_dir).value_set?

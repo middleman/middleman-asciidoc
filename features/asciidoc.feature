@@ -203,6 +203,38 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Restoring imagesdir to value defined in page
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(imagesdir=@)
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/custom-imagesdir.html"
+    Then I should see:
+      """
+      <div class="imageblock">
+      <div class="content">
+      <img src="img/tiger.gif" alt="tiger">
+      </div>
+      """
+
+  Scenario: Restoring imagesdir to default value
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(imagesdir!)
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/custom-imagesdir.html"
+    Then I should see:
+      """
+      <div class="imageblock">
+      <div class="content">
+      <img src="tiger.gif" alt="tiger">
+      </div>
+      """
+
   Scenario: Overriding imagesdir attribute in page with imagesdir configuration
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
