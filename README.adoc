@@ -176,6 +176,29 @@ WARNING: If you're using the Middleman Blog extension to write blog posts, you *
 Otherwise, an exception will be thrown.
 This requirement will be lifted once the fix for https://github.com/middleman/middleman-blog/issues/296[issue middleman-blog#296] makes it into a release.
 
+== Marking a Page as a Draft
+
+To mark a page as draft (i.e., not published), assign the value `false` the page attribute named `page-published` in the AsciiDoc document header, as follows:
+
+----
+= Draft Page
+:page-published: false
+----
+
+This effectively sets the `published` key in the page data to `false`.
+Recall that this extension converts the value of page attributes as a YAML value, which means the string literal "`false`" becomes the boolean value `false`.
+Middleman then knows not to publish this page.
+
+If you're using the Middleman Blog extension, another option is to set the date of the article way into the future.
+
+----
+= Future Post
+Author Name
+3001-01-01
+----
+
+By default, the blog extension does not publish articles with a future date.
+
 == Building Your Site
 
 You can now build your site using:
