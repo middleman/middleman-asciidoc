@@ -75,7 +75,7 @@ module Middleman
         asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
         use_docdir_as_base_dir = asciidoc_opts[:base_dir].nil?
         resources.each do |resource|
-          next unless (path = resource.source_file).present? && (path.end_with? '.adoc')
+          next unless !resource.ignored? && (path = resource.source_file).present? && (path.end_with? '.adoc')
 
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
@@ -86,6 +86,11 @@ module Middleman
           page = {}
 
           opts[:base_dir] = asciidoc_opts[:base_dir] if use_docdir_as_base_dir
+
+          if (doc.attr? 'page-ignored') && !(doc.attr? 'page-ignored', 'false')
+            resource.ignore!
+            next
+          end
 
           # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
           if doc.attr? 'page-layout'
@@ -161,7 +166,7 @@ module Middleman
       # Returns the page variable name as a [String] or nothing if the attribute name is not the name of a page
       # attribute.
       def derive_page_variable_name attribute_name
-        if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' &&
+        if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' && attribute_name != 'page-ignored' &&
             (attribute_name.start_with? 'page-')
           attribute_name.slice 5, attribute_name.length
         end

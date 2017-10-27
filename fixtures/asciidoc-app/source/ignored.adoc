@@ -1,0 +1,4 @@
+= Ignored
+:page-ignored:
+
+This page is not included in the generated site.

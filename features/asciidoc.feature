@@ -114,6 +114,14 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Ignoring files marked as ignored
+    Given the Server is running at "asciidoc-app"
+    When I go to "/ignored.html"
+    Then I should see:
+      """
+      <h1>File Not Found</h1>
+      """
+
   Scenario: Publishing site information as AsciiDoc attributes
     Given the Server is running at "asciidoc-app"
     When I go to "/site-information.html"
