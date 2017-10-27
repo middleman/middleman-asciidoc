@@ -111,13 +111,12 @@ module Middleman
             end
           end
 
-          unless (adoc_front_matter = doc.attributes
-              .select {|name| name != 'page-layout' && name != 'page-layout-engine' && name.start_with?('page-') }
-              .map {|name, val|
-                  val = (val == '' ? '\'\'' : (val == '-' ? '\'-\'' : val))
-                  %(:#{name[5..-1]}: #{val})
+          unless (adoc_front_matter = doc.attributes.each_with_object({}) {|(key, val), accum|
+                if (page_variable_name = derive_page_variable_name key)
+                  accum[page_variable_name] = ::String === val ? (parse_yaml_value val) : val
+                end
               }).empty?
-            page.update(::YAML.load(adoc_front_matter * %(\n)))
+            page.update adoc_front_matter
           end
 
           # QUESTION should we use resource.ext == doc.outfilesuffix instead?
@@ -154,6 +153,39 @@ module Middleman
           text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? $&[1..-1] : ((attrs.fetch $1, $&).to_s.chomp '@') }
         else
           text
+        end
+      end
+
+      # Derive the page variable name from the specified attribute name.
+      #
+      # Returns the page variable name as a [String] or nothing if the attribute name is not the name of a page
+      # attribute.
+      def derive_page_variable_name attribute_name
+        if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' &&
+            (attribute_name.start_with? 'page-')
+          attribute_name.slice 5, attribute_name.length
+        end
+      end
+
+      # Parse the specified value as a single-line YAML value.
+      #
+      # Attempt to parse the specified String value as though it's a single-line YAML value (i.e., the value part of a
+      # YAML key/value pair). If the value fails to parse, wrap the value in single quotes (after escaping any single
+      # quotes in the value) and parse it as a character sequence. If the value is empty, return an empty String.
+      #
+      # val - The String value to parse.
+      #
+      # Returns an [Object] parsed from the string-based YAML value or empty [String] if the specified value is empty.
+      def parse_yaml_value val
+        if val.empty?
+          ''
+        else
+          begin
+            ::YAML.load %(--- #{val})
+          rescue ::StandardError, ::SyntaxError => e
+            val = val.gsub '\'', '\'\'' if val.include? '\''
+            ::YAML.load %(--- \'#{val}\')
+          end
         end
       end
     end

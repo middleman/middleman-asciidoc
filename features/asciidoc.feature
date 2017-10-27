@@ -76,7 +76,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering html using title from document
+  Scenario: Rendering html using title and tags from document
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-title.html"
     Then I should see:
