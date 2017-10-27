@@ -176,20 +176,21 @@ WARNING: If you're using the Middleman Blog extension to write blog posts, you *
 Otherwise, an exception will be thrown.
 This requirement will be lifted once the fix for https://github.com/middleman/middleman-blog/issues/296[issue middleman-blog#296] makes it into a release.
 
-== Marking a Page as a Draft
+== Marking an Article as a Draft
 
-To mark a page as draft (i.e., not published), assign the value `false` the page attribute named `page-published` in the AsciiDoc document header, as follows:
+If you're using the Middleman Blog extension, you can mark an article as a draft so it does not get published.
+To do so, assign the value `false` the page attribute named `page-published` in the AsciiDoc document header, as follows:
 
 ----
-= Draft Page
+= Draft Article
 :page-published: false
 ----
 
 This effectively sets the `published` key in the page data to `false`.
-Recall that this extension converts the value of page attributes as a YAML value, which means the string literal "`false`" becomes the boolean value `false`.
-Middleman then knows not to publish this page.
+Recall that the AsciiDoc extension converts the value of page attributes as a YAML value, which means the string literal "`false`" becomes the boolean value `false`.
+Middleman then knows not to publish this article.
 
-If you're using the Middleman Blog extension, another option is to set the date of the article way into the future.
+Another option is to set the date of the article way into the future.
 
 ----
 = Future Post
