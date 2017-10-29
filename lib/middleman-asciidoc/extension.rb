@@ -124,8 +124,7 @@ module Middleman
             page.update adoc_front_matter
           end
 
-          # QUESTION should we use resource.ext == doc.outfilesuffix instead?
-          unless resource.destination_path.end_with? doc.outfilesuffix
+          unless resource.ext == doc.outfilesuffix
             # NOTE we must use << or else the layout gets disabled
             resource.destination_path << doc.outfilesuffix
           end
