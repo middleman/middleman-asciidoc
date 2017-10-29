@@ -42,6 +42,14 @@ module Middleman
             'site-destination' => (dest = (app.root_path.join app.config[:build_dir]).to_s),
             'site-environment' => app.environment.to_s
           }.merge IMPLICIT_ATTRIBUTES
+          if !!app.extensions[:directory_indexes]
+            if app.config[:strip_index_file]
+              attributes['relfilesuffix'] = app.config[:trailing_slash] ? '/' : ''
+            else
+              attributes['relfilesuffix'] = %(/#{app.config[:index_file]})
+            end
+            attributes['relfileprefix'] = '../'
+          end
           # NOTE handles deprecated `set :asciidoc, attributes: ...`
           attributes = merge_attributes cfg[:attributes], attributes if cfg.key? :attributes
           # NOTE handles `activate :asciidoc, attributes: ...`
