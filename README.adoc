@@ -212,6 +212,69 @@ Author Name
 
 By default, the blog extension does not publish articles with a future date.
 
+=== Linking Between Pages
+
+You can link from one page to another using an {uri-asciidoctor}/docs/user-manual/#inter-document-cross-references[inter-document xref].
+Let's say you have the following two pages in the source directory:
+
+* about.adoc
+* team.adoc
+
+You can link from the about page to the team page using the following:
+
+----
+Meet our <<team.adoc#,team>>.
+----
+
+The `.adoc#` suffix indicates the xref targets another page.
+The target is the path from the current page to the other page (a source-to-source reference).
+This reference is then converted to the following HTML:
+
+[source,html]
+----
+Meet our <a href="team.html">team</a>.
+----
+
+Of course, we're assuming there that the input maps 1-to-1 to the output.
+That assumption breaks down as soon as you enable directory indexes.
+
+When directory indexes are enabled, each page is moved into its own folder and renamed to index.html.
+So how does the xref work in that case?
+
+This extension provides built-in support for directory indexes.
+When the directory indexes extension is enabled, this extension automatically defines the `relfileprefix` and `relfilesuffix` attributes on the AsciiDoc document.
+The `relfilesuffix` attribute honors both the `:trailing_slash` and `:strip_index_file` options in Middleman.
+However, you have to make one change to your pages for these attributes to work with the xref macro.
+
+Below the document header (but *not in* the document header), you must assign the `outfilesuffix` attribute to the value of the `relfilesuffix` attribute.
+Here's an example:
+
+----
+= About Us
+
+// ^ the previous blank line is required!
+\ifdef::relfilesuffix[:outfilesuffix: {relfilesuffix}]
+
+...
+
+Meet our <<team.adoc#,team>>.
+----
+
+With the help of the `outfilesuffix` assignment, Asciidoctor automatically produces the correct link to the other page.
+
+[source,html]
+----
+Meet our <a href="../team/">team</a>.
+----
+
+Optionally, you can construct the link manually using:
+
+----
+Meet our link:{relfileprefix}team{relfilesuffix}[team].
+----
+
+I think you'll agree that using the xref macro is simpler.
+
 == Building Your Site
 
 You can now build your site using:
