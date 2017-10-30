@@ -176,7 +176,7 @@ WARNING: If you're using the Middleman Blog extension to write blog posts, you *
 Otherwise, an exception will be thrown.
 This requirement will be lifted once the fix for https://github.com/middleman/middleman-blog/issues/296[issue middleman-blog#296] makes it into a release.
 
-== Ignoring a Page
+=== Ignoring a Page
 
 In addition to the normal ignore filter in Middleman, you can also control whether a page is ignored from AsciiDoc.
 To mark a page as ignored from AsciiDoc, set the `page-ignored` attribute in the AsciiDoc document header to any value other than `false`, as follows:
@@ -188,7 +188,7 @@ To mark a page as ignored from AsciiDoc, set the `page-ignored` attribute in the
 
 Once this page attribute is detected, no further processing is performed on the document by this extension.
 
-== Marking an Article as a Draft
+=== Marking an Article as a Draft
 
 If you're using the Middleman Blog extension, you can mark an article as a draft so it does not get published.
 To do so, assign the value `false` the page attribute named `page-published` in the AsciiDoc document header, as follows:
