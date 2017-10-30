@@ -189,6 +189,50 @@ Feature: AsciiDoc Support
       <p>Unresolved directive in &lt;stdin&gt; - include::_chapters/ch01.adoc[]</p>
       """
 
+  Scenario: Linking to a sibling page with directory indexes activated
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      activate :directory_indexes
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/link-to-page/"
+    Then I should see:
+      """
+      <p>See <a href="../code/">code</a> run.</p>
+      """
+
+  Scenario: Linking to a sibling page with directory indexes activated and trailing slash disabled
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      activate :directory_indexes
+      set :trailing_slash, false
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/link-to-page/"
+    Then I should see:
+      """
+      <p>See <a href="../code">code</a> run.</p>
+      """
+
+  Scenario: Linking to a sibling page with directory indexes activated and strip index file disabled
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      activate :directory_indexes
+      set :strip_index_file, false
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/link-to-page/"
+    Then I should see:
+      """
+      <p>See <a href="../code/index.html">code</a> run.</p>
+      """
+
   Scenario: Linking to an image
     Given the Server is running at "asciidoc-app"
     When I go to "/gallery.html"
