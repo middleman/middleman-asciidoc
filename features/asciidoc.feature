@@ -149,6 +149,18 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Promoting standard AsciiDoc attributes to page data
+    Given the Server is running at "asciidoc-app"
+    When I go to "/inspect-standard-page-data.html"
+    Then I should see:
+      """
+      <p>Page Title</p>
+      <p>Doc Writer</p>
+      <p>doc.writer@example.com</p>
+      <p>This is a sample page.</p>
+      <p>meta, AsciiDoc, Middleman</p>
+      """
+
   Scenario: Including a file relative to source root
     Given the Server is running at "asciidoc-app"
     When I go to "/master.html"
