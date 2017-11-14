@@ -114,7 +114,7 @@ module Middleman
           end
 
           page[:title] = doc.doctitle if doc.header?
-          ['author', 'email'].each do |key|
+          ['author', 'email', 'keywords', 'description'].each do |key|
             page[key.to_sym] = doc.attr key if doc.attr? key
           end
           if !(page.key? :date) && (doc.attr? 'revdate')
