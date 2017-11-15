@@ -1,13 +1,15 @@
+dist: trusty
 sudo: false
 git:
-  depth: 1
+  # use depth 2 just in case two refs get pushed at once (like a tag)
+  depth: 2
 language: ruby
 rvm:
-  - 2.3.0
-  - 2.2.4
-  - 2.1.8
-  - 2.0.0
-  #- jruby-9.0.4.0
-script: bundle exec rake cucumber
+- 2.4.2
+- 2.3.5
+- 2.2.8
+- 2.1.10
+#- jruby-9.0.4.0
 env:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
+- NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
+script: bundle exec rake cucumber
