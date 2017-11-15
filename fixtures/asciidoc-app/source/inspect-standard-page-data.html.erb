@@ -4,6 +4,7 @@ layout: false
 <% page_data = ((sitemap.find_resource_by_page_id 'standard-page-data') || (sitemap.find_resource_by_page_id 'standard-page-data.html')).data %>
 <p><%= page_data.title %></p>
 <p><%= page_data.author %></p>
+<p><%= (page_data.authors || []) * ' | ' %></p>
 <p><%= page_data.email %></p>
 <p><%= page_data.description %></p>
 <p><%= page_data.keywords %></p>

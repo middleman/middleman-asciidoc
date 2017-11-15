@@ -114,7 +114,15 @@ module Middleman
           end
 
           page[:title] = doc.doctitle if doc.header?
-          ['author', 'email', 'keywords', 'description'].each do |key|
+          if doc.attr? 'author'
+            page[:author] = (author = doc.attr 'author')
+            if (num_authors = (doc.attr 'authorcount').to_i) > 1
+              page[:authors] = num_authors.times.map {|idx| doc.attr %(author_#{idx + 1}) }.compact
+            else
+              page[:authors] = [author]
+            end
+          end
+          ['email', 'keywords', 'description'].each do |key|
             page[key.to_sym] = doc.attr key if doc.attr? key
           end
           if !(page.key? :date) && (doc.attr? 'revdate')
