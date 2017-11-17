@@ -11,7 +11,8 @@ rvm:
 - 2.1.10
 - jruby-9.1.13.0
 env:
-- NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true TEST=true
 script: bundle exec rake cucumber
 deploy:
   provider: rubygems
