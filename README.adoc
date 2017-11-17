@@ -281,6 +281,51 @@ Meet our link:{relfileprefix}team{relfilesuffix}[team].
 
 I think you'll agree that using the xref macro is simpler.
 
+=== Controlling the Destination Path
+
+By default, Middleman does not support controlling the destination path from the page data, often called a permalink.
+However, with the addition of a simple extension, it's possible to enable this feature.
+
+Start by adding the following Ruby code at the location [.path]_lib/permalink.rb_.
+
+.lib/permalink.rb
+[source,ruby]
+----
+class Permalink < Middleman::Extension
+  # Run after front matter extension (priority: 20), after the AsciiDoc extension (priority: 30),
+  # and before other third-party extensions (priority: 50).
+  self.resource_list_manipulator_priority = 35
+
+  def manipulate_resource_list resources
+    resources.each do |resource|
+      if !resource.ignored? && (resource.respond_to? :data) && (permalink = resource.data.permalink)
+        permalink = permalink.slice 1, permalink.length if permalink.start_with? '/'
+        resource.destination_path = %(#{permalink}#{resource.ext})
+      end
+    end
+  end
+end
+
+Middleman::Extensions.register :permalink, Permalink
+----
+
+Next, require and activate this extension in the [.path]_config.rb_ file for your site:
+
+[source,ruby]
+----
+require_relative 'lib/permalink'
+activate :permalink
+----
+
+Now you can customize the destination path of any AsciiDoc file by adding the following attribute entry to the document header:
+
+----
+:page-permalink: custom-destination-path
+----
+
+Customize the destination path to your liking.
+The leading forward slash (`/`) is optional.
+
 == Building Your Site
 
 You can now build your site using:
