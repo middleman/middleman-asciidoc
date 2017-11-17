@@ -71,11 +71,14 @@ You're now ready to activate this extension and begin putting it to work.
 
 == Activation and Configuration
 
+To activate this extension, add the following line to [.path]_config.rb_ file for your site:
+
 ```ruby
 activate :asciidoc
 ```
 
-You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor:
+You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor as a Hash or Array.
+Here's an example of passing the attribute as an Array:
 
 ```ruby
 activate :asciidoc, attributes: ['source-highlighter=coderay']
