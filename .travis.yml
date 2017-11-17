@@ -5,7 +5,7 @@ git:
   depth: 2
 language: ruby
 rvm:
-- 2.4.2
+- &release_rvm 2.4.2
 - 2.3.5
 - 2.2.8
 - 2.1.10
@@ -13,3 +13,11 @@ rvm:
 env:
 - NOKOGIRI_USE_SYSTEM_LIBRARIES=1 TEST=true
 script: bundle exec rake cucumber
+deploy:
+  provider: rubygems
+  api_key: ${RUBYGEMS_API_KEY}
+  gem: middleman-asciidoc
+  on:
+    tags: true
+    repo: middleman/middleman-asciidoc
+    rvm: *release_rvm
