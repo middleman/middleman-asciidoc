@@ -295,7 +295,7 @@ I think you'll agree that using the xref macro is simpler.
 By default, Middleman does not support controlling the destination path from the page data, often called a permalink.
 However, with the addition of a simple extension, it's possible to enable this feature.
 
-Start by adding the following Ruby code at the location [.path]_lib/permalink.rb_.
+Start by adding the following Ruby code to the file [.path]_lib/permalink.rb_.
 
 .lib/permalink.rb
 [source,ruby]
@@ -326,7 +326,7 @@ require_relative 'lib/permalink'
 activate :permalink
 ----
 
-Now you can customize the destination path of any AsciiDoc file by adding the following attribute entry to the document header:
+You can now customize the destination path for any AsciiDoc-based page by adding the following attribute entry to the document header:
 
 [source,asciidoc]
 ----
