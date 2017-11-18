@@ -59,9 +59,10 @@ If you're working with an existing project, you can skip the previous steps.
 
 Next, add the gem for this extension to your project's [.path]_Gemfile_.
 
-```ruby
+[source,ruby]
+----
 gem 'middleman-asciidoc'
-```
+----
 
 Finally, run Bundler using the `bundle` command:
 
@@ -73,16 +74,18 @@ You're now ready to activate this extension and begin putting it to work.
 
 To activate this extension, add the following line to the [.path]_config.rb_ file for your site:
 
-```ruby
+[source,ruby]
+----
 activate :asciidoc
-```
+----
 
 You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor as a Hash or Array.
 Here's an example of passing the attribute as an Array:
 
-```ruby
+[source,ruby]
+----
 activate :asciidoc, attributes: ['source-highlighter=coderay']
-```
+----
 
 The following option keys from the Asciidoctor API can be added to the Hash of the second argument to `activate`:
 
@@ -98,8 +101,8 @@ The following implicit attributes are automatically appended to this collection.
 * builder-middleman
 * middleman-version=(value of `Middleman::VERSION` constant)
 * imagesdir=(value of http_prefix + images_dir in app config)@
-  - skipped if `!imagesdir` is defined as a custom attribute
-  - can be overridden in page (hence the trailing @)
+ ** skipped if `!imagesdir` is defined as a custom attribute
+ ** can be overridden in page (hence the trailing @)
 
 backend (type: Symbol, default: :html5)::
 The moniker for a converter, which determines the output format to generate.
@@ -124,7 +127,7 @@ NOTE: For details about how the file extension is substituted, see the discussio
 To add a page composed in AsciiDoc, simply add an AsciiDoc file that has one of the aforementioned AsciiDoc file extensions to the project source directory.
 
 .sample.adoc
-[listing]
+[source,asciidoc]
 ....
 = Sample Page
 :page-layout: page
@@ -187,6 +190,7 @@ This requirement will be lifted once the fix for https://github.com/middleman/mi
 In addition to the normal ignore filter in Middleman, you can also control whether a page is ignored from AsciiDoc.
 To mark a page as ignored from AsciiDoc, set the `page-ignored` attribute in the AsciiDoc document header to any value other than `false`, as follows:
 
+[source,asciidoc]
 ----
 = Ignored Page
 :page-ignored:
@@ -199,6 +203,7 @@ Once this page attribute is detected, no further processing is performed on the 
 If you're using the Middleman Blog extension, you can mark an article as a draft so it does not get published.
 To do so, assign the value `false` the page attribute named `page-published` in the AsciiDoc document header, as follows:
 
+[source,asciidoc]
 ----
 = Draft Article
 :page-published: false
@@ -210,6 +215,7 @@ Middleman then knows not to publish this article.
 
 Another option is to set the date of the article way into the future.
 
+[source,asciidoc]
 ----
 = Future Post
 Author Name
@@ -228,6 +234,7 @@ Let's say you have the following two pages in the source directory:
 
 You can link from the about page to the team page using the following:
 
+[source,asciidoc]
 ----
 Meet our <<team.adoc#,team>>.
 ----
@@ -255,6 +262,7 @@ However, you have to make one change to your pages for these attributes to work 
 Below the document header (but *not in* the document header), you must assign the `outfilesuffix` attribute to the value of the `relfilesuffix` attribute.
 Here's an example:
 
+[source,asciidoc]
 ----
 = About Us
 
@@ -275,6 +283,7 @@ Meet our <a href="../team/">team</a>.
 
 Optionally, you can construct the link manually using:
 
+[source,asciidoc]
 ----
 Meet our link:{relfileprefix}team{relfilesuffix}[team].
 ----
@@ -319,6 +328,7 @@ activate :permalink
 
 Now you can customize the destination path of any AsciiDoc file by adding the following attribute entry to the document header:
 
+[source,asciidoc]
 ----
 :page-permalink: custom-destination-path
 ----
