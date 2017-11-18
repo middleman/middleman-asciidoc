@@ -156,6 +156,7 @@ Feature: AsciiDoc Support
       """
       <p>Page Title</p>
       <p>Doc Writer</p>
+      <p>Doc Writer | Junior Writer</p>
       <p>doc.writer@example.com</p>
       <p>This is a sample page.</p>
       <p>meta, AsciiDoc, Middleman</p>

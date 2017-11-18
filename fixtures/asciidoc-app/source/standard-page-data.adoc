@@ -1,5 +1,5 @@
 = Page Title
-Doc Writer <doc.writer@example.com>
+Doc Writer <doc.writer@example.com>; Junior Writer
 :showtitle:
 :description: This is a sample page.
 :keywords: meta, AsciiDoc, Middleman
