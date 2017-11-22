@@ -154,12 +154,17 @@ In addition to these explicit page attributes, the following AsciiDoc attributes
 * author
 * authors (converted to an Array of String values)
 * email
-* revdate (becomes date; value is converted to a DateTime object)
+* revdate (becomes date; value is converted to a Time object)
 * keywords (left as a String value)
 * description
 
 TIP: You can continue to specify page data using the front matter header.
 The AsciiDoc `page-` attributes override matching entries in the front matter header.
+
+NOTE: If you specify a time zone in the revdate, that time zone is honored.
+Otherwise, the date specified is assumed to have the time zone set for the application.
+You can define the application time zone in [.path]_config.rb_ using `set :time_zone` (a setting shared with the blog extension).
+If you don't specify a time zone in the page's revdate or for the application, dates are assumed to be UTC.
 
 === Specifying a Layout
 

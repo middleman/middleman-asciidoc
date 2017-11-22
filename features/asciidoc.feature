@@ -162,6 +162,28 @@ Feature: AsciiDoc Support
       <p>meta, AsciiDoc, Middleman</p>
       """
 
+  Scenario: Honor time zone specified in revdate
+    Given the Server is running at "asciidoc-app"
+    When I go to "/page-with-date-at-zone.html"
+    Then I should see:
+      """
+      <html data-date="2017-01-01T16:00:00Z">
+      """
+
+  Scenario: Add application time zone to revdate when none specified
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      set :time_zone, 'MST'
+      activate :asciidoc
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/page-with-date.html"
+    Then I should see:
+      """
+      <html data-date="2017-01-01T16:00:00Z">
+      """
+
   Scenario: Including a file relative to source root
     Given the Server is running at "asciidoc-app"
     When I go to "/master.html"

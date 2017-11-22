@@ -1,4 +1,5 @@
 require 'asciidoctor' unless defined? Asciidoctor
+require 'active_support/core_ext/time/zones' unless Time.respond_to? :zone
 
 module Middleman
   module AsciiDoc
@@ -32,6 +33,19 @@ module Middleman
 
       # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
+        # Match behavior of middleman blog extension
+        # Make sure ActiveSupport's TimeZone stuff has something to work with,
+        # allowing people to set their desired time zone via Time.zone or
+        # set :time_zone
+        if app.config[:time_zone]
+          ::Time.zone = app.config[:time_zone]
+        else
+          ::Time.zone ||= 'UTC'
+        end
+        zone_default = ::Time.find_zone! ::Time.zone
+        raise 'Value assigned to time_zone not recognized.' unless zone_default
+        ::Time.zone_default = zone_default
+
         if app.config.setting(:asciidoc).value_set?
           warn 'Using `set :asciidoc` to define options is deprecated. Please define options on `activate :asciidoc` instead.'
         end
@@ -127,7 +141,9 @@ module Middleman
           end
           if !(page.key? :date) && (doc.attr? 'revdate')
             begin
-              page[:date] = ::DateTime.parse(doc.attr 'revdate').to_time
+              page[:date] = ::Time.zone.parse(doc.attr 'revdate')
+              # ...or hack to use app time zone, but only if time zone is not specified
+              #page[:date] = ::DateTime.parse(%(#{doc.attr 'revdate'} #{::Time.zone.formatted_offset})).to_time
             rescue
             end
           end
