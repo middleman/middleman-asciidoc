@@ -48,6 +48,31 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Rendering html with per extension layout
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, layout: :default
+      set :layout, :global
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/hello.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Fallback</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
+      </div>
+      </body>
+      </html>
+      """
+
   Scenario: Rendering html with explicit layout
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-layout.html"
