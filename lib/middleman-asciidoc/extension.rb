@@ -126,10 +126,19 @@ module Middleman
           if doc.attr? 'page-layout'
             if (layout = doc.attr 'page-layout').empty?
               opts[:layout] = :_auto_layout
+              opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
             else
-              opts[:layout] = layout
+              case (layout = layout.to_sym)
+              when :~
+                opts[:layout] = false
+              when :false
+                opts[:layout] = false
+                opts[:header_footer] = true
+              else
+                opts[:layout] = layout
+                opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
+              end
             end
-            opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
           else
             opts[:layout] = false
             opts[:header_footer] = true

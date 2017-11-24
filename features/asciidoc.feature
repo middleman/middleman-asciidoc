@@ -23,32 +23,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering html with default layout
-    Given a fixture app "asciidoc-app"
-    And a file named "config.rb" with:
-      """
-      activate :asciidoc
-      set :layout, :default
-      """
-    Given the Server is running at "asciidoc-app"
-    When I go to "/hello.html"
-    Then I should see:
-      """
-      <!DOCTYPE html>
-      <html>
-      <head>
-      <title>Fallback</title>
-      </head>
-      <body>
-      <div class="paragraph">
-      <p>Hello, AsciiDoc!
-      Middleman, I am in you.</p>
-      </div>
-      </body>
-      </html>
-      """
-
-  Scenario: Rendering html with per extension layout
+  Scenario: Rendering html with layout defined in extension config
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
@@ -73,9 +48,19 @@ Feature: AsciiDoc Support
       </html>
       """
 
-  Scenario: Rendering html with explicit layout
+  Scenario: Rendering html with no layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      set :layout, :default
+      """
+    And a file named "source/no-layout.adoc" with:
+      """
+      Hello, AsciiDoc!
+      """
     Given the Server is running at "asciidoc-app"
-    When I go to "/hello-with-layout.html"
+    When I go to "/no-layout.html"
     Then I should see:
       """
       <!DOCTYPE html>
@@ -91,9 +76,151 @@ Feature: AsciiDoc Support
       </html>
       """
 
-  Scenario: Rendering html with no layout
+  Scenario: Rendering html with auto layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      set :layout, :default
+      """
+    And a file named "source/auto-layout.adoc" with:
+      """
+      :page-layout: _auto_layout
+
+      Hello, AsciiDoc!
+      """
     Given the Server is running at "asciidoc-app"
-    When I go to "/hello-no-layout.html"
+    When I go to "/auto-layout.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Fallback</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
+  Scenario: Rendering html with blank layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      set :layout, :default
+      """
+    And a file named "source/blank-layout.adoc" with:
+      """
+      :page-layout:
+
+      Hello, AsciiDoc!
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/blank-layout.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Fallback</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
+  Scenario: Rendering html with explicit layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "source/explicit-layout.adoc" with:
+      """
+      :page-layout: default
+
+      Hello, AsciiDoc!
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/explicit-layout.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Fallback</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
+  Scenario: Rendering html with layout unset
+    Given a fixture app "asciidoc-app"
+    And a file named "source/unset-layout.adoc" with:
+      """
+      :!page-layout:
+
+      Hello, AsciiDoc!
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/unset-layout.html"
+    Then I should see:
+      """
+      <meta name="generator" content="Asciidoctor
+      """
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      """
+
+  Scenario: Rendering html with false layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "source/false-layout.adoc" with:
+      """
+      :page-layout: false
+
+      Hello, AsciiDoc!
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/false-layout.html"
+    Then I should see:
+      """
+      <meta name="generator" content="Asciidoctor
+      """
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      """
+
+  Scenario: Rendering html with ~ layout specified
+    Given a fixture app "asciidoc-app"
+    And a file named "source/tilde-layout.adoc" with:
+      """
+      :page-layout: ~
+
+      Hello, AsciiDoc!
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/tilde-layout.html"
+    Then I should not see:
+      """
+      <!DOCTYPE html>
+      """
+    Then I should not see:
+      """
+      <meta name="generator" content="Asciidoctor
+      """
     Then I should see:
       """
       <div class="paragraph">
