@@ -96,6 +96,54 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Default safe mode for AsciiDoc processor
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc
+      set :layout, :default
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/safe-mode.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Safe Mode</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>safe</p>
+      </div>
+      </body>
+      </html>
+      """
+
+  Scenario: Setting safe mode on AsciiDoc processor
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, safe: :unsafe
+      set :layout, :default
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/safe-mode.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Safe Mode</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>unsafe</p>
+      </div>
+      </body>
+      </html>
+      """
+
   Scenario: Rendering html with title and layout from front matter
     Given the Server is running at "asciidoc-app"
     When I go to "/hello-with-front-matter.html"

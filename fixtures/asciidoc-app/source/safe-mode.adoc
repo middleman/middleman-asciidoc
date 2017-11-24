@@ -1,0 +1,3 @@
+= Safe Mode
+
+{safe-mode-name}
