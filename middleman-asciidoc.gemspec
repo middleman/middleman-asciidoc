@@ -20,8 +20,8 @@ Gem::Specification.new do |s|
   rescue
     Dir['**/*']
   end
-  s.files = files.grep /^(?:lib\/.+|Gemfile|Rakefile|(?:CHANGELOG|CONTRIBUTING|LICENSE|README)\.adoc|#{s.name}\.gemspec)$/
-  s.test_files = files.grep /^(?:features|fixtures)\/.+/
+  s.files = files.grep %r/^(?:lib\/.+|Gemfile|Rakefile|(?:CHANGELOG|CONTRIBUTING|LICENSE|README)\.adoc|#{s.name}\.gemspec)$/
+  s.test_files = files.grep %r/^(?:features|fixtures)\/.+/
 
   s.require_paths = ['lib']
 

@@ -46,7 +46,7 @@ module Middleman
         raise 'Value assigned to time_zone not recognized.' unless zone_default
         ::Time.zone_default = zone_default
 
-        if app.config.setting(:asciidoc).value_set?
+        if (app.config.setting :asciidoc).value_set?
           warn 'Using `set :asciidoc` to define options is deprecated. Please define options on `activate :asciidoc` instead.'
         end
         app.config[:asciidoc].tap do |cfg|
@@ -67,10 +67,10 @@ module Middleman
           # NOTE handles deprecated `set :asciidoc, attributes: ...`
           attributes = merge_attributes cfg[:attributes], attributes if cfg.key? :attributes
           # NOTE handles `activate :asciidoc, attributes: ...`
-          if options.setting(:attributes).value_set?
+          if (options.setting :attributes).value_set?
             attributes = merge_attributes options[:attributes], attributes
           # NOTE handles `set :asciidoc_attributes ...`
-          elsif app.config.setting(:asciidoc_attributes).value_set?
+          elsif (app.config.setting :asciidoc_attributes).value_set?
             attributes = merge_attributes options[:asciidoc_attributes], attributes
           end
           imagesdir = if attributes.key? 'imagesdir'
@@ -90,9 +90,9 @@ module Middleman
           else
             cfg[:base_dir] = ::File.expand_path base_dir if base_dir
           end
-          cfg[:backend] = options[:backend] if options.setting(:backend).value_set?
+          cfg[:backend] = options[:backend] if (options.setting :backend).value_set?
           cfg[:backend] = (cfg[:backend] || :html5).to_sym
-          cfg[:safe] = options[:safe] if options.setting(:safe).value_set?
+          cfg[:safe] = options[:safe] if (options.setting :safe).value_set?
           cfg[:safe] = (cfg[:safe] || :safe).to_sym
         end
       end
@@ -145,7 +145,7 @@ module Middleman
           end
           if !(page.key? :date) && (doc.attr? 'revdate')
             begin
-              page[:date] = ::Time.zone.parse(doc.attr 'revdate')
+              page[:date] = ::Time.zone.parse (doc.attr 'revdate')
               # ...or hack to use app time zone, but only if time zone is not specified
               #page[:date] = ::DateTime.parse(%(#{doc.attr 'revdate'} #{::Time.zone.formatted_offset})).to_time
             rescue
@@ -223,7 +223,7 @@ module Middleman
         else
           begin
             ::YAML.load %(--- #{val})
-          rescue ::StandardError, ::SyntaxError => e
+          rescue ::StandardError, ::SyntaxError
             val = val.gsub '\'', '\'\'' if val.include? '\''
             ::YAML.load %(--- \'#{val}\')
           end
