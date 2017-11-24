@@ -19,10 +19,10 @@ module Middleman
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
 
-      option :attributes, [], 'Custom AsciiDoc attributes (Hash or Array)'
-      option :backend, :html5, 'Moniker used to select output format (Symbol)'
-      option :base_dir, nil, 'Base directory to use for the current AsciiDoc document; if nil, defaults to docdir (String)'
-      option :safe, :safe, 'Safe mode level (Symbol)'
+      option :attributes, [], 'Custom AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
+      option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
+      option :base_dir, nil, 'Base directory to use for the current AsciiDoc document. Defaults to nil. (String)'
+      option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
 
       def initialize app, options_hash = {}, &block
         super
