@@ -161,6 +161,7 @@ module Middleman
             resource.destination_path << doc.outfilesuffix
           end
 
+          # NOTE opts won't override any keys defined in global options
           resource.add_metadata options: opts, page: page
         end
       end
