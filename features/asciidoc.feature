@@ -259,11 +259,24 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Including a file relative to document in subdirectory when base_dir is set
+  Scenario: Including a file relative to document in subdirectory when base_dir is set to :source
     Given a fixture app "asciidoc-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, base_dir: app.source_dir.expand_path
+      activate :asciidoc, base_dir: :source
+      """
+    Given the Server is running at "asciidoc-app"
+    When I go to "/manual/index.html"
+    Then I should see:
+      """
+      <p>Unresolved directive in &lt;stdin&gt; - include::_chapters/ch01.adoc[]</p>
+      """
+
+  Scenario: Including a file relative to document in subdirectory when base_dir is set to app.source_dir
+    Given a fixture app "asciidoc-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, base_dir: app.source_dir
       """
     Given the Server is running at "asciidoc-app"
     When I go to "/manual/index.html"
