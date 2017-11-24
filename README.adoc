@@ -107,9 +107,11 @@ The following implicit attributes are automatically appended to this collection.
 backend (type: Symbol, default: :html5)::
 The moniker for a converter, which determines the output format to generate.
 
-base_dir (type: String, default: nil)::
-The base directory to use for the current AsciiDoc document; if not specified, defaults to the document directory (i.e., docdir).
-To set the base directory to the source directory, use the value `app.source_dir.expand_path`.
+base_dir (type: String, default: :docdir)::
+The base directory to use for the current AsciiDoc document.
+If not specified, defaults to the document directory (i.e., `:docdir`).
+To set the base directory to the source directory, use the keyword `:source` or the expression `app.source_dir`.
+To leave the base directory undefined, use the value `nil`.
 
 safe (type: Symbol, default: :safe)::
 The safe mode level under which to run the AsciiDoc processor.

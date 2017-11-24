@@ -21,7 +21,7 @@ module Middleman
 
       option :attributes, [], 'Custom AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
-      option :base_dir, nil, 'Base directory to use for the current AsciiDoc document. Defaults to nil. (String)'
+      option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir (tracks directory of document). (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
 
       def initialize app, options_hash = {}, &block
@@ -82,8 +82,14 @@ module Middleman
             attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
           end
           cfg[:attributes] = attributes
-          cfg[:base_dir] = (dir = options[:base_dir]) ? dir.to_s : dir if options.setting(:base_dir).value_set?
-          # QUESTION ^ should we call expand_path on :base_dir if non-nil?
+          case (base_dir = options[:base_dir])
+          when :source
+            cfg[:base_dir] = ::File.expand_path app.source_dir
+          when :docdir
+            cfg[:base_dir] = :docdir
+          else
+            cfg[:base_dir] = ::File.expand_path base_dir if base_dir
+          end
           cfg[:backend] = options[:backend] if options.setting(:backend).value_set?
           cfg[:backend] = (cfg[:backend] || :html5).to_sym
           cfg[:safe] = options[:safe] if options.setting(:safe).value_set?
@@ -95,19 +101,17 @@ module Middleman
         default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
         asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
         asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
-        use_docdir_as_base_dir = asciidoc_opts[:base_dir].nil?
+        app.config[:asciidoc].delete :base_dir if (use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir)
         resources.each do |resource|
           next unless !resource.ignored? && (path = resource.source_file).present? && (path.end_with? '.adoc')
+
+          opts, page = {}, {}
 
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
           asciidoc_attrs['page-layout'] = %(#{resource.options[:layout] || default_page_layout}@)
-          asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
-          doc = Asciidoctor.load_file path, asciidoc_opts
-          opts = {}
-          page = {}
-
-          opts[:base_dir] = asciidoc_opts[:base_dir] if use_docdir_as_base_dir
+          opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
+          doc = ::Asciidoctor.load_file path, asciidoc_opts
 
           if (doc.attr? 'page-ignored') && !(doc.attr? 'page-ignored', 'false')
             resource.ignore!
