@@ -23,6 +23,7 @@ module Middleman
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
       option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir (tracks directory of document). (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
+      option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles) (String or Symbol)'
 
       def initialize app, options_hash = {}, &block
         super
@@ -94,23 +95,26 @@ module Middleman
           cfg[:backend] = (cfg[:backend] || :html5).to_sym
           cfg[:safe] = options[:safe] if (options.setting :safe).value_set?
           cfg[:safe] = (cfg[:safe] || :safe).to_sym
+          if (default_layout = options[:layout] || app.config[:layout])
+            # set priority to run after blog extension, which also sets a layout
+            app.sitemap.register_resource_list_manipulator :asciidoc_default_layout, (DefaultLayoutConfigurator.new default_layout.to_sym), 60
+          end
         end
       end
 
       def manipulate_resource_list resources
-        default_page_layout = app.config[:layout] == :_auto_layout ? '' : app.config[:layout]
         asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
         asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
         app.config[:asciidoc].delete :base_dir if (use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir)
         resources.each do |resource|
-          next unless !resource.ignored? && (path = resource.source_file).present? && (path.end_with? '.adoc')
+          next if resource.ignored? || (path = resource.source_file).blank? || !(path.end_with? '.adoc')
 
           opts, page = {}, {}
 
+          asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
+          opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          asciidoc_attrs['page-layout'] = %(#{resource.options[:layout] || default_page_layout}@)
-          opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
           doc = ::Asciidoctor.load_file path, asciidoc_opts
 
           if (doc.attr? 'page-ignored') && !(doc.attr? 'page-ignored', 'false')
@@ -118,7 +122,7 @@ module Middleman
             next
           end
 
-          # NOTE page layout value cascades from site config -> front matter -> page-layout header attribute
+          # NOTE page layout value cascades from site config -> extension config -> front matter -> page-layout attribute
           if doc.attr? 'page-layout'
             if (layout = doc.attr 'page-layout').empty?
               opts[:layout] = :_auto_layout
@@ -226,6 +230,26 @@ module Middleman
           rescue ::StandardError, ::SyntaxError
             val = val.gsub '\'', '\'\'' if val.include? '\''
             ::YAML.load %(--- \'#{val}\')
+          end
+        end
+      end
+    end
+
+    # Resolves the automatic layout if no layout has been specified and this resource is not a blog article
+    class DefaultLayoutConfigurator
+      def initialize layout
+        @layout = layout
+      end
+
+      def manipulate_resource_list resources
+        resources.each do |resource|
+          next if resource.ignored? || (path = resource.source_file).blank? || !(path.end_with? '.adoc') ||
+              resource.options[:layout] != :_auto_layout
+          if (resource.respond_to? :blog_data) && (blog_layout = resource.blog_data.options[:layout]) &&
+              (blog_layout = blog_layout.to_sym) != :_auto_layout
+            resource.options[:layout] = blog_layout
+          else
+            resource.options[:layout] = @layout
           end
         end
       end
