@@ -47,13 +47,15 @@ Prior to Middleman 4, AsciiDoc support was part of Middleman core.
 
 == Installation
 
-If you're just getting started, install the Middleman gem:
+If you're just getting started, first install the Middleman gem.
 
- $ NOKOGIRI_USE_SYSTEM_LIBRARIES=1 gem install middleman
+ $ gem install middleman
 
-then generate a new project:
+Then, generate a new project:
 
  $ middleman init MY_PROJECT
+
+The project will be created in the MY_PROJECT directory.
 
 If you're working with an existing project, you can skip the previous steps.
 
@@ -64,7 +66,7 @@ Next, add the gem for this extension to your project's [.path]_Gemfile_.
 gem 'middleman-asciidoc'
 ----
 
-Finally, run Bundler using the `bundle` command:
+Finally, run Bundler to install the dependencies using the `bundle` command:
 
  $ bundle
 
