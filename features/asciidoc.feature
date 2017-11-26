@@ -205,14 +205,14 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with ~ layout specified
     Given a fixture app "asciidoc-app"
-    And a file named "source/tilde-layout.adoc" with:
+    And a file named "source/minus-layout.adoc" with:
       """
-      :page-layout: ~
+      :page-layout: -
 
       Hello, AsciiDoc!
       """
     Given the Server is running at "asciidoc-app"
-    When I go to "/tilde-layout.html"
+    When I go to "/minus-layout.html"
     Then I should not see:
       """
       <!DOCTYPE html>
