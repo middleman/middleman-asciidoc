@@ -129,7 +129,7 @@ module Middleman
               opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
             else
               case (layout = layout.to_sym)
-              when :-
+              when :~, :null
                 opts[:layout] = false
               when :false
                 opts[:layout] = false

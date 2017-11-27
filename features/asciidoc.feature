@@ -203,16 +203,16 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering html with ~ layout specified
+  Scenario: Rendering html with null layout specified
     Given a fixture app "asciidoc-app"
-    And a file named "source/minus-layout.adoc" with:
+    And a file named "source/null-layout.adoc" with:
       """
-      :page-layout: -
+      :page-layout: null
 
       Hello, AsciiDoc!
       """
     Given the Server is running at "asciidoc-app"
-    When I go to "/minus-layout.html"
+    When I go to "/null-layout.html"
     Then I should not see:
       """
       <!DOCTYPE html>

@@ -210,7 +210,7 @@ Here are the different ways to specify a layout:
 * `:page-layout:`, `:page-layout: _auto_layout`, or _not specified_ -- use the automatic layout (default: layout)
 * `:page-layout: custom` -- use the page layout named "`custom`" (e.g., [.path]_custom.erb_)
 * `:!page-layout:` or `:page-layout: false` -- generate a standalone HTML document
-* `:page-layout: -` -- no layout (don't wrap content in a layout at all)
+* `:page-layout: ~` or `:page-layout: null` -- generate a page without a layout (don't wrap content in a layout)
 
 .Layout for blog posts
 WARNING: If you're using the Middleman Blog extension to write blog posts, the `layout` property on the blog configuration overrides the default layout, but you can still override that setting using the `page-layout` attribute in each post.
