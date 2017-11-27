@@ -1,0 +1,6 @@
+= Ignored
+Blog Author
+:revdate: 2017-09-03 09:00 MDT
+:page-ignored: true
+
+This article should be ignored.

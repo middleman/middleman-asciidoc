@@ -1,0 +1,105 @@
+Feature: Blog Integration
+  In order to test blog articles written in AsciiDoc
+
+  Scenario: A blog article is generated from an AsciiDoc document
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/welcome.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Welcome</title>
+        </head>
+        <body>
+          <article>
+            <header>
+              <span>by Blog Author</span>
+              <time datetime="2017-09-01T15:00:00Z">Sep  1, 2017</time>
+            </header>
+            <h1>Welcome</h1>
+      <div class="paragraph">
+      <p>Welcome to my blog.</p>
+      </div>
+          </article>
+        </body>
+      </html>
+      """
+
+  Scenario: A blog article marked as not published should be published when running the local server
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/not-published.html"
+    Then I should see:
+      """
+      This article should only be published when running the local server.
+      """
+
+  Scenario: A blog article marked as not published should not be listed if filtered out
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "published-only"
+    And the Server is running
+    When I go to "/index.html"
+    Then I should not see "/blog/not-published.html"
+
+  @nojava
+  Scenario: A blog article marked as not published should not be published when generating the site
+    Given a fixture app "asciidoc-blog-app"
+    And I run `middleman build`
+    And was successfully built
+    When I cd to "build"
+    Then the following files should not exist:
+    | blog/not-published.html |
+
+  Scenario: A blog article marked as ignored should not be published
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/ignored.html"
+    Then I should see "Not Found"
+
+  Scenario: The layout defined in blog configuration takes precedence over the layout defined in AsciiDoc configuration
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "asciidoc-layout"
+    And the Server is running
+    When I go to "/blog/welcome.html"
+    Then I should see:
+      """
+      <article>
+      """
+
+  Scenario: Specifying a layout for an article overrides layout defined in blog configuration
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/custom-layout.html"
+    Then I should see:
+      """
+      <title>AsciiDoc Page: Custom Layout</title>
+      """
+
+  Scenario: Tags can be specified for an article in the AsciiDoc header
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/tags-tags-tags.html"
+    Then I should see:
+      """
+              <span class="tags">
+                <span class="tag">fee</span>
+                <span class="tag">fi</span>
+                <span class="tag">fo</span>
+                <span class="tag">fum</span>
+              </span>
+      """
+
+  Scenario: A custom slug can be specified for an article in the AsciiDoc header
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/heisenberg.html"
+    Then I should see:
+      """
+      <h1>Say My Name</h1>
+      """
+
+  Scenario: The date specified in the article overrides the date in the filename
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "date-in-filename"
+    And the Server is running
+    When I go to "/blog-2/2017/a-fresh-start.html"
+    Then I should see:
+      """
+      <time datetime="2017-09-01T15:45:00Z">Sep  1, 2017</time>
+      """

@@ -1,0 +1,6 @@
+= Not Published
+Blog Author
+:revdate: 2017-09-02 09:00 MDT
+:page-published: false
+
+This article should only be published when running the local server.

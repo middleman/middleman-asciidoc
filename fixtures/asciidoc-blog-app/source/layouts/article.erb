@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= current_article.title %></title>
+  </head>
+  <body>
+    <% if is_blog_article? %>
+    <article>
+      <header>
+        <span>by <%= current_article.data.author %></span>
+        <time datetime="<%= current_article.date.getutc.iso8601 %>"><%= current_article.date.strftime '%b %e, %Y' %></time>
+        <% unless current_article.tags.empty? %>
+        <span class="tags">
+          <% current_article.tags.sort.each do |tag| %>
+          <span class="tag"><%= tag %></span>
+          <% end %>
+        </span>
+        <% end %>
+      </header>
+      <h1><%= current_article.title %></h1>
+<%= yield %>
+    </article>
+    <% end %>
+  </body>
+</html>

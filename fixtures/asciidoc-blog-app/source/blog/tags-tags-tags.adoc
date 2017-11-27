@@ -1,0 +1,6 @@
+= Tags, Tags, Tags!
+Blog Author
+:revdate: 2017-09-05 09:00 MDT
+:page-tags: fee, fi, fo, fum
+
+This article is tagged.

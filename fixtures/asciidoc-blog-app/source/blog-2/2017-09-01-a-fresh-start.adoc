@@ -1,0 +1,5 @@
+= A Fresh Start
+Blog Author
+:revdate: 2017-09-01 09:45 MDT
+
+This blog has been reborn.

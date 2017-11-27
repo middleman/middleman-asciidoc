@@ -1,0 +1,6 @@
+= Custom Layout
+Blog Author
+:revdate: 2017-09-04 09:00 MDT
+:page-layout: asciidoc_page
+
+This article should be wrapped in the specified layout.
