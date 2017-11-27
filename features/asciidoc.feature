@@ -30,7 +30,7 @@ Feature: AsciiDoc Support
       activate :asciidoc, layout: :default
       set :layout, :global
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/hello.html"
     Then I should see:
       """
@@ -50,16 +50,12 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with no layout specified
     Given a fixture app "asciidoc-app"
-    And a file named "config.rb" with:
-      """
-      activate :asciidoc
-      set :layout, :default
-      """
+    And app "asciidoc-app" is using config "default-layout"
     And a file named "source/no-layout.adoc" with:
       """
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/no-layout.html"
     Then I should see:
       """
@@ -78,18 +74,14 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with auto layout specified
     Given a fixture app "asciidoc-app"
-    And a file named "config.rb" with:
-      """
-      activate :asciidoc
-      set :layout, :default
-      """
+    And app "asciidoc-app" is using config "default-layout"
     And a file named "source/auto-layout.adoc" with:
       """
       :page-layout: _auto_layout
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/auto-layout.html"
     Then I should see:
       """
@@ -108,18 +100,14 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with blank layout specified
     Given a fixture app "asciidoc-app"
-    And a file named "config.rb" with:
-      """
-      activate :asciidoc
-      set :layout, :default
-      """
+    And app "asciidoc-app" is using config "default-layout"
     And a file named "source/blank-layout.adoc" with:
       """
       :page-layout:
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/blank-layout.html"
     Then I should see:
       """
@@ -144,7 +132,7 @@ Feature: AsciiDoc Support
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/explicit-layout.html"
     Then I should see:
       """
@@ -169,13 +157,13 @@ Feature: AsciiDoc Support
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/unset-layout.html"
     Then I should see:
       """
       <meta name="generator" content="Asciidoctor
       """
-    Then I should see:
+    And I should see:
       """
       <div class="paragraph">
       <p>Hello, AsciiDoc!</p>
@@ -190,13 +178,13 @@ Feature: AsciiDoc Support
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/false-layout.html"
     Then I should see:
       """
       <meta name="generator" content="Asciidoctor
       """
-    Then I should see:
+    And I should see:
       """
       <div class="paragraph">
       <p>Hello, AsciiDoc!</p>
@@ -211,17 +199,17 @@ Feature: AsciiDoc Support
 
       Hello, AsciiDoc!
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running at "asciidoc-app"
     When I go to "/null-layout.html"
     Then I should not see:
       """
       <!DOCTYPE html>
       """
-    Then I should not see:
+    And I should not see:
       """
       <meta name="generator" content="Asciidoctor
       """
-    Then I should see:
+    And I should see:
       """
       <div class="paragraph">
       <p>Hello, AsciiDoc!</p>
@@ -250,12 +238,8 @@ Feature: AsciiDoc Support
 
   Scenario: Default safe mode for AsciiDoc processor
     Given a fixture app "asciidoc-app"
-    And a file named "config.rb" with:
-      """
-      activate :asciidoc
-      set :layout, :default
-      """
-    Given the Server is running at "asciidoc-app"
+    And app "asciidoc-app" is using config "default-layout"
+    And the Server is running
     When I go to "/safe-mode.html"
     Then I should see:
       """
@@ -279,7 +263,7 @@ Feature: AsciiDoc Support
       activate :asciidoc, safe: :unsafe
       set :layout, :default
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/safe-mode.html"
     Then I should see:
       """
@@ -326,9 +310,9 @@ Feature: AsciiDoc Support
     Given the Server is running at "asciidoc-app"
     When I go to "/site-information.html"
     Then I should see content matching %r{<p>site-root=.+/tmp/aruba/asciidoc-app</p>}
-    Then I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-app/source</p>}
-    Then I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-app/build</p>}
-    Then I should see content matching %r{<p>site-environment=development</p>}
+    And I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-app/source</p>}
+    And I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-app/build</p>}
+    And I should see content matching %r{<p>site-environment=development</p>}
 
   Scenario: Merging page data in front matter and AsciiDoc header
     Given the Server is running at "asciidoc-app"
@@ -377,7 +361,7 @@ Feature: AsciiDoc Support
       set :time_zone, 'MST'
       activate :asciidoc
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/page-with-date.html"
     Then I should see:
       """
@@ -417,7 +401,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, base_dir: :source
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/manual/index.html"
     Then I should see:
       """
@@ -430,7 +414,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, base_dir: app.source_dir
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/manual/index.html"
     Then I should see:
       """
@@ -444,7 +428,7 @@ Feature: AsciiDoc Support
       activate :asciidoc
       activate :directory_indexes
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/link-to-page/"
     Then I should see:
       """
@@ -459,7 +443,7 @@ Feature: AsciiDoc Support
       activate :directory_indexes
       set :trailing_slash, false
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/link-to-page/"
     Then I should see:
       """
@@ -474,7 +458,7 @@ Feature: AsciiDoc Support
       activate :directory_indexes
       set :strip_index_file, false
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/link-to-page/"
     Then I should see:
       """
@@ -509,7 +493,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: %w(imagesdir=@)
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/custom-imagesdir.html"
     Then I should see:
       """
@@ -525,7 +509,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: %w(imagesdir!)
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/custom-imagesdir.html"
     Then I should see:
       """
@@ -541,7 +525,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: %w(imagesdir=/img)
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/custom-imagesdir.html"
     Then I should see:
       """
@@ -557,7 +541,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: %w(bar=bar@ foo={bar}{baz})
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/custom-attribute.html"
     Then I should see "bar{baz}"
 
@@ -567,7 +551,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: { 'bar' => 'bar@', 'foo' => '{bar}{baz}' }
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/custom-attribute.html"
     Then I should see "bar{baz}"
 
@@ -577,7 +561,7 @@ Feature: AsciiDoc Support
       """
       activate :asciidoc, attributes: %w(source-highlighter=html-pipeline)
       """
-    Given the Server is running at "asciidoc-app"
+    And the Server is running
     When I go to "/code.html"
     Then I should see:
       """
