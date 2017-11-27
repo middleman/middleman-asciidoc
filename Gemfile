@@ -3,11 +3,10 @@ source 'https://rubygems.org'
 # Runtime dependencies are defined in middleman-asciidoc.gemspec
 gemspec
 
-if RUBY_ENGINE == 'jruby'
-  git 'https://github.com/mojavelinux/middleman.git', branch: 'no-fast-blank' do
-    gem 'middleman-core'
-  end
-end
+# NOTE when running tests on JRuby, use version of middleman-core that does not depend on fast_blank
+git 'https://github.com/middleman/middleman.git', ref: '1d13e415e27aa1b30d85fecebf8cc0f91d4023c6' do
+  gem 'middleman-core'
+end if RUBY_ENGINE == 'jruby'
 
 # Build and doc tools
 gem 'rake', '~> 10.3', require: false
