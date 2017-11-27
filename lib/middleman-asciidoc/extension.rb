@@ -217,7 +217,7 @@ module Middleman
       def derive_page_variable_name attribute_name
         if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' && attribute_name != 'page-ignored' &&
             (attribute_name.start_with? 'page-')
-          attribute_name.slice 5, attribute_name.length
+          (attribute_name.slice 5, attribute_name.length).to_sym
         end
       end
 
