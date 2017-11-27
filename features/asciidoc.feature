@@ -1,5 +1,5 @@
 Feature: AsciiDoc Support
-  In order to test included AsciiDoc support
+  In order to test AsciiDoc support
 
   Scenario: Rendering html
     Given the Server is running at "asciidoc-app"
