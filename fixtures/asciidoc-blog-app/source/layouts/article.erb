@@ -7,7 +7,7 @@
     <% if is_blog_article? %>
     <article>
       <header>
-        <span>by <%= current_article.data.author %></span>
+        <span>by <%= current_article.data.authors * ', ' %></span>
         <time datetime="<%= current_article.date.getutc.iso8601 %>"><%= current_article.date.strftime '%b %e, %Y' %></time>
         <% unless current_article.tags.empty? %>
         <span class="tags">

@@ -1,0 +1,5 @@
+= Joint Effort
+John Smith <john.smith@example.com>; Jane Doe; Doc Writer <doc.writer@example.com>
+:revdate: 2017-09-10 09:00 MDT
+
+This article is the result of a collaboration between {authors}.

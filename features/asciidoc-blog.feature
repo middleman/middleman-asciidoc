@@ -26,6 +26,11 @@ Feature: Blog Integration
       </html>
       """
 
+  Scenario: A blog article should accommodate multiple authors
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/joint-effort.html"
+    Then I should see "John Smith, Jane Doe, Doc Writer"
+
   Scenario: A blog article marked as not published should be published when running the local server
     Given the Server is running at "asciidoc-blog-app"
     When I go to "/blog/not-published.html"
