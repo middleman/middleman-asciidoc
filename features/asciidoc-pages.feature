@@ -2,7 +2,7 @@ Feature: AsciiDoc Support
   In order to test AsciiDoc support
 
   Scenario: Rendering html
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello.html"
     Then I should see:
       """
@@ -13,7 +13,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with double file extension
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-extension.html"
     Then I should see:
       """
@@ -24,7 +24,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with layout defined in extension config
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, layout: :default
@@ -49,8 +49,8 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with no layout specified
-    Given a fixture app "asciidoc-app"
-    And app "asciidoc-app" is using config "default-layout"
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "default-layout"
     And a file named "source/no-layout.adoc" with:
       """
       Hello, AsciiDoc!
@@ -73,8 +73,8 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with auto layout specified
-    Given a fixture app "asciidoc-app"
-    And app "asciidoc-app" is using config "default-layout"
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "default-layout"
     And a file named "source/auto-layout.adoc" with:
       """
       :page-layout: _auto_layout
@@ -99,8 +99,8 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with blank layout specified
-    Given a fixture app "asciidoc-app"
-    And app "asciidoc-app" is using config "default-layout"
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "default-layout"
     And a file named "source/blank-layout.adoc" with:
       """
       :page-layout:
@@ -125,7 +125,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with explicit layout specified
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "source/explicit-layout.adoc" with:
       """
       :page-layout: default
@@ -150,7 +150,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with layout unset
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "source/unset-layout.adoc" with:
       """
       :!page-layout:
@@ -171,7 +171,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with false layout specified
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "source/false-layout.adoc" with:
       """
       :page-layout: false
@@ -192,14 +192,14 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with null layout specified
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "source/null-layout.adoc" with:
       """
       :page-layout: null
 
       Hello, AsciiDoc!
       """
-    And the Server is running at "asciidoc-app"
+    And the Server is running at "asciidoc-pages-app"
     When I go to "/null-layout.html"
     Then I should not see:
       """
@@ -217,7 +217,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html using title and tags from document
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-title.html"
     Then I should see:
       """
@@ -237,8 +237,8 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Default safe mode for AsciiDoc processor
-    Given a fixture app "asciidoc-app"
-    And app "asciidoc-app" is using config "default-layout"
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "default-layout"
     And the Server is running
     When I go to "/safe-mode.html"
     Then I should see:
@@ -257,7 +257,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Setting safe mode on AsciiDoc processor
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, safe: :unsafe
@@ -281,7 +281,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Rendering html with title and layout from front matter
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-front-matter.html"
     Then I should see:
       """
@@ -299,7 +299,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Ignoring files marked as ignored
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/ignored.html"
     Then I should see:
       """
@@ -307,15 +307,15 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Publishing site information as AsciiDoc attributes
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/site-information.html"
-    Then I should see content matching %r{<p>site-root=.+/tmp/aruba/asciidoc-app</p>}
-    And I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-app/source</p>}
-    And I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-app/build</p>}
+    Then I should see content matching %r{<p>site-root=.+/tmp/aruba/asciidoc-pages-app</p>}
+    And I should see content matching %r{<p>site-source=.+/tmp/aruba/asciidoc-pages-app/source</p>}
+    And I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-pages-app/build</p>}
     And I should see content matching %r{<p>site-environment=development</p>}
 
   Scenario: Merging page data in front matter and AsciiDoc header
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-mixed-page-data.html"
     Then I should see:
       """
@@ -334,7 +334,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Promoting standard AsciiDoc attributes to page data
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/inspect-standard-page-data.html"
     Then I should see:
       """
@@ -347,7 +347,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Honor time zone specified in revdate
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/page-with-date-at-zone.html"
     Then I should see:
       """
@@ -355,7 +355,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Add application time zone to revdate when none specified
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       set :time_zone, 'MST'
@@ -369,7 +369,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Including a file relative to source root
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/master.html"
     Then I should see:
       """
@@ -380,7 +380,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Including a file relative to document in subdirectory
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/manual/index.html"
     Then I should see:
       """
@@ -396,7 +396,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Including a file relative to document in subdirectory when base_dir is set to :source
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, base_dir: :source
@@ -409,7 +409,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Including a file relative to document in subdirectory when base_dir is set to app.source_dir
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, base_dir: app.source_dir
@@ -422,7 +422,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Linking to a sibling page with directory indexes activated
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc
@@ -436,7 +436,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Linking to a sibling page with directory indexes activated and trailing slash disabled
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc
@@ -451,7 +451,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Linking to a sibling page with directory indexes activated and strip index file disabled
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc
@@ -466,7 +466,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Linking to an image
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/gallery.html"
     Then I should see:
       """
@@ -477,7 +477,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Linking to an image with a custom imagesdir
-    Given the Server is running at "asciidoc-app"
+    Given the Server is running at "asciidoc-pages-app"
     When I go to "/custom-imagesdir.html"
     Then I should see:
       """
@@ -488,7 +488,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Restoring imagesdir to value defined in page
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(imagesdir=@)
@@ -504,7 +504,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Restoring imagesdir to default value
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(imagesdir!)
@@ -520,7 +520,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Overriding imagesdir attribute in page with imagesdir configuration
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(imagesdir=/img)
@@ -536,7 +536,7 @@ Feature: AsciiDoc Support
       """
 
   Scenario: Configuring custom AsciiDoc attributes as Array
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(bar=bar@ foo={bar}{baz})
@@ -546,7 +546,7 @@ Feature: AsciiDoc Support
     Then I should see "bar{baz}"
 
   Scenario: Configuring custom AsciiDoc attributes as Hash
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: { 'bar' => 'bar@', 'foo' => '{bar}{baz}' }
@@ -556,7 +556,7 @@ Feature: AsciiDoc Support
     Then I should see "bar{baz}"
 
   Scenario: Highlighting source code
-    Given a fixture app "asciidoc-app"
+    Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
       activate :asciidoc, attributes: %w(source-highlighter=html-pipeline)
