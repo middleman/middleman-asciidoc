@@ -280,6 +280,28 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Setting backend on AsciiDoc processor
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, backend: 'xhtml'
+      set :layout, :default
+      """
+    And the Server is running
+    When I go to "/backend.html"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>xml</p>
+      </div>
+      <hr/>
+      <div class="imageblock">
+      <div class="content">
+      <img src="/images/tiger.gif" alt="tiger"/>
+      </div>
+      </div>
+      """
+
   Scenario: Rendering html with title and layout from front matter
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-front-matter.html"
