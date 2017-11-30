@@ -89,7 +89,17 @@ Here's an example of passing the attribute as an Array:
 activate :asciidoc, attributes: ['source-highlighter=coderay']
 ----
 
-The following option keys from the Asciidoctor API can be added to the Hash of the second argument to `activate`:
+The same can be accomplished using the block form:
+
+[source,ruby]
+----
+activate :asciidoc do |asciidoc|
+  asciidoc.attributes = ['source-highlighter=coderay']
+end
+----
+
+The following option keys can be used to configure this extension.
+With the exception of `layout`, these option keys map directly to options in the Asciidoctor API.
 
 attributes (type: Hash or Array, default: [])::
 Custom AsciiDoc attributes to pass to the processor.
