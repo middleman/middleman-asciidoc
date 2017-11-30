@@ -218,7 +218,7 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html using title and tags from document
     Given the Server is running at "asciidoc-pages-app"
-    When I go to "/hello-with-title.html"
+    When I go to "/hello-with-title-and-tags.html"
     Then I should see:
       """
       <!DOCTYPE html>
