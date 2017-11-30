@@ -21,7 +21,7 @@ module Middleman
 
       option :attributes, [], 'Custom AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
-      option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir (tracks directory of document). (String)'
+      option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which is replaced with the document directory. (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
       option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles) (String or Symbol)'
 
