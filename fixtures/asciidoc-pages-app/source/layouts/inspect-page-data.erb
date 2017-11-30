@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= current_resource.data.title %></title>
+</head>
+<body>
+<pre><%= (JSON.load current_resource.data.to_json).sort.to_h.inspect %></pre>
+</body>
+</html>

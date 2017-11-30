@@ -333,6 +333,14 @@ Feature: AsciiDoc Support
       </html>
       """
 
+  Scenario: Parses value of page attribute as YAML data
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/page-data.html"
+    Then I should see:
+      """
+      <pre>{"title"=>"Page Data", "v-chrarray"=>["a", "b", "c"], "v-dblquote"=>"\"", "v-empty"=>"", "v-false"=>false, "v-hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v-null"=>nil, "v-num"=>1, "v-numarray"=>[1, 2, 3], "v-quote"=>"'", "v-true"=>true}</pre>
+      """
+
   Scenario: Promoting standard AsciiDoc attributes to page data
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/inspect-standard-page-data.html"

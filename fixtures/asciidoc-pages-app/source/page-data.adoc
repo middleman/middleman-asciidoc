@@ -1,0 +1,12 @@
+= Page Data
+:page-layout: inspect-page-data
+:page-v-empty:
+:page-v-quote: '
+:page-v-dblquote: "
+:page-v-null: ~
+:page-v-num: 1
+:page-v-true: true
+:page-v-false: false
+:page-v-numarray: [1, 2, 3]
+:page-v-chrarray: [a, b, c]
+:page-v-hash: { a: a, b: b, c: c }
