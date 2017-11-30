@@ -78,7 +78,7 @@ Feature: Blog Integration
       <title>AsciiDoc Page: Custom Layout</title>
       """
 
-  Scenario: Tags can be specified for an article in the AsciiDoc header
+  Scenario: Tags can be specified for an article in the AsciiDoc header as comma-separated list
     Given the Server is running at "asciidoc-blog-app"
     When I go to "/blog/tags-tags-tags.html"
     Then I should see:
@@ -88,6 +88,18 @@ Feature: Blog Integration
                 <span class="tag">fi</span>
                 <span class="tag">fo</span>
                 <span class="tag">fum</span>
+              </span>
+      """
+
+  Scenario: Tags can be specified for an article in the AsciiDoc header as an array
+    Given the Server is running at "asciidoc-blog-app"
+    When I go to "/blog/more-tags.html"
+    Then I should see:
+      """
+              <span class="tags">
+                <span class="tag">bar</span>
+                <span class="tag">baz</span>
+                <span class="tag">foo</span>
               </span>
       """
 

@@ -1,0 +1,6 @@
+= More Tags
+Blog Author
+:revdate: 2017-09-06 09:00 MDT
+:page-tags: [foo, bar, baz]
+
+This article is also tagged.
