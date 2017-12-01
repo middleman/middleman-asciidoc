@@ -106,14 +106,14 @@ module Middleman
       def manipulate_resource_list resources
         asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
         asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
-        app.config[:asciidoc].delete :base_dir if (use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir)
+        use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir
         resources.each do |resource|
           next if resource.ignored? || (path = resource.source_file).blank? || !(path.end_with? '.adoc')
 
-          opts, page = {}, {}
+          opts, page = { renderer_options: (renderer_opts = {}) }, {}
 
           asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
-          opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
+          renderer_opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
           doc = ::Asciidoctor.load_file path, asciidoc_opts
@@ -134,7 +134,7 @@ module Middleman
                 opts[:layout] = false
               when :false
                 opts[:layout] = false
-                opts[:header_footer] = true
+                renderer_opts[:header_footer] = true
               else
                 opts[:layout] = layout
                 opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
@@ -142,7 +142,7 @@ module Middleman
             end
           else
             opts[:layout] = false
-            opts[:header_footer] = true
+            renderer_opts[:header_footer] = true
           end
 
           page[:title] = doc.doctitle if doc.header?
@@ -179,7 +179,7 @@ module Middleman
             resource.destination_path << doc.outfilesuffix
           end
 
-          # NOTE opts won't override any keys defined in global options
+          # NOTE only options[:renderer_options] overrides keys defined in global options
           resource.add_metadata options: opts, page: page
         end
       end
