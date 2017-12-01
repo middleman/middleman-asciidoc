@@ -26,6 +26,7 @@ module Middleman
       option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles) (String or Symbol)'
 
       def initialize app, options_hash = {}, &block
+        return if app.mode? :config
         super
         app.config.define_setting :asciidoc, {}, 'AsciiDoc processor options (Hash)'
         # NOTE support global :asciidoc_attributes setting for backwards compatibility
