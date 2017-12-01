@@ -110,7 +110,12 @@ module Middleman
         resources.each do |resource|
           next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc')
 
-          opts, page = { renderer_options: (renderer_opts = {}) }, {}
+          if (renderer_opts = resource.options.delete :renderer_options)
+            (renderer_opts[:attributes] ||= {})['page-id'] = resource.page_id
+          else
+            renderer_opts = { attributes: { 'page-id' => resource.page_id } }
+          end
+          opts, page = { renderer_options: renderer_opts }, {}
 
           asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
           renderer_opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
