@@ -108,7 +108,7 @@ module Middleman
         asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
         use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir
         resources.each do |resource|
-          next if resource.ignored? || (path = resource.source_file).blank? || !(path.end_with? '.adoc')
+          next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc')
 
           opts, page = { renderer_options: (renderer_opts = {}) }, {}
 
@@ -253,8 +253,8 @@ module Middleman
 
       def manipulate_resource_list resources
         resources.each do |resource|
-          next if resource.ignored? || (path = resource.source_file).blank? || !(path.end_with? '.adoc') ||
-              resource.options[:layout] != :_auto_layout
+          next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc') &&
+              resource.options[:layout] == :_auto_layout
           if (resource.respond_to? :blog_data) && (blog_layout = resource.blog_data.options[:layout]) &&
               (blog_layout = blog_layout.to_sym) != :_auto_layout
             resource.options[:layout] = blog_layout
