@@ -35,6 +35,7 @@ module Middleman
 
       # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
+        prune_tilt_mapping!
         # Match behavior of middleman blog extension
         # Make sure ActiveSupport's TimeZone stuff has something to work with,
         # allowing people to set their desired time zone via Time.zone or
@@ -248,6 +249,18 @@ module Middleman
             ::YAML.load %(--- \'#{val}\')
           end
         end
+      end
+
+      # Resolves lazy AsciidoctorTemplate entries in the Tilt mapping and prunes those entries.
+      # This prevents Tilt::Mapping.default_mapping#extensions_for from returning duplicate extensions.
+      def prune_tilt_mapping!
+        (mapping = ::Tilt.default_mapping).extensions_for(::Tilt::AsciidoctorTemplate).uniq.each do |ext|
+          if mapping.lazy_map.key? ext
+            mapping[ext]
+            mapping.lazy_map.delete ext
+          end
+        end if ::Tilt.respond_to? :default_mapping
+        nil
       end
     end
 
