@@ -1,4 +1,2 @@
 ---
-BUNDLE_DISABLE_SHARED_GEMS: "true"
-BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"
 BUNDLE_PATH: ".bundle/gems"
