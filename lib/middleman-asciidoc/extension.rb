@@ -35,7 +35,7 @@ module Middleman
 
       # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
-        prune_tilt_mapping!
+        app.config[:asciidoc_extensions] = prune_tilt_mapping!
         # Match behavior of middleman blog extension
         # Make sure ActiveSupport's TimeZone stuff has something to work with,
         # allowing people to set their desired time zone via Time.zone or
@@ -99,7 +99,7 @@ module Middleman
           cfg[:safe] = (cfg[:safe] || :safe).to_sym
           if (default_layout = options[:layout] || app.config[:layout])
             # set priority to run after blog extension, which also sets a layout
-            app.sitemap.register_resource_list_manipulator :asciidoc_default_layout, (DefaultLayoutConfigurator.new default_layout.to_sym), 60
+            app.sitemap.register_resource_list_manipulator :asciidoc_default_layout, (DefaultLayoutConfigurator.new app, default_layout.to_sym), 60
           end
         end
       end
@@ -109,9 +109,8 @@ module Middleman
         header_asciidoc_attrs = (header_asciidoc_opts[:attributes] = header_asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
         use_docdir_as_base_dir = header_asciidoc_opts[:base_dir] == :docdir
 
-        resources.each do |resource|
-          next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc')
-
+        resources.select {|res| !res.ignored? && (asciidoc_file? res) }.each do |resource|
+          path = resource.source_file
           if (page_asciidoc_opts = resource.options.delete :renderer_options)
             (page_asciidoc_opts[:attributes] ||= {})['page-id'] = resource.page_id
           else
@@ -189,6 +188,11 @@ module Middleman
           # NOTE only options[:renderer_options] overrides keys defined in global options
           resource.add_metadata options: opts, page: page
         end
+        resources
+      end
+
+      def asciidoc_file? resource
+        (path = resource.source_file) && (path.end_with? *app.config[:asciidoc_extensions])
       end
 
       def merge_attributes attrs, initial = {}
@@ -251,29 +255,36 @@ module Middleman
         end
       end
 
-      # Resolves lazy AsciidoctorTemplate entries in the Tilt mapping and prunes those entries.
-      # This prevents Tilt::Mapping.default_mapping#extensions_for from returning duplicate extensions.
+      # Resolves lazy AsciidoctorTemplate entries in the Tilt mapping, prunes those entries, and returns the
+      # extensions (with the leading dot) for which the AsciidoctorTemplate is registered.
+      #
+      # Pruning prevents Tilt::Mapping.default_mapping#extensions_for from returning duplicate extensions.
+      #
+      # Returns a String Array of extensions for which the AsciidoctorTemplate is registered.
       def prune_tilt_mapping!
-        (mapping = ::Tilt.default_mapping).extensions_for(::Tilt::AsciidoctorTemplate).uniq.each do |ext|
-          if mapping.lazy_map.key? ext
-            mapping[ext]
-            mapping.lazy_map.delete ext
+        if ::Tilt.respond_to? :default_mapping
+          (mapping = ::Tilt.default_mapping).extensions_for(::Tilt::AsciidoctorTemplate).uniq.map do |ext|
+            if mapping.lazy_map.key? ext
+              mapping[ext]
+              mapping.lazy_map.delete ext
+            end
+            %(.#{ext})
           end
-        end if ::Tilt.respond_to? :default_mapping
-        nil
+        else
+          ::Tilt.mappings.select {|_, classes| classes.include? ::Tilt::AsciidoctorTemplate }.keys.map {|ext| %(.#{ext}) }
+        end
       end
     end
 
     # Resolves the automatic layout if no layout has been specified and this resource is not a blog article
     class DefaultLayoutConfigurator
-      def initialize layout
+      def initialize app, layout
+        @app = app
         @layout = layout
       end
 
       def manipulate_resource_list resources
-        resources.each do |resource|
-          next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc') &&
-              resource.options[:layout] == :_auto_layout
+        resources.select {|res| !res.ignored? && res.options[:layout] == :_auto_layout && (asciidoc_file? res) }.each do |resource|
           if (blog_article? resource) && (blog_layout = resource.blog_data.options[:layout]) &&
               (blog_layout = blog_layout.to_sym) != :_auto_layout
             resource.options[:layout] = blog_layout
@@ -281,6 +292,11 @@ module Middleman
             resource.options[:layout] = @layout
           end
         end
+        resources
+      end
+
+      def asciidoc_file? resource
+        (path = resource.source_file) && (path.end_with? *@app.config[:asciidoc_extensions])
       end
 
       def blog_article? resource
