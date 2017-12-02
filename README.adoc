@@ -206,6 +206,14 @@ Alternately, you can set a default layout just for AsciiDoc-based pages (pages p
 activate :asciidoc, layout: :name_of_layout
 ----
 
+Finally, you can set the layout for a specific page or group of pages using the page directive.
+This is an alternate way to define front matter for a page.
+
+[source,ruby]
+----
+page 'home', layout: :name_of_layout
+----
+
 TIP: When you define the layout in [.path]_config.rb_, you can specify the value either as a String or a Symbol.
 
 If you don't set the layout in [.path]_config.rb_, the default layout is considered unset.

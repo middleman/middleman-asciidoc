@@ -50,7 +50,7 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with no layout specified
     Given a fixture app "asciidoc-pages-app"
-    And app "asciidoc-pages-app" is using config "default-layout"
+    And app "asciidoc-pages-app" is using config "global-layout"
     And a file named "source/no-layout.adoc" with:
       """
       Hello, AsciiDoc!
@@ -74,7 +74,7 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with auto layout specified
     Given a fixture app "asciidoc-pages-app"
-    And app "asciidoc-pages-app" is using config "default-layout"
+    And app "asciidoc-pages-app" is using config "global-layout"
     And a file named "source/auto-layout.adoc" with:
       """
       :page-layout: _auto_layout
@@ -100,7 +100,7 @@ Feature: AsciiDoc Support
 
   Scenario: Rendering html with blank layout specified
     Given a fixture app "asciidoc-pages-app"
-    And app "asciidoc-pages-app" is using config "default-layout"
+    And app "asciidoc-pages-app" is using config "global-layout"
     And a file named "source/blank-layout.adoc" with:
       """
       :page-layout:
@@ -238,7 +238,7 @@ Feature: AsciiDoc Support
 
   Scenario: Default safe mode for AsciiDoc processor
     Given a fixture app "asciidoc-pages-app"
-    And app "asciidoc-pages-app" is using config "default-layout"
+    And app "asciidoc-pages-app" is using config "global-layout"
     And the Server is running
     When I go to "/safe-mode.html"
     Then I should see:
@@ -315,6 +315,27 @@ Feature: AsciiDoc Support
       <body>
       <div class="paragraph">
       <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
+  Scenario: Rendering html with layout from page directive
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "page-layout"
+    And the Server is running
+    When I go to "/hello.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>Fallback</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
       </div>
       </body>
       </html>
