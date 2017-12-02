@@ -104,24 +104,25 @@ module Middleman
       end
 
       def manipulate_resource_list resources
-        asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
-        asciidoc_opts[:attributes] = (asciidoc_attrs = asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
-        use_docdir_as_base_dir = asciidoc_opts[:base_dir] == :docdir
+        header_asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
+        header_asciidoc_attrs = (header_asciidoc_opts[:attributes] = header_asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
+        use_docdir_as_base_dir = header_asciidoc_opts[:base_dir] == :docdir
+
         resources.each do |resource|
           next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc')
 
-          if (renderer_opts = resource.options.delete :renderer_options)
-            (renderer_opts[:attributes] ||= {})['page-id'] = resource.page_id
+          if (page_asciidoc_opts = resource.options.delete :renderer_options)
+            (page_asciidoc_opts[:attributes] ||= {})['page-id'] = resource.page_id
           else
-            renderer_opts = { attributes: { 'page-id' => resource.page_id } }
+            page_asciidoc_opts = { attributes: { 'page-id' => resource.page_id } }
           end
-          opts, page = { renderer_options: renderer_opts }, {}
+          opts, page = { renderer_options: page_asciidoc_opts }, {}
 
-          asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
-          renderer_opts[:base_dir] = asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
+          header_asciidoc_opts[:base_dir] = page_asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
+          header_asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          doc = ::Asciidoctor.load_file path, asciidoc_opts
+          doc = ::Asciidoctor.load_file path, header_asciidoc_opts
 
           if (doc.attr? 'page-ignored') && !(doc.attr? 'page-ignored', 'false')
             resource.ignore!
@@ -139,7 +140,7 @@ module Middleman
                 opts[:layout] = false
               when :false
                 opts[:layout] = false
-                renderer_opts[:header_footer] = true
+                page_asciidoc_opts[:header_footer] = true
               else
                 opts[:layout] = layout
                 opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
@@ -147,7 +148,7 @@ module Middleman
             end
           else
             opts[:layout] = false
-            renderer_opts[:header_footer] = true
+            page_asciidoc_opts[:header_footer] = true
           end
 
           page[:title] = doc.doctitle if doc.header?
