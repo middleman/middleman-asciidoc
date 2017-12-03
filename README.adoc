@@ -74,22 +74,28 @@ You're now ready to activate this extension and begin putting it to work.
 
 == Activation and Configuration
 
-To activate this extension, add the following line to the [.path]_config.rb_ file for your site:
+To activate the AsciiDoc extension, add the following line to the [.path]_config.rb_ file for your site:
 
 [source,ruby]
 ----
 activate :asciidoc
 ----
 
-You can also pass AsciiDoc configuration options to the underlying Asciidoctor processor as a Hash or Array.
-Here's an example of passing the attribute as an Array:
+You can also pass options to the extension.
+One way is to pass a Hash of options as the second argument of `activate`.
+In this case, the option keys must be expressed as symbols.
+
+Here's an example of how to set the `attributes` option for this extension, which assigns attributes to the underlying Asciidoctor processor:
 
 [source,ruby]
 ----
 activate :asciidoc, attributes: ['source-highlighter=coderay']
 ----
 
-The same can be accomplished using the block form:
+Alternately, you can assign options directly to the extension object when using the block form of `activate`.
+In this case, the options are properties of the extension object.
+
+Here's how to assign the `attributes` option for this extension using the block form of `activate`:
 
 [source,ruby]
 ----
