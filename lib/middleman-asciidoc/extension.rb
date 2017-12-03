@@ -274,13 +274,17 @@ module Middleman
         resources.each do |resource|
           next unless !resource.ignored? && (path = resource.source_file) && (path.end_with? '.adoc') &&
               resource.options[:layout] == :_auto_layout
-          if (resource.respond_to? :blog_data) && (blog_layout = resource.blog_data.options[:layout]) &&
+          if (blog_article? resource) && (blog_layout = resource.blog_data.options[:layout]) &&
               (blog_layout = blog_layout.to_sym) != :_auto_layout
             resource.options[:layout] = blog_layout
           else
             resource.options[:layout] = @layout
           end
         end
+      end
+
+      def blog_article? resource
+        resource.respond_to? :blog_data
       end
     end
   end
