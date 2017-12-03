@@ -1,7 +1,7 @@
 Feature: AsciiDoc Support
   In order to test AsciiDoc support
 
-  Scenario: Rendering html
+  Scenario: Rendering HTML page from AsciiDoc document
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello.html"
     Then I should see:
@@ -9,6 +9,16 @@ Feature: AsciiDoc Support
       <div class="paragraph">
       <p>Hello, AsciiDoc!
       Middleman, I am in you.</p>
+      </div>
+      """
+
+  Scenario: Rendering HTML page from AsciiDoc document with alternate extension
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/goodbye.html"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>So long!</p>
       </div>
       """
 
