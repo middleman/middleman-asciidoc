@@ -244,7 +244,7 @@ module Middleman
       # Returns an [Object] parsed from the string-based YAML value or empty [String] if the specified value is empty.
       def parse_yaml_value val
         if val.empty?
-          ''
+          val
         else
           begin
             ::YAML.load %(--- #{val})
