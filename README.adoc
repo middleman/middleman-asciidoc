@@ -214,6 +214,10 @@ This is an alternate way to define front matter for a page.
 page 'home', layout: :name_of_layout
 ----
 
+NOTE: The first argument to the `page` function is the page ID.
+The page ID is computed starting from the path of the source file relative to the source directory, then removing the template extension (i.e., the AsciiDoc extension), then removing the `.html` extension, if present.
+For example, the page ID for both [.path]_home.adoc_ and [.path]_home.html.adoc_ is `home`.
+
 TIP: When you define the layout in [.path]_config.rb_, you can specify the value either as a String or a Symbol.
 
 If you don't set the layout in [.path]_config.rb_, the default layout is considered unset.
