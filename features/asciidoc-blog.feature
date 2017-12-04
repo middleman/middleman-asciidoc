@@ -60,6 +60,16 @@ Feature: Blog Integration
     When I go to "/blog/ignored.html"
     Then I should see "Not Found"
 
+  Scenario: Specifying _auto_layout in blog configuration falls back to layout defined in AsciiDoc configuration
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "auto-layout"
+    And the Server is running
+    When I go to "/blog/welcome.html"
+    Then I should see:
+      """
+      <title>AsciiDoc Page: Welcome</title>
+      """
+
   Scenario: The layout defined in blog configuration takes precedence over the layout defined in AsciiDoc configuration
     Given a fixture app "asciidoc-blog-app"
     And app "asciidoc-blog-app" is using config "asciidoc-layout"
