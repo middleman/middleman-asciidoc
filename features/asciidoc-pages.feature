@@ -621,6 +621,13 @@ Feature: AsciiDoc Support
     When I go to "/custom-attribute.html"
     Then I should see "bar{baz}"
 
+  Scenario: Warn when options are set using `set :asciidoc`
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "set-asciidoc"
+    And I run `middleman build`
+    And was successfully built
+    Then the output should contain "Using `set :asciidoc` to set options for AsciiDoc is no longer supported."
+
   Scenario: Highlighting source code
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:

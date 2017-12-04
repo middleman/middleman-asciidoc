@@ -18,28 +18,24 @@ module Middleman
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
 
-      option :attributes, [], 'Custom AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
+      option :attributes, [], 'AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
-      option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which is replaced with the document directory. (String)'
+      option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which resolves to the document directory. (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
       option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles) (String or Symbol)'
 
       def initialize app, options_hash = {}, &block
-        return if app.mode? :config
-        super
-        app.config.define_setting :asciidoc, {}, 'AsciiDoc processor options (Hash)'
-        # NOTE support global :asciidoc_attributes setting for backwards compatibility
-        app.config.define_setting :asciidoc_attributes, [], 'Custom AsciiDoc attributes (Hash or Array)'
+        super unless app.mode? :config
       end
 
       # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
         app.config[:asciidoc_extensions] = prune_tilt_mapping!
         set_time_zone app.config[:time_zone]
-        if (app.config.setting :asciidoc).value_set?
-          warn 'Using `set :asciidoc` to define options is deprecated. Please define options on `activate :asciidoc` instead.'
+        if (app.config.defines_setting? :asciidoc)
+          warn 'Using `set :asciidoc` to set options for AsciiDoc is no longer supported. Please use `activate :asciidoc`.'
         end
-        app.config[:asciidoc].tap do |cfg|
+        (app.config[:asciidoc] = {}).tap do |cfg|
           attributes = {
             'site-root' => app.root.to_s,
             'site-source' => app.source_dir.to_s,
@@ -54,19 +50,11 @@ module Middleman
             end
             attributes['relfileprefix'] = '../'
           end
-          # NOTE handles deprecated `set :asciidoc, attributes: ...`
-          attributes = merge_attributes cfg[:attributes], attributes if cfg.key? :attributes
-          # NOTE handles `activate :asciidoc, attributes: ...`
-          if (options.setting :attributes).value_set?
-            attributes = merge_attributes options[:attributes], attributes
-          # NOTE handles `set :asciidoc_attributes ...`
-          elsif (app.config.setting :asciidoc_attributes).value_set?
-            attributes = merge_attributes options[:asciidoc_attributes], attributes
-          end
-          imagesdir = if attributes.key? 'imagesdir'
-            attributes['imagesdir']
+          attributes = merge_attributes options[:attributes], attributes if (options.setting :attributes).value_set?
+          if attributes.key? 'imagesdir'
+            imagesdir = attributes['imagesdir']
           else
-            attributes['imagesdir'] = %(#{::File.join ((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]}@)
+            imagesdir = attributes['imagesdir'] = %(#{[((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]] * '/'}@)
           end
           if imagesdir && !(attributes.key? 'imagesoutdir') && (imagesdir.start_with? '/')
             attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
