@@ -1,6 +1,5 @@
 = AsciiDoc Extension for Middleman (powered by Asciidoctor)
 Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
-v1.0.0.rc.5, 2017-12-03
 // Settings:
 :idprefix:
 :idseparator: -
