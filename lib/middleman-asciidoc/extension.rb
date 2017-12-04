@@ -284,8 +284,9 @@ module Middleman
       end
 
       def manipulate_resource_list resources
-        resources.select {|res| !res.ignored? && res.options[:layout] == :_auto_layout && (asciidoc_file? res) }.each do |resource|
-          if (blog_article? resource) && (blog_layout = resource.blog_data.options[:layout]) &&
+        resources.select {|res| !res.ignored? && (has_auto_layout? res) && (asciidoc_file? res) }.each do |resource|
+          if (blog_article? resource) &&
+              (blog_layout = resource.blog_data.options[:layout]) &&
               (blog_layout = blog_layout.to_sym) != :_auto_layout
             resource.options[:layout] = blog_layout
           else
@@ -293,6 +294,10 @@ module Middleman
           end
         end
         resources
+      end
+
+      def has_auto_layout? resource
+        resource.options[:layout] == :_auto_layout
       end
 
       def asciidoc_file? resource
