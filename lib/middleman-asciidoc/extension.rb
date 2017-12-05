@@ -81,23 +81,28 @@ module Middleman
 
       def manipulate_resource_list resources
         header_asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
-        header_asciidoc_attrs = (header_asciidoc_opts[:attributes] = header_asciidoc_opts[:attributes].merge 'skip-front-matter' => '')
+        header_attrs = header_asciidoc_opts[:attributes].merge 'skip-front-matter' => ''
         use_docdir_as_base_dir = header_asciidoc_opts[:base_dir] == :docdir
 
         resources.select {|res| !res.ignored? && (asciidoc_file? res) }.each do |resource|
-          path = resource.source_file
+          page_attrs = { 'page-id' => resource.page_id }
+          if (path = resource.source_file)
+            page_attrs['docfile'] = path
+            page_attrs['docdir'] = (dir = ::File.dirname path)
+            page_attrs['docname'] = ::File.basename path, (page_attrs['docfilesuffix'] = ::File.extname path)
+          end
           if (page_asciidoc_opts = resource.options.delete :renderer_options)
-            (page_asciidoc_opts[:attributes] ||= {})['page-id'] = resource.page_id
+            (page_asciidoc_opts[:attributes] ||= {}).update page_attrs
           else
-            page_asciidoc_opts = { attributes: { 'page-id' => resource.page_id } }
+            page_asciidoc_opts = { attributes: page_attrs }
           end
           opts, page = { renderer_options: page_asciidoc_opts }, {}
 
-          header_asciidoc_opts[:base_dir] = page_asciidoc_opts[:base_dir] = ::File.dirname path if use_docdir_as_base_dir
-          header_asciidoc_attrs['page-layout'] = %(#{resource.options[:layout]}@)
+          page_header_attrs = { 'page-layout' => %(#{resource.options[:layout]}@) }.merge page_attrs
+          header_asciidoc_opts[:base_dir] = page_asciidoc_opts[:base_dir] = dir if use_docdir_as_base_dir && dir
           # read AsciiDoc header only to set page options and data
           # header values can be accessed via app.data.page.<name> in the layout
-          doc = ::Asciidoctor.load_file path, header_asciidoc_opts
+          doc = ::Asciidoctor.load_file path, (header_asciidoc_opts.merge attributes: (header_attrs.merge page_header_attrs))
 
           if (doc.attr? 'page-ignored') && !(doc.attr? 'page-ignored', 'false')
             resource.ignore!
