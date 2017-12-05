@@ -4,7 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 # NOTE when running tests on JRuby, use version of middleman-core that does not depend on fast_blank
-git 'https://github.com/middleman/middleman.git', ref: '1d13e415e27aa1b30d85fecebf8cc0f91d4023c6' do
+#git 'https://github.com/middleman/middleman.git', ref: '1d13e415e27aa1b30d85fecebf8cc0f91d4023c6' do
+# ...and which fixes the misplaced chmod command
+git 'https://github.com/mojavelinux/middleman.git', branch: 'jruby-compat-fix' do
   gem 'middleman-core'
 end if RUBY_ENGINE == 'jruby'
 

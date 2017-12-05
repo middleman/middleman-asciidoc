@@ -46,7 +46,6 @@ Feature: Blog Integration
     When I go to "/index.html"
     Then I should not see "/blog/not-published.html"
 
-  @nojava
   Scenario: A blog article marked as not published should not be published when generating the site
     Given a fixture app "asciidoc-blog-app"
     And I run `middleman build`
