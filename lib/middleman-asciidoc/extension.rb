@@ -85,7 +85,7 @@ module Middleman
         use_docdir_as_base_dir = header_asciidoc_opts[:base_dir] == :docdir
 
         resources.select {|res| !res.ignored? && (asciidoc_file? res) }.each do |resource|
-          page_attrs = { 'page-id' => resource.page_id }
+          page_attrs = { 'page-id' => %(#{resource.page_id}@) }
           if (path = resource.source_file)
             page_attrs['docfile'] = path
             page_attrs['docdir'] = (dir = ::File.dirname path)
