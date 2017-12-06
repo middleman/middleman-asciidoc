@@ -396,7 +396,7 @@ Feature: AsciiDoc Support
     When I go to "/page-data.html"
     Then I should see:
       """
-      <pre>{"title"=>"Page Data", "v-chrarray"=>["a", "b", "c"], "v-dblquote"=>"\"", "v-empty"=>"", "v-false"=>false, "v-hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v-null"=>nil, "v-num"=>1, "v-numarray"=>[1, 2, 3], "v-quote"=>"'", "v-true"=>true}</pre>
+      <pre>{"id"=>"page-data", "title"=>"Page Data", "v-chrarray"=>["a", "b", "c"], "v-dblquote"=>"\"", "v-empty"=>"", "v-false"=>false, "v-hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v-null"=>nil, "v-num"=>1, "v-numarray"=>[1, 2, 3], "v-quote"=>"'", "v-true"=>true}</pre>
       """
 
   Scenario: Promoting standard AsciiDoc attributes to page data
@@ -471,7 +471,7 @@ Feature: AsciiDoc Support
     When I go to "/manual/index.html"
     Then I should see:
       """
-      <p>Unresolved directive in &lt;stdin&gt; - include::_chapters/ch01.adoc[]</p>
+      <p>Unresolved directive in index.adoc - include::_chapters/ch01.adoc[]</p>
       """
 
   Scenario: Including a file relative to document in subdirectory when base_dir is set to app.source_dir
@@ -484,7 +484,7 @@ Feature: AsciiDoc Support
     When I go to "/manual/index.html"
     Then I should see:
       """
-      <p>Unresolved directive in &lt;stdin&gt; - include::_chapters/ch01.adoc[]</p>
+      <p>Unresolved directive in index.adoc - include::_chapters/ch01.adoc[]</p>
       """
 
   Scenario: Linking to a sibling page with directory indexes activated
