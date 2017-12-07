@@ -1,5 +1,5 @@
 = Page Title
-Doc Writer <doc.writer@example.com>; Junior Writer
+Doc Writer <doc.writer@example.com>; Junior Writer <https://social.example.com/jrw[@jrw]>
 :page-id: std-page-data
 :showtitle:
 :description: This is a sample page.

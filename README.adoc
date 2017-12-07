@@ -174,11 +174,12 @@ The value is parsed as https://en.wikipedia.org/wiki/YAML[YAML] data (that which
 In addition to these explicit page attributes, the following AsciiDoc attributes are also promoted to page data:
 
 * doctitle (i.e., the document title) (becomes title)
-* author
-* authors (converted to an Array of String values)
-* email
+* author (becomes author.name)
+* email (becomes author.email or author.url)
+ ** if value matches the pattern `url[@username]`, author.username is also set
+* authors (converted to an Array of Author objects)
 * revdate (becomes date; value is converted to a Time object)
-* keywords (left as a String value)
+* keywords (value is kept as a String)
 * description
 
 TIP: You can continue to specify page data using the front matter header.

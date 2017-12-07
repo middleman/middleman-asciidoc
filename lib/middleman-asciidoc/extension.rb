@@ -133,14 +133,18 @@ module Middleman
 
           page[:title] = doc.doctitle if doc.header?
           if doc.attr? 'author'
-            page[:author] = (author = doc.attr 'author')
+            page[:author] = (author = AuthorData.new (doc.attr 'author'), (doc.attr 'email'))
             if (num_authors = (doc.attr 'authorcount').to_i) > 1
-              page[:authors] = num_authors.times.map {|idx| doc.attr %(author_#{idx + 1}) }.compact
+              page[:authors] = num_authors.times.map {|i|
+                if doc.attr? %(author_#{idx = i + 1})
+                  AuthorData.new (doc.attr %(author_#{idx})), (doc.attr %(email_#{idx}))
+                end
+              }.compact
             else
               page[:authors] = [author]
             end
           end
-          ['email', 'keywords', 'description'].each do |key|
+          ['keywords', 'description'].each do |key|
             page[key.to_sym] = doc.attr key if doc.attr? key
           end
           if !(page.key? :date) && (doc.attr? 'revdate')
@@ -304,6 +308,28 @@ module Middleman
       def blog_article? resource
         resource.respond_to? :blog_data
       end
+    end
+
+    class AuthorData
+      UrlWithUsernameRx = /^(.+?)\[@([^\]]+)\]$/
+      attr :name, :email, :url, :username
+
+      def initialize name, email_or_url = nil
+        @name = name
+        if email_or_url
+          if email_or_url.start_with? 'https://', 'http://'
+            if (email_or_url.include? '[') && UrlWithUsernameRx =~ email_or_url
+              @url, @username = $1, $2
+            else
+              @url = email_or_url
+            end
+          else
+            @email = email_or_url
+          end
+        end
+      end
+
+      alias to_s name
     end
   end
 end
