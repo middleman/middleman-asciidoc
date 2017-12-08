@@ -1,4 +1,5 @@
 require 'asciidoctor' unless defined? Asciidoctor
+require 'middleman-asciidoc/template'
 
 module Middleman
   module AsciiDoc
