@@ -43,7 +43,7 @@ Specifically, this extension converts AsciiDoc files in your site source to HTML
 This conversion is performed using {uri-asciidoctor}[Asciidoctor] by default.
 
 IMPORTANT: This extension is designed for Middleman >= 4.0.0.
-Prior to Middleman 4, AsciiDoc support was part of Middleman core.
+Prior to Middleman 4, AsciiDoc support was bundled with Middleman.
 
 == Installation
 
