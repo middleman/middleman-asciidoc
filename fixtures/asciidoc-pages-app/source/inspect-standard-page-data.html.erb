@@ -3,8 +3,10 @@ layout: false
 ---
 <% page_data = (sitemap.find_resource_by_page_id 'std-page-data').data %>
 <p><%= page_data.title %></p>
-<p><%= page_data.author %></p>
+<p><%= page_data.author.name %></p>
+<p><%= page_data.author.email %></p>
 <p><%= (page_data.authors || []) * ' | ' %></p>
-<p><%= page_data.email %></p>
+<p><%= page_data.authors[1].url %></p>
+<p><%= page_data.authors[1].username %></p>
 <p><%= page_data.description %></p>
 <p><%= page_data.keywords %></p>
