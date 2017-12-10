@@ -226,6 +226,33 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Rendering html with layout and layout engine specified
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "source/layout-engine.adoc" with:
+      """
+      :page-layout: engine
+      :page-layout-engine: str
+      = Page Title
+
+      Hello, AsciiDoc!
+      """
+    And the Server is running
+    When I go to "/layout-engine.html"
+    Then I should see:
+      """
+      <!DOCTYPE html>
+      <html>
+      <head>
+      <title>str :: Page Title</title>
+      </head>
+      <body>
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!</p>
+      </div>
+      </body>
+      </html>
+      """
+
   Scenario: Rendering html using title and tags from document
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-title-and-tags.html"

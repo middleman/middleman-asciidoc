@@ -113,7 +113,7 @@ module Middleman
           if doc.attr? 'page-layout'
             if (layout = doc.attr 'page-layout').empty?
               opts[:layout] = :_auto_layout
-              opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
+              opts[:layout_engine] = (doc.attr 'page-layout-engine').to_sym if doc.attr? 'page-layout-engine'
             else
               case (layout = layout.to_sym)
               when :~, :null
@@ -123,7 +123,7 @@ module Middleman
                 page_asciidoc_opts[:header_footer] = true
               else
                 opts[:layout] = layout
-                opts[:layout_engine] = doc.attr 'page-layout-engine' if doc.attr? 'page-layout-engine'
+                opts[:layout_engine] = (doc.attr 'page-layout-engine').to_sym if doc.attr? 'page-layout-engine'
               end
             end
           else
