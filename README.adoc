@@ -244,6 +244,30 @@ Here are the different ways to specify a layout:
 .Layout for blog posts
 WARNING: If you're using the Middleman Blog extension to write blog posts, the `layout` property on the blog configuration overrides the default layout, but you can still override that setting using the `page-layout` attribute in each post.
 
+==== Accessing the AsciiDoc Configuration From a Layout
+
+You can access the global configuration for the AsciiDoc extension from a layout template using the variable path `app.config.asciidoc` (Hash).
+
+For example, let's say you want to reference the location stored in the `imagesoutdir` attribute.
+You can do so in an ERB template using:
+
+----
+<%= app.config.asciidoc[:attributes]['imagesoutdir'] %>
+----
+
+Other processor options, such as `:safe`, are available from the `app.config.asciidoc` variable path.
+
+If you want to access the options passed to the AsciiDoc processor for the current page, use the variable path `current_page.options[:renderer_options]` (Hash) instead.
+
+For example, let's say you want to access the resolved base directory for the current page.
+You can do so in an ERB template using:
+
+----
+<%= current_page.options[:renderer_options][:base_dir] %>
+----
+
+Other processor options, such as `:attributes`, are available from the `current_page.options[:renderer_options]` variable path.
+
 === Ignoring a Page
 
 In addition to the normal ignore filter in Middleman, you can also control whether a page is ignored from AsciiDoc.
