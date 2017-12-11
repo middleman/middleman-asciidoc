@@ -192,7 +192,18 @@ module Middleman
             elsif key.end_with? '!'
               new_attrs[key.chop] = nil
             else
-              new_attrs[key] = val ? (resolve_attribute_refs val, new_attrs) : nil
+              new_attrs[key] = case val
+              when ::String
+                resolve_attribute_refs val, new_attrs
+              when ::Numeric
+                val.to_s
+              when true
+                ''
+              when nil, false
+                nil
+              else
+                val
+              end
             end
           }
         else
