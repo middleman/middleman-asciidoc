@@ -463,6 +463,21 @@ Feature: AsciiDoc Support
       <html data-date="2017-01-01T16:00:00Z">
       """
 
+  Scenario: Using a fixed time as local time for pages
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      set :time_zone, 'America/Los_Angeles'
+      set :time, (Time.parse '2017-01-01 09:00:00 MST')
+      activate :asciidoc
+      """
+    And the Server is running
+    When I go to "/localtime.html"
+    Then I should see:
+      """
+      2017-01-01 08:00:00 PST
+      """
+
   Scenario: Including a file relative to source root
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/master.html"

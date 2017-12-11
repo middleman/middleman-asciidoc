@@ -80,12 +80,16 @@ module Middleman
       end
 
       def manipulate_resource_list resources
+        if (app_time = app.config[:time])
+          app_date_time_strs = (app_time.in_time_zone.strftime '%F %T %Z').split ' ', 2
+        end
         header_asciidoc_opts = app.config[:asciidoc].merge parse_header_only: true
         header_attrs = header_asciidoc_opts[:attributes].merge 'skip-front-matter' => ''
         use_docdir_as_base_dir = header_asciidoc_opts[:base_dir] == :docdir
 
         resources.select {|res| !res.ignored? && (asciidoc_file? res) }.each do |resource|
           page_attrs = { 'page-id' => %(#{resource.page_id}@) }
+          page_attrs['localdate'], page_attrs['localtime'] = app_date_time_strs if app_date_time_strs
           if (path = resource.source_file)
             page_attrs['docfile'] = path
             page_attrs['docdir'] = (dir = ::File.dirname path)
