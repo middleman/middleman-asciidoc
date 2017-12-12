@@ -3,6 +3,7 @@ Dan Allen <https://github.com/mojavelinux[@mojavelinux]>
 // Settings:
 :idprefix:
 :idseparator: -
+:hide-uri-scheme:
 ifndef::env-github[:icons: font]
 ifdef::env-github,env-browser[]
 :toc: preamble
@@ -19,12 +20,17 @@ ifdef::env-github[]
 endif::[]
 // URIs:
 :uri-repo: https://github.com/middleman/middleman-asciidoc
+:uri-issues: https://github.com/middleman/middleman-asciidoc/issues
 :uri-middleman: https://middlemanapp.com
+:uri-middleman-forum: https://forum.middlemanapp.com
 :uri-asciidoc: http://asciidoc.org
 :uri-asciidoctor: http://asciidoctor.org
+:uri-asciidoctor-discuss: http://discuss.asciidoctor.org
 :uri-gem: https://rubygems.org/gems/middleman-asciidoc
+:uri-yaml: https://en.wikipedia.org/wiki/YAML
+:uri-help-pr: https://help.github.com/articles/using-pull-requests
 :badge-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
-:uri-build: http://travis-ci.org/middleman/middleman-asciidoc
+:uri-build: https://travis-ci.org/middleman/middleman-asciidoc
 :badge-build: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
 :uri-deps: https://gemnasium.com/middleman/middleman-asciidoc
 :badge-deps: https://img.shields.io/gemnasium/middleman/middleman-asciidoc.svg
@@ -145,7 +151,7 @@ Each AsciiDoc file in the source directory (except for files that begin with `+_
 AsciiDoc files can have the file extension `.adoc` or `.html.adoc`.
 These extensions are stripped and replaced with the value of the `outfilesuffix` attribute, which defaults to `.html`.
 
-NOTE: For details about how the file extension is substituted, see the discussion in https://github.com/middleman/middleman-asciidoc/issues/7[issue #7].
+NOTE: For details about how the file extension is substituted, see the discussion in {uri-issues}/7[issue #7].
 
 To add a page composed in AsciiDoc, simply add an AsciiDoc file that has one of the aforementioned AsciiDoc file extensions to the project source directory.
 
@@ -169,7 +175,7 @@ puts "Hello, World!"
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to page data (aka front matter).
 The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout).
-The value is parsed as https://en.wikipedia.org/wiki/YAML[YAML] data (that which can be expressed in a single line).
+The value is parsed as {uri-yaml}[YAML] data (that which can be expressed in a single line).
 
 In addition to these explicit page attributes, the following AsciiDoc attributes are also promoted to page data:
 
@@ -436,16 +442,16 @@ If you're using Bundler, use the following commands instead:
 
 == Community
 
-The official community forum for Middleman can be found at http://forum.middlemanapp.com.
-For questions related to this extension or general questions about AsciiDoc, please post to the Asciidoctor discussion list at http://discuss.asciidoctor.org.
+The official community forum for Middleman can be found at {uri-middleman-forum}.
+For questions related to this extension or general questions about AsciiDoc, please post to the Asciidoctor discussion list at {uri-asciidoctor-discuss}.
 
 == Bug Reports
 
 Github Issues are used for managing bug reports and feature requests.
-If you run into issues, please search the issues and submit new problems in the project's https://github.com/middleman/middleman-asciidoc/issues[issue tracker].
+If you run into issues, please search the issues and submit new problems in the project's {uri-issues}[issue tracker].
 
 The best way to get quick responses to your issues and swift fixes to your bugs is to submit detailed bug reports, include test cases and respond to developer questions in a timely manner.
-Even better, if you know Ruby, you can submit https://help.github.com/articles/using-pull-requests[pull requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
+Even better, if you know Ruby, you can submit {uri-help-pr}[pull requests] containing Cucumber Features which describe how your feature should work or exploit the bug you are submitting.
 
 == How to Run Tests
 
@@ -453,9 +459,10 @@ The tests are based on Cucumber.
 Here's how to clone the project and run the tests.
 
 . Clone the repository:
-
- $ git clone https://github.com/middleman/middleman-asciidoc.git &&
-   cd middleman-asciidoc
++
+[subs=attributes+]
+ $ git clone {uri-repo} &&
+   cd "`basename $_`"
 
 . Install Bundler (if not already installed):
 
