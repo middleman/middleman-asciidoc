@@ -186,11 +186,13 @@ module Middleman
       def merge_attributes attrs, initial = {}
         if (is_array = ::Array === attrs) || ::Hash === attrs
           attrs.each_with_object(initial) {|entry, new_attrs|
-            key, val = is_array ? ((entry.split '=', 2) + ['', ''])[0..1] : entry
+            key, val = is_array ? (((entry.split '=', 2) + ['', '']).slice 0, 2) : entry
             if key.start_with? '!'
-              new_attrs[key[1..-1]] = nil
+              new_attrs[key.slice 1, key.length] = nil
             elsif key.end_with? '!'
               new_attrs[key.chop] = nil
+            elsif is_array
+              new_attrs[key] = resolve_attribute_refs val, new_attrs
             else
               new_attrs[key] = case val
               when ::String
@@ -215,7 +217,7 @@ module Middleman
         if text.empty?
           text
         elsif text.include? '{'
-          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? $&[1..-1] : ((attrs.fetch $1, $&).to_s.chomp '@') }
+          text.gsub(AttributeReferenceRx) { ($&.start_with? '\\') ? ($&.slice 1, $&.length) : ((attrs.fetch $1, $&).to_s.chomp '@') }
         else
           text
         end
