@@ -665,6 +665,34 @@ Feature: AsciiDoc Support
     When I go to "/custom-attribute.html"
     Then I should see "bar{baz}"
 
+  Scenario: Using non-string attribute values in AsciiDoc attributes Hash
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: {
+        'sectnumlevels' => 2,
+        'sectids' => nil,
+        'experimental' => true,
+        'builddate' => (DateTime.parse '2017-01-01T09:00:00-05:00')
+      }
+      """
+    And a file named "source/non-string-attrs.adoc" with:
+      """
+      {sectnumlevels}
+      ifndef::sectids[!sectids]
+      ifdef::experimental[experimental]
+      {builddate}
+      """
+    And the Server is running
+    When I go to "/non-string-attrs.html"
+    Then I should see:
+      """
+      2
+      !sectids
+      experimental
+      2017-01-01T09:00:00-05:00
+      """
+
   Scenario: Warn when options are set using `set :asciidoc`
     Given a fixture app "asciidoc-pages-app"
     And app "asciidoc-pages-app" is using config "set-asciidoc"
