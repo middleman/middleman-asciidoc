@@ -693,6 +693,27 @@ Feature: AsciiDoc Support
       2017-01-01T09:00:00-05:00
       """
 
+  Scenario: Using custom templates to convert AsciiDoc document nodes to HTML
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc do |asciidoc|
+        asciidoc.template_dirs = 'source/_templates'
+        asciidoc.template_engine = :erb
+      end
+      """
+    And a file named "source/rosy-paragraph.adoc" with:
+      """
+      [.rosy]
+      Rosey paragraph.
+      """
+    And the Server is running
+    When I go to "/rosy-paragraph.html"
+    Then I should see:
+      """
+      <p class="rosy">Rosey paragraph.</p>
+      """
+
   Scenario: Warn when options are set using `set :asciidoc`
     Given a fixture app "asciidoc-pages-app"
     And app "asciidoc-pages-app" is using config "set-asciidoc"
