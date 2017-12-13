@@ -27,6 +27,7 @@ endif::[]
 :uri-asciidoctor: http://asciidoctor.org
 :uri-asciidoctor-discuss: http://discuss.asciidoctor.org
 :uri-gem: https://rubygems.org/gems/middleman-asciidoc
+:uri-tilt: https://github.com/rtomayko/tilt
 :uri-yaml: https://en.wikipedia.org/wiki/YAML
 :uri-help-pr: https://help.github.com/articles/using-pull-requests
 :badge-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
@@ -53,7 +54,7 @@ Prior to Middleman 4, AsciiDoc support was bundled with Middleman.
 
 == Installation
 
-If you're just getting started, first install the Middleman gem.
+If you're just getting started, first install the *middleman* gem.
 
  $ gem install middleman
 
@@ -439,6 +440,79 @@ If you're using Bundler, use the following commands instead:
 
  $ bundle exec middleman build
  $ bundle exec middleman serve
+
+== Customizing the HTML
+
+You can use templates to customize the HTML Asciidoctor generates for the pages in your site.
+Each template file corresponds to a node in the AsciiDoc document tree (aka AST).
+Template files can be composed in any templating language supported by {uri-tilt}[Tilt].
+
+Follow the steps below to configure Asciidoctor to use custom templates when converting AsciiDoc documents to HTML.
+
+=== Step {counter:step}: Add Required Gems
+
+You'll first need to add the *thread_safe* gem to your [.path]_Gemfile_.
+If you plan to use a template language other than ERB (.erb) or InterpolatedString (.str), you'll also need to add the dependency for the template language.
+We've decided to use Slim for this example, so we need to also add the *slim* gem.
+
+[source,ruby]
+----
+gem 'slim', '~> 3.0.9'
+gem 'thread_safe', '~> 0.3.6'
+----
+
+=== Step {counter:step}: Install New Gems
+
+Now run the `bundle` command to install the new gems.
+
+ $ bundle
+
+=== Step {counter:step}: Create a Templates Folder
+
+Next, create a new folder in your site named [.path]_source/_asciidoc_templates_ to store your templates for AsciiDoc.
+
+ $ mkdir source/_asciidoc_templates
+
+We prefix the folder name with an underscore so it doesn't get included in the sitemap (i.e., Middleman won't look for pages in this folder).
+
+=== Step {counter:step}: Configure Asciidoctor to Load Templates
+
+In your site's [.path]_config.rb_ file, configure Asciidoctor to load the templates by setting the `:template_dirs` option when activating the extension:
+
+[source,ruby]
+----
+activate :asciidoc, template_dirs: source/_asciidoc_templates
+----
+
+=== Step {counter:step}: Compose a Template
+
+The final step is to compose a template.
+We'll be customizing the unordered list node.
+Add a file named [.path]_ulist.html.slim_ to the [.path]_source/_asciidoc_templates_ directory.
+Populate the file with the following contents:
+
+.source/_asciidoc_templates/ulist.html.slim
+[source,slim]
+----
+- if title?
+  figure.list.unordered id=id
+    figcaption=title
+    ul class=[style, role]
+      - items.each do |_item|
+        li
+          span.primary=_item.text
+          - if _item.blocks?
+            =_item.content
+- else
+  ul id=id class=[style, role]
+    - items.each do |_item|
+      li
+        span.primary=_item.text
+        - if _item.blocks?
+          =_item.content
+----
+
+The next time you build your site, Asciidoctor will use your custom template to generate HTML for all unordered lists converted from AsciiDoc.
 
 == Community
 
