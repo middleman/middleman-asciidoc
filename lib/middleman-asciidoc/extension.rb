@@ -22,7 +22,10 @@ module Middleman
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
       option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which resolves to the document directory. (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
-      option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles) (String or Symbol)'
+      option :template_dirs, nil, 'Directories containing custom converter templates for the AsciiDoc processor. (String or Array)'
+      option :template_engine, nil, 'Template engine to use for custom converter templates. (String or Symbol)'
+      option :template_engine_options, nil, 'Override options to pass to template engines of custom converter templates (indexed by engine). (Hash)'
+      option :layout, nil, 'Name of layout to use for AsciiDoc-based pages (not blog articles). (String or Symbol)'
 
       def initialize app, options_hash = {}, &block
         super unless app.mode? :config
@@ -72,6 +75,11 @@ module Middleman
           cfg[:backend] = (cfg[:backend] || :html5).to_sym
           cfg[:safe] = options[:safe] if (options.setting :safe).value_set?
           cfg[:safe] = (cfg[:safe] || :safe).to_sym
+          if (template_dirs_opt = options.setting :template_dirs).value_set?
+            cfg[:template_dirs] = (Array template_dirs_opt.value).map {|dir| (app.root_path.join dir).to_s }
+            cfg[:template_engine] = options[:template_engine].to_s if (options.setting :template_engine).value_set?
+            cfg[:template_engine_options] = options[:template_engine_options] if (options.setting :template_engine_options).value_set?
+          end
           if (default_layout = options[:layout] || app.config[:layout])
             # set priority to run after blog extension, which also sets a layout
             app.sitemap.register_resource_list_manipulator :asciidoc_default_layout, (DefaultLayoutConfigurator.new app, default_layout.to_sym), 60
