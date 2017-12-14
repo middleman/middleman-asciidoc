@@ -116,7 +116,7 @@ With the exception of `layout`, these option keys map directly to options in the
 
 attributes (type: Hash or Array, default: [])::
 Custom AsciiDoc attributes to pass to the processor.
-The following implicit attributes are automatically appended to this collection.
+The following built-in attributes are automatically appended to this collection.
 
 * env=site
 * env-site
@@ -125,9 +125,16 @@ The following implicit attributes are automatically appended to this collection.
 * builder=middleman
 * builder-middleman
 * middleman-version=(value of `Middleman::VERSION` constant)
-* imagesdir=(value of http_prefix + images_dir in app config)@
+* site-root=(app.root.to_s)
+* site-source=(app.source_dir.to_s)
+* site-destination=(app.root.to_s + / + app.config[:build_dir])
+* site-environment=(app.environment.to_s)
+* relfilesuffix=(path to index file, as configured, if directory indexes are enabled)
+* relfilesuffix=../ if directory indexes are enabled
+* imagesdir=(http_prefix + app.config[:images_dir])@
  ** skipped if `!imagesdir` is defined as a custom attribute
- ** can be overridden in page (hence the trailing @)
+ ** can be overridden by page, hence the trailing @
+* imagesoutdir=(imagesdir relative to site destination)
 
 backend (type: Symbol, default: :html5)::
 The moniker for a converter, which determines the output format to generate.
