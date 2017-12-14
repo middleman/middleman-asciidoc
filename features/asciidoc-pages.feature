@@ -629,6 +629,20 @@ Feature: AsciiDoc Support
       </div>
       """
 
+  Scenario: Unsetting default imagesdir value
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(-imagesdir)
+      """
+    And a file named "source/imagesdir.adoc" with:
+      """
+      imagesdir={imagesdir}
+      """
+    And the Server is running
+    When I go to "/imagesdir.html"
+    Then I should see "imagesdir="
+
   Scenario: Overriding imagesdir attribute in page with imagesdir configuration
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:

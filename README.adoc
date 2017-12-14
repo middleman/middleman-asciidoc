@@ -117,6 +117,7 @@ With the exception of `layout`, these option keys map directly to options in the
 attributes (type: Hash or Array, default: [])::
 Custom AsciiDoc attributes to pass to the processor.
 The following built-in attributes are automatically appended to this collection.
+(You can remove a built-in attribute by passing a custom attribute with the corresponding name prefixed with `-`).
 
 * env=site
 * env-site
@@ -132,7 +133,7 @@ The following built-in attributes are automatically appended to this collection.
 * relfilesuffix=(path to index file, as configured, if directory indexes are enabled)
 * relfilesuffix=../ if directory indexes are enabled
 * imagesdir=(http_prefix + app.config[:images_dir])@
- ** skipped if `!imagesdir` is defined as a custom attribute
+ ** skipped if `-imagesdir` (soft unset) or `!imagesdir` (hard unset) is defined as a custom attribute
  ** can be overridden by page, hence the trailing @
 * imagesoutdir=(imagesdir relative to site destination)
 
