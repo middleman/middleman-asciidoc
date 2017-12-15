@@ -45,21 +45,13 @@ module Middleman
             'site-destination' => (dest = (app.root_path.join app.config[:build_dir]).to_s),
             'site-environment' => app.environment.to_s
           }.merge IMPLICIT_ATTRIBUTES
-          if !!app.extensions[:directory_indexes]
-            if app.config[:strip_index_file]
-              attributes['relfilesuffix'] = app.config[:trailing_slash] ? '/' : ''
-            else
-              attributes['relfilesuffix'] = %(/#{app.config[:index_file]})
-            end
+          if app.extensions[:directory_indexes]
+            attributes['relfilesuffix'] = app.config[:strip_index_file] ? (app.config[:trailing_slash] ? '/' : '') : %(/#{app.config[:index_file]})
             attributes['relfileprefix'] = '../'
           end
+          attributes['imagesdir'] = %(#{[((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]] * '/'}@)
           attributes = merge_attributes options[:attributes], attributes if (options.setting :attributes).value_set?
-          if attributes.key? 'imagesdir'
-            imagesdir = attributes['imagesdir']
-          else
-            imagesdir = attributes['imagesdir'] = %(#{[((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]] * '/'}@)
-          end
-          if imagesdir && !(attributes.key? 'imagesoutdir') && (imagesdir.start_with? '/')
+          if !(attributes.key? 'imagesoutdir') && (imagesdir = attributes['imagesdir']) && (imagesdir.start_with? '/')
             attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
           end
           cfg[:attributes] = attributes
@@ -199,6 +191,9 @@ module Middleman
               new_attrs[key.slice 1, key.length] = nil
             elsif key.end_with? '!'
               new_attrs[key.chop] = nil
+            # "-" prefix means to remove key from accumulator
+            elsif key.start_with? '-'
+              new_attrs.delete (key.slice 1, key.length)
             elsif is_array
               new_attrs[key] = resolve_attribute_refs val, new_attrs
             else
