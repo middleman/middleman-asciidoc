@@ -19,8 +19,8 @@ gem 'cucumber', '~> 2.0', require: false
 gem 'aruba', '~> 0.7.4', require: false
 gem 'capybara', '~> 2.5.0', require: false
 
-# Code quality tools
-gem 'cane', platforms: :mri, require: false
+# Code coverage tools
+gem 'simplecov', require: false
 
 # Additional libraries for testing
 # Middleman itself (use for testing against development version)
