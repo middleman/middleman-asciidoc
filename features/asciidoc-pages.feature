@@ -659,7 +659,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Forcefully unset AsciiDoc attributes in document
+  Scenario: Forcefully unsetting AsciiDoc attributes in document
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
@@ -720,6 +720,14 @@ Feature: AsciiDoc Support
       experimental
       2017-01-01T09:00:00-05:00
       """
+
+  Scenario: Passing invalid type to attributes setting
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: 'icons=font'
+      """
+    Then running the Server should raise an exception
 
   Scenario: Using custom templates to convert AsciiDoc document nodes to HTML
     Given a fixture app "asciidoc-pages-app"

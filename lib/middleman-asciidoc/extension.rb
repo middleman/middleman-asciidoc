@@ -212,7 +212,7 @@ module Middleman
             end
           }
         else
-          initial
+          raise 'Value of attributes setting on AsciiDoc extension must be a Hash or an Array.'
         end
       end
 
