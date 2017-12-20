@@ -1,0 +1,11 @@
+= Page Title
+
+Preamble content.
+
+== Section A
+
+Section content.
+
+== Section B
+
+Section content.

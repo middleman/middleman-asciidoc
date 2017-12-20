@@ -730,6 +730,16 @@ Feature: AsciiDoc Support
       """
     Then running the Server should raise an exception
 
+  Scenario: Setting custom attributes for a specific page
+    Given a fixture app "asciidoc-pages-app"
+    And app "asciidoc-pages-app" is using config "page-attributes"
+    And the Server is running
+    When I go to "/with-sections.html"
+    Then I should see:
+      """
+      <h2 id="_section_a"><a class="anchor" href="#_section_a"></a>Section A</h2>
+      """
+
   Scenario: Using custom templates to convert AsciiDoc document nodes to HTML
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
