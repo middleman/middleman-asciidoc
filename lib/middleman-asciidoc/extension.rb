@@ -36,7 +36,9 @@ module Middleman
         app.config[:asciidoc_extensions] = prune_tilt_mapping!
         set_time_zone app.config[:time_zone]
         if (app.config.defines_setting? :asciidoc)
+          # :nocov:
           warn 'Using `set :asciidoc` to set options for AsciiDoc is no longer supported. Please use `activate :asciidoc`.'
+          # :nocov:
         end
         (app.config[:asciidoc] = {}).tap do |cfg|
           attributes = {
@@ -275,7 +277,9 @@ module Middleman
             %(.#{ext})
           end
         else
+          # :nocov:
           ::Tilt.mappings.select {|_, classes| classes.include? ::Tilt::AsciidoctorTemplate }.keys.map {|ext| %(.#{ext}) }
+          # :nocov:
         end
       end
 
