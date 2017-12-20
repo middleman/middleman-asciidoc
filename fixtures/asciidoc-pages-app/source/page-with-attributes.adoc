@@ -1,0 +1,11 @@
+= Page Title
+:icons: font
+:sectanchors:
+
+[subs=attributes]
+++++
+ifdef::icons[icons={icons}]
+ifndef::icons[!icons]
+ifdef::sectanchors[sectanchors]
+ifndef::sectanchors[!sectanchors]
+++++

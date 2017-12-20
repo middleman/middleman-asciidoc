@@ -613,11 +613,11 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Restoring imagesdir to default value
+  Scenario: Setting imagesdir to blank
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
-      activate :asciidoc, attributes: %w(imagesdir!)
+      activate :asciidoc, attributes: %w(imagesdir=)
       """
     And the Server is running
     When I go to "/custom-imagesdir.html"
@@ -629,7 +629,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Unsetting default imagesdir value
+  Scenario: Restoring imagesdir to default value
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
       """
@@ -657,6 +657,20 @@ Feature: AsciiDoc Support
       <div class="content">
       <img src="/img/tiger.gif" alt="tiger">
       </div>
+      """
+
+  Scenario: Forcefully unset AsciiDoc attributes in document
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(!icons sectanchors!)
+      """
+    And the Server is running
+    When I go to "/page-with-attributes.html"
+    Then I should see:
+      """
+      !icons
+      !sectanchors
       """
 
   Scenario: Configuring custom AsciiDoc attributes as Array
