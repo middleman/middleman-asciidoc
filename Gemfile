@@ -24,6 +24,6 @@ gem 'simplecov', require: false
 # Additional libraries for testing
 # Middleman itself (use for testing against development version)
 #gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
-gem 'middleman-blog', '~> 4.2.0', require: false
+gem 'middleman-blog', '~> 4.0.2', require: false
 # NOTE middleman-cli required by middleman-blog
 gem 'middleman-cli', '~> 4.2.0', require: false
