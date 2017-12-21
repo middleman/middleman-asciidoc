@@ -27,4 +27,3 @@ gem 'simplecov', require: false
 gem 'middleman-blog', '~> 4.0', require: false
 # NOTE middleman-cli required by middleman-blog
 gem 'middleman-cli', '~> 4.0', require: false
-gem 'listen', '~> 3.0.0', require: false # see https://github.com/middleman/middleman/pull/1891
