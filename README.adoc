@@ -33,15 +33,12 @@ endif::[]
 :badge-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
 :uri-build: https://travis-ci.org/middleman/middleman-asciidoc
 :badge-build: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
-:uri-deps: https://gemnasium.com/middleman/middleman-asciidoc
-:badge-deps: https://img.shields.io/gemnasium/middleman/middleman-asciidoc.svg
 //:uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
 //:badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
 
 ifdef::status[]
 image:{badge-gem}[Gem Version Badge,link={uri-gem}]
 image:{badge-build}[Build Status Badge,link={uri-build}]
-image:{badge-deps}[Dependency Status Badge,link={uri-deps}]
 //image:{badge-codequality}[Code Quality Badge,link={uri-codequality}]
 endif::[]
 
