@@ -12,7 +12,6 @@ end if RUBY_ENGINE == 'jruby'
 
 # Build and doc tools
 gem 'rake', '~> 10.3', require: false
-gem 'yard', '~> 0.8', require: false
 
 # Test tools
 gem 'cucumber', '~> 2.0', require: false
