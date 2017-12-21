@@ -14,16 +14,24 @@ end if RUBY_ENGINE == 'jruby'
 gem 'rake', '~> 12.3.0', require: false
 
 # Test tools
-gem 'cucumber', '~> 2.0', require: false
-gem 'aruba', '~> 0.7.4', require: false
-gem 'capybara', '~> 2.5.0', require: false
+gem 'aruba', '~> 0.14.0', require: false
+gem 'capybara', '~> 2.16.0', require: false
+if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.2.0')
+  gem 'cucumber', '~> 2.99.0', require: false
+else
+  gem 'cucumber', '~> 3.1.0', require: false
+end
 
 # Code coverage tools
-gem 'simplecov', require: false
+gem 'simplecov', '~> 0.15.0', require: false
 
 # Additional libraries for testing
 # Middleman itself (use for testing against development version)
 #gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
 gem 'middleman-blog', '~> 4.0.2', require: false
 # NOTE middleman-cli required by middleman-blog
-gem 'middleman-cli', '~> 4.2.0', require: false
+if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.2.0')
+  gem 'middleman-cli', '~> 4.0.0', require: false
+else
+  gem 'middleman-cli', '~> 4.2.0', require: false
+end
