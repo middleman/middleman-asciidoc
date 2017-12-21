@@ -11,7 +11,7 @@ git 'https://github.com/mojavelinux/middleman.git', branch: 'jruby-compat-fix' d
 end if RUBY_ENGINE == 'jruby'
 
 # Build and doc tools
-gem 'rake', '~> 10.3', require: false
+gem 'rake', '~> 12.3.0', require: false
 
 # Test tools
 gem 'cucumber', '~> 2.0', require: false
