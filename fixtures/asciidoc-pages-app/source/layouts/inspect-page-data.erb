@@ -4,6 +4,8 @@
 <title><%= current_resource.data.title %></title>
 </head>
 <body>
-<pre><%= (JSON.load current_resource.data.to_json).sort.to_h.inspect %></pre>
+<pre>{<%= current_resource.data.keys.sort.map {|k|
+  %("#{k}"=>#{(k == 'document' ? current_resource.data[k].doctitle : (JSON.load current_resource.data[k].to_json)).inspect })
+} * ', ' %>}</pre>
 </body>
 </html>
