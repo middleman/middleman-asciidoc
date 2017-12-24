@@ -280,6 +280,25 @@ You can do so in an ERB template using:
 
 Other processor options, such as `:attributes`, are available from the `current_page.options[:renderer_options]` variable path.
 
+==== Accessing the AsciiDoc Document From a Layout
+
+You can access the document model for the current AsciiDoc-based page from the page layout as follows:
+
+----
+<%= current_page.data.document %>
+----
+
+This object is an instance of `Asciidoctor::Document`.
+It can be used, for instance, to output a table of contents for the current page:
+
+----
+<% if (doc = current_page.data.document) %>
+<%= doc.converter.convert doc, 'outline', toclevels: 3 %>
+<% end %>
+----
+
+For more information about this API, refer to the http://www.rubydoc.info/gems/asciidoctor/Asciidoctor/Document[API documentation].
+
 === Ignoring a Page
 
 In addition to the normal ignore filter in Middleman, you can also control whether a page is ignored from AsciiDoc.
