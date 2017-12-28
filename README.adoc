@@ -505,7 +505,7 @@ In your site's [.path]_config.rb_ file, configure Asciidoctor to load the templa
 
 [source,ruby]
 ----
-activate :asciidoc, template_dirs: source/_asciidoc_templates
+activate :asciidoc, template_dirs: 'source/_asciidoc_templates'
 ----
 
 === Step {counter:step}: Compose a Template
