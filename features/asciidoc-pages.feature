@@ -394,6 +394,11 @@ Feature: AsciiDoc Support
     And I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-pages-app/build</p>}
     And I should see content matching %r{<p>site-environment=development</p>}
 
+  Scenario: Sets value of to_dir option on parsed document
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/page-data.html"
+    Then I should see content matching %r{<p>to_dir=.+/tmp/aruba/asciidoc-pages-app/build</p>}
+
   Scenario: Assigning page ID to page-id attribute
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/topic/echo-page-id.html"

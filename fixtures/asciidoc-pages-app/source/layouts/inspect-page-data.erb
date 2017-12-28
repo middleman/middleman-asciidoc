@@ -7,5 +7,6 @@
 <pre>{<%= current_resource.data.keys.sort.map {|k|
   %("#{k}"=>#{(k == 'document' ? current_resource.data[k].doctitle : (JSON.load current_resource.data[k].to_json)).inspect })
 } * ', ' %>}</pre>
+<p>to_dir=<%= current_resource.data.document.options[:to_dir] %></p>
 </body>
 </html>
