@@ -18,7 +18,7 @@ module Middleman; module AsciiDoc
     end
   end
 
-  if (template_class = ::Tilt['adoc'])
+  if (template_class = ::Tilt[:adoc])
     template_class.send :prepend, Template
   end
 end; end
