@@ -98,9 +98,17 @@ module Middleman
             page_attrs['docdir'] = (dir = ::File.dirname path)
             page_attrs['docname'] = ::File.basename path, (page_attrs['docfilesuffix'] = ::File.extname path)
           end
-          if (page_asciidoc_opts = resource.options.delete :renderer_options)
-            (page_asciidoc_opts[:attributes] ||= {}).update page_attrs
+          # handle options set using the page directive
+          # :attributes key on page directive takes precedence over :attributes key in :asciidoc option
+          initial_page_attrs = resource.options.delete :attributes
+          if ::Hash === (page_asciidoc_opts = resource.options.delete :asciidoc)
+            if ::Hash === initial_page_attrs ||
+                ::Hash === (initial_page_attrs = page_asciidoc_opts.delete :attributes)
+              page_attrs = initial_page_attrs.merge page_attrs
+            end
+            page_asciidoc_opts[:attributes] = page_attrs
           else
+            page_attrs = initial_page_attrs.merge page_attrs if ::Hash === initial_page_attrs
             page_asciidoc_opts = { attributes: page_attrs }
           end
           opts, page = { renderer_options: page_asciidoc_opts }, {}
