@@ -111,7 +111,7 @@ end
 The following option keys can be used to configure this extension.
 With the exception of `layout`, these option keys map directly to options in the Asciidoctor API.
 
-attributes (type: Hash or Array, default: [])::
+attributes (type: Hash or String Array, default: [])::
 Custom AsciiDoc attributes to pass to the processor.
 The following built-in attributes are automatically appended to this collection.
 (You can remove a built-in attribute by passing a custom attribute with the corresponding name prefixed with `-`).
@@ -143,11 +143,23 @@ If not specified, defaults to the document directory (i.e., `:docdir`).
 To set the base directory to the source directory, use the keyword `:source` or the expression `app.source_dir`.
 To leave the base directory undefined, use the value `nil`.
 
+layout (type: String or Symbol, default: nil)::
+The name of the default layout for AsciiDoc-based pages (pages processed by this extension, not including blog articles if a blog layout is specified).
+
 safe (type: Symbol, default: :safe)::
 The safe mode level under which to run the AsciiDoc processor.
 
-layout (type: String or Symbol, default: nil)::
-The name of the default layout for AsciiDoc-based pages (pages processed by this extension, not including blog articles if a blog layout is specified).
+template_dirs (type: String or String Array, default: nil)::
+One or more directory paths (relative to the site root) where Asciidoctor converter templates should be discovered.
+Asciidoctor templates can be used to customize the HTML generated for each node in the Asciidoctor document tree.
+
+template_engine (type: String or Symbol, default: nil)::
+The template engine filter to apply when scanning for Asciidoctor converter templates.
+For example, to only discover Slim templates, set this to `:slim`.
+
+template_engine_options (type: Hash, default: nil)::
+Additional options to pass to the template engine when invoking the Asciidoctor converter templates.
+Options must be indexed by the template engine name (e.g., `:slim`).
 
 TIP: The full set of options can be seen on your preview server's config page at the path [.path]_/__middleman/config/_.
 
