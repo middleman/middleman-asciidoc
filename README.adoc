@@ -151,6 +151,32 @@ The name of the default layout for AsciiDoc-based pages (pages processed by this
 
 TIP: The full set of options can be seen on your preview server's config page at the path [.path]_/__middleman/config/_.
 
+=== Configuring Specific Pages
+
+You can pass extra attributes and other options to the AsciiDoc processor for a given page (or set of pages) using the `:renderer_options` option of the `page` directive (where the "`renderer`" is the AsciiDoc processor):
+
+[source,ruby]
+----
+page 'manual', renderer_options: {
+  attributes: { 'sectanchors' => '' }
+}
+----
+
+NOTE: The first argument to the `page` directive is the page ID.
+The page ID is computed by starting with the path of the source file relative to the source directory, then removing the template extension (i.e., the AsciiDoc extension), then removing the `.html` extension, if present.
+For example, the page ID for both [.path]_home.adoc_ and [.path]_home.html.adoc_ is `home`.
+
+WARNING: Attributes passed to the page directive must be specified as a Hash and receive no additional processing.
+
+You can add extra attributes to a page more concisely using the `:attributes` option on the page directive:
+
+[source,ruby]
+----
+page 'manual', attributes: { 'sectanchors' => '' }
+----
+
+The `:attributes` option on the page directive takes precedence over the `:attributes` option in `:renderer_options`.
+
 == Creating Pages
 
 Each AsciiDoc file in the source directory (except for files that begin with `+_+` or which are located in a directory that begins with `+_+`) becomes a page in the site.
@@ -225,17 +251,13 @@ Alternately, you can set a default layout just for AsciiDoc-based pages (pages p
 activate :asciidoc, layout: :name_of_layout
 ----
 
-Finally, you can set the layout for a specific page or group of pages using the page directive.
+Finally, you can set the layout for a specific page or group of pages using the `page` directive.
 This is an alternate way to define front matter for a page.
 
 [source,ruby]
 ----
 page 'home', layout: :name_of_layout
 ----
-
-NOTE: The first argument to the `page` function is the page ID.
-The page ID is computed starting from the path of the source file relative to the source directory, then removing the template extension (i.e., the AsciiDoc extension), then removing the `.html` extension, if present.
-For example, the page ID for both [.path]_home.adoc_ and [.path]_home.html.adoc_ is `home`.
 
 TIP: When you define the layout in [.path]_config.rb_, you can specify the value either as a String or a Symbol.
 
