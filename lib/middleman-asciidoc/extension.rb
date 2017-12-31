@@ -53,7 +53,9 @@ module Middleman
             attributes['relfileprefix'] = '../'
           end
           attributes['imagesdir'] = %(#{[((app.config[:http_prefix] || '').chomp '/'), app.config[:images_dir]] * '/'}@)
-          attributes = merge_attributes options[:attributes], attributes if (options.setting :attributes).value_set?
+          unless (user_attributes = options[:attributes] || {}).empty?
+            attributes = merge_attributes user_attributes, attributes
+          end
           if !(attributes.key? 'imagesoutdir') && (imagesdir = attributes['imagesdir']) && (imagesdir.start_with? '/')
             attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
           end
