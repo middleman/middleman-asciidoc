@@ -189,6 +189,56 @@ page 'manual', attributes: { 'sectanchors' => '' }
 
 The `:attributes` option on the page directive takes precedence over the `:attributes` option in `:renderer_options`.
 
+=== Defining Additional Site Attributes
+
+Middleman doesn't have a predefined schema for site-related data, such as the title, url, and author.
+However, since this information is needed for most sites, authors end up defining one themselves.
+This section describes how to make this site-related information available to your AsciiDoc documents as attributes.
+
+To maintain consistently with integrations for other site generators, we'll use `site-` as the prefix for site-related attributes.
+For example, the site title will be named `site-title`.
+
+First, we assume you've created a data file named [.path]_site.yml_ in the data directory.
+For example:
+
+.data/site.yml
+[source,yml]
+----
+title: Site Title
+url: http://example.com
+description: An awesome site.
+author: Joe Cool
+----
+
+The information in this file is available via the variable path `app.data.site`.
+The next step is to convert this information into AsciiDoc attributes.
+
+Inside the activate block for the AsciiDoc extension, convert this data into attributes to pass to AsciiDoc, then assign the result to the `attributes` property of the extension.
+
+[source,ruby]
+----
+activate :asciidoc do |asciidoc|
+  attributes = {}
+  allowed_value_types = [String, Numeric, TrueClass, FalseClass, Date, Time]
+  app.data.site.inject(attributes) do |accum, (k, v)|
+    accum[%(site-#{k})] = v if allowed_value_types.detect {|type| type === v }
+    accum
+  end
+  asciidoc.attributes = attributes
+end
+----
+
+You can now access these attributes from any AsciiDoc document in the site.
+For example, to reference the site title, you'd use:
+
+[source,asciidoc]
+----
+{site-title}
+----
+
+If you want to support nested properties (e.g., `site.blog.title`), you can refactor the code above into a function you can call recursively.
+The convention is to flatten these paths into attribute names using the hyphen character (e.g., `site-blog-title`).
+
 == Creating Pages
 
 Each AsciiDoc file in the source directory (except for files that begin with `+_+` or which are located in a directory that begins with `+_+`) becomes a page in the site.
