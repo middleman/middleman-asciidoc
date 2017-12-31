@@ -32,7 +32,6 @@ module Middleman
         super unless app.mode? :config
       end
 
-      # NOTE options passed to activate take precedence (e.g., activate :asciidoc, attributes: ['foo=bar'])
       def after_configuration
         app.config[:asciidoc_extensions] = prune_tilt_mapping!
         set_time_zone app.config[:time_zone]
