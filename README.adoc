@@ -111,7 +111,7 @@ end
 The following option keys can be used to configure this extension.
 With the exception of `layout`, these option keys map directly to options in the Asciidoctor API.
 
-attributes (type: Hash or String Array, default: [])::
+attributes (type: Hash or String Array, default: {})::
 Custom AsciiDoc attributes to pass to the processor.
 The following built-in attributes are automatically appended to this collection.
 (You can remove a built-in attribute by passing a custom attribute with the corresponding name prefixed with `-`).

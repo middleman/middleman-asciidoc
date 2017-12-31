@@ -19,7 +19,7 @@ module Middleman
 
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
 
-      option :attributes, [], 'AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Array. (Hash or Array)'
+      option :attributes, {}, 'AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Hash. (Hash or Array)'
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
       option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which resolves to the document directory. (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'

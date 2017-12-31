@@ -694,6 +694,23 @@ Feature: AsciiDoc Support
     When I go to "/custom-attribute.html"
     Then I should see "bar{baz}"
 
+  Scenario: Defaults attributes setting to empty Hash
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc do |asciidoc|
+        if Hash === asciidoc.attributes
+          asciidoc.attributes = asciidoc.attributes.merge({ 'foo' => 'bar' })
+        end
+      end
+      """
+    And the Server is running
+    When I go to "/custom-attribute.html"
+    Then I should see:
+      """
+      bar
+      """
+
   Scenario: Using non-string attribute values in AsciiDoc attributes Hash
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
