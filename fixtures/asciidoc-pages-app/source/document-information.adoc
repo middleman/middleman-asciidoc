@@ -1,0 +1,8 @@
+= Doc Information
+
+* docdir={docdir}
+* docfile={docfile}
+* docfilesuffix={docfilesuffix}
+* docname={docname}
+* outdir={outdir}
+* outfile={outfile}

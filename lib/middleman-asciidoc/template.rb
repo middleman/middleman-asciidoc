@@ -8,9 +8,11 @@ module Middleman; module AsciiDoc
     def prepare
       opts = DEFAULT_OPTIONS.merge options
       if (ctx = middleman_context)
-        opts[:to_dir] = ::File.dirname ::File.join \
+        attrs = opts[:attributes]
+        attrs['outfile'] = outfile = ::File.join \
             (ctx.app.root_path.join ctx.app.config[:build_dir].to_s),
             ctx.current_page.destination_path
+        attrs['outdir'] = opts[:to_dir] = ::File.dirname outfile
       end
       @document = ::Asciidoctor.load data, opts
       ctx.current_page.data.document = @document if ctx
