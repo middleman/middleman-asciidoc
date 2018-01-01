@@ -6,15 +6,27 @@ module Middleman; module AsciiDoc
     DEFAULT_OPTIONS = { header_footer: false }
 
     def prepare
-      @document = ::Asciidoctor.load data, (DEFAULT_OPTIONS.merge options)
-      if ::Middleman::TemplateContext === (ctx = options[:context])
-        ctx.current_page.data.document = @document
+      opts = DEFAULT_OPTIONS.merge options
+      if (ctx = middleman_context)
+        attrs = opts[:attributes]
+        attrs['outfile'] = outfile = ::File.join \
+            (ctx.app.root_path.join ctx.app.config[:build_dir].to_s),
+            ctx.current_page.destination_path
+        attrs['outdir'] = opts[:to_dir] = ::File.dirname outfile
       end
+      @document = ::Asciidoctor.load data, opts
+      ctx.current_page.data.document = @document if ctx
       @output = nil
     end
 
     def evaluate scope, locals
       @output ||= @document.convert
+    end
+
+    def middleman_context
+      if ::Middleman::TemplateContext === (ctx = options[:context])
+        ctx
+      end
     end
   end
 

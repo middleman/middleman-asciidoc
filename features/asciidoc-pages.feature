@@ -394,6 +394,21 @@ Feature: AsciiDoc Support
     And I should see content matching %r{<p>site-destination=.+/tmp/aruba/asciidoc-pages-app/build</p>}
     And I should see content matching %r{<p>site-environment=development</p>}
 
+  Scenario: Publishing document information as AsciiDoc attributes
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/document-information.html"
+    Then I should see content matching %r{<p>docdir=.+/tmp/aruba/asciidoc-pages-app/source</p>}
+    And I should see content matching %r{<p>docfile=.+/tmp/aruba/asciidoc-pages-app/source/document-information.adoc</p>}
+    And I should see "<p>docfilesuffix=.adoc</p>"
+    And I should see "<p>docname=document-information</p>"
+    And I should see content matching %r{<p>outdir=.+/tmp/aruba/asciidoc-pages-app/build</p>}
+    And I should see content matching %r{<p>outfile=.+/tmp/aruba/asciidoc-pages-app/build/document-information.html</p>}
+
+  Scenario: Sets value of to_dir option on parsed document
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/page-data.html"
+    Then I should see content matching %r{<p>to_dir=.+/tmp/aruba/asciidoc-pages-app/build</p>}
+
   Scenario: Assigning page ID to page-id attribute
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/topic/echo-page-id.html"
