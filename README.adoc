@@ -668,6 +668,6 @@ Here's how to clone the project and run the tests.
 
 == Copyright
 
-Copyright (C) 2014-2017 Dan Allen and the Asciidoctor Project.
+Copyright (C) 2014-2018 Dan Allen and the Asciidoctor Project.
 Free use of this software is granted under the terms of the MIT License.
 For the full text of the license, see the <<LICENSE.adoc#,LICENSE>> file.
