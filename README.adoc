@@ -163,6 +163,14 @@ Options must be indexed by the template engine name (e.g., `:slim`).
 
 TIP: The full set of options can be seen on your preview server's config page at the path [.path]_/__middleman/config/_.
 
+The following implicit attributes are passed to the AsciiDoc processor prior to the page being converted, making them available to both the AsciiDoc source and extensions:
+
+* outfile - the absolute path of the output (HTML) file
+* outdir - the absolute path of the directory containing the output file
+
+In addition to the `outdir` attribute, the `:to_dir` option is also passed to the AsciiDoc processor, and subsequently available on the parsed document object.
+This option may be useful for certain integrations, such as Asciidoctor Diagram.
+
 === Configuring Specific Pages
 
 You can pass extra attributes and other options to the AsciiDoc processor for a given page (or set of pages) using the `:renderer_options` option of the `page` directive (where the "`renderer`" is the AsciiDoc processor):
@@ -283,7 +291,7 @@ In addition to these explicit page attributes, the following AsciiDoc attributes
 * description
 
 TIP: You can continue to specify page data using the front matter header.
-The AsciiDoc `page-` attributes override matching entries in the front matter header.
+Keep in mind that the AsciiDoc `page-` attributes override matching entries in the front matter header.
 
 NOTE: If you specify a time zone in the value of the `revdate` attribute, that time zone is honored.
 Otherwise, the date specified is assumed to have the time zone set for the application.
