@@ -8,8 +8,8 @@ require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new(:cucumber, 'Run features that should pass') do |t|
   exempt_tags = ''
-  exempt_tags << '--tags ~@nojava ' if RUBY_PLATFORM == 'java'
-  t.cucumber_opts = %(--color --tags ~@wip #{exempt_tags} --strict --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'})
+  exempt_tags << ' --tags \'not @nojava\'' if RUBY_PLATFORM == 'java'
+  t.cucumber_opts = %(--color --tags 'not @wip'#{exempt_tags} --strict --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'})
 end
 
 require 'rake/clean'
