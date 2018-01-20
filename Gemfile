@@ -3,10 +3,10 @@ source 'https://rubygems.org'
 # Runtime dependencies are defined in middleman-asciidoc.gemspec
 gemspec
 
-# NOTE when running tests on JRuby, use version of middleman-core that does not depend on fast_blank
-#git 'https://github.com/middleman/middleman.git', ref: '1d13e415e27aa1b30d85fecebf8cc0f91d4023c6' do
-# ...and which fixes the misplaced chmod command
-git 'https://github.com/mojavelinux/middleman.git', branch: 'jruby-compat-fix' do
+# NOTE to run tests on JRuby, use a version of middleman-core that:
+# a) doesn't depend on fast_blank and
+# b) fixes the misplaced chmod command
+git 'https://github.com/middleman/middleman.git', ref: '0936519ab9fc28cf1c07dc8ed555d97d96c8c176' do
   gem 'middleman-core'
 end if RUBY_ENGINE == 'jruby'
 
