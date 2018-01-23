@@ -55,6 +55,7 @@ module Middleman
           unless (user_attributes = options[:attributes] || {}).empty?
             attributes = merge_attributes user_attributes, attributes
           end
+          require 'middleman-asciidoc/diagram_ext' if defined? ::Asciidoctor::Diagram::VERSION
           if !(attributes.key? 'imagesoutdir') && (imagesdir = attributes['imagesdir']) && (imagesdir.start_with? '/')
             attributes['imagesoutdir'] = ::File.join dest, (imagesdir.chomp '@')
           end
