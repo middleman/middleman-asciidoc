@@ -129,3 +129,18 @@ Feature: Blog Integration
       """
       <time datetime="2017-09-01T15:45:00Z">Sep  1, 2017</time>
       """
+
+  Scenario: Disagreement between date in article and date in filename
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "date-in-filename"
+    And a file named "source/blog-2/2017-04-20-what-day-is-it.adoc" with:
+      """
+      = What Day Is It?
+      Joe Cool
+      :revdate: 2017-10-20 09:45 MDT
+      
+      This blog is bakin'.
+      """
+    When I run `middleman build`
+    Then the output should contain "doesn't match the date in its frontmatter"
+    And the exit status should be 1
