@@ -826,3 +826,77 @@ Feature: AsciiDoc Support
       </div>
       </div>
       """
+
+  Scenario: Asciidoctor Diagram integration
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      require 'asciidoctor-diagram'
+      activate :asciidoc, safe: :unsafe
+      """
+    And a file named "source/diagrams/document.adoc" with:
+      """
+      [ditaa,document,png]
+      ....
+      +-----+
+      |{d}  |
+      |     |
+      +-----+
+      ....
+      """
+    And the Server is running
+    When I go to "/diagrams/document.html"
+    Then I should see:
+      """
+      <img src="/images/document.png" alt="document"
+      """
+    # NOTE we can't request the image since it's not in the sitemap
+    And the file "build/images/document.png" should exist
+
+  Scenario: Asciidoctor Diagram cache
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      require 'asciidoctor-diagram'
+      activate :asciidoc, safe: :unsafe
+      """
+    And a file named "source/diagrams/storage.adoc" with:
+      """
+      [ditaa,storage,png]
+      ....
+      +-----+
+      |{s}  |
+      |     |
+      +-----+
+      ....
+      """
+    And the Server is running
+    When I go to "/diagrams/storage.html"
+    Then the file ".asciidoctor/diagram/storage.png.cache" should contain "checksum"
+
+  Scenario: Custom Asciidoctor Diagram imagesoutdir
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      require 'asciidoctor-diagram'
+      activate :asciidoc, safe: :unsafe,
+        attributes: { 'imagesoutdir' => (app.root_path.join app.config[:build_dir], 'images/diagrams').to_s }
+      """
+    And a file named "source/diagrams/io.adoc" with:
+      """
+      :imagesdir: {imagesdir}/diagrams
+      [ditaa,io,png]
+      ....
+      +-----+
+      |{io} |
+      |     |
+      +-----+
+      ....
+      """
+    And the Server is running
+    When I go to "/diagrams/io.html"
+    Then I should see:
+      """
+      <img src="/images/diagrams/io.png" alt="io"
+      """
+    Then the file "build/images/diagrams/io.png" should exist

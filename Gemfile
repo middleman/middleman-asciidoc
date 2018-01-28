@@ -35,3 +35,4 @@ if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.2.0')
 else
   gem 'middleman-cli', '~> 4.2.0', require: false
 end
+gem 'asciidoctor-diagram', require: false
