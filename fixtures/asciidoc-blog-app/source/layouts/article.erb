@@ -8,7 +8,7 @@
     <article>
       <header>
         <span>by <%= current_article.data.authors * ', ' %></span>
-        <time datetime="<%= current_article.date.getutc.iso8601 %>"><%= current_article.date.strftime '%b %e, %Y' %></time>
+        <time datetime="<%= current_article.date.getutc.iso8601 %>"><%= current_article.date.strftime '%b %-e, %Y' %></time>
         <% unless current_article.tags.empty? %>
         <span class="tags">
           <% current_article.tags.sort.each do |tag| %>

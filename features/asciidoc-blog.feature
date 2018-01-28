@@ -15,7 +15,7 @@ Feature: Blog Integration
           <article>
             <header>
               <span>by Blog Author</span>
-              <time datetime="2017-09-01T15:00:00Z">Sep  1, 2017</time>
+              <time datetime="2017-09-01T15:00:00Z">Sep 1, 2017</time>
             </header>
             <h1>Welcome</h1>
       <div class="paragraph">
@@ -127,7 +127,24 @@ Feature: Blog Integration
     When I go to "/blog-2/2017/a-fresh-start.html"
     Then I should see:
       """
-      <time datetime="2017-09-01T15:45:00Z">Sep  1, 2017</time>
+      <time datetime="2017-09-01T15:45:00Z">Sep 1, 2017</time>
+      """
+
+  Scenario: The date can be specified by the filename only
+    Given a fixture app "asciidoc-blog-app"
+    And app "asciidoc-blog-app" is using config "date-in-filename"
+    And a file named "source/blog-2/2018-01-01-dates-are-arbitrary.adoc" with:
+      """
+      = What's in a Date?
+      Reflective Soul
+      
+      Why do we put so much weight on a date?
+      """
+    And the Server is running
+    When I go to "/blog-2/2018/dates-are-arbitrary.html"
+    Then I should see:
+      """
+      <time datetime="2018-01-01T00:00:00Z">Jan 1, 2018</time>
       """
 
   Scenario: Disagreement between date in article and date in filename
