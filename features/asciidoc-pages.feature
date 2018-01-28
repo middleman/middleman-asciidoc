@@ -850,8 +850,10 @@ Feature: AsciiDoc Support
       """
       <img src="/images/document.png" alt="document"
       """
-    # NOTE we can't request the image since it's not in the sitemap
-    And the file "build/images/document.png" should exist
+    # NOTE we can't request the image URL since it's not in the sitemap
+    When I cd to "build"
+    Then the following files should exist:
+    | images/document.png |
 
   Scenario: Asciidoctor Diagram cache
     Given a fixture app "asciidoc-pages-app"
@@ -899,4 +901,6 @@ Feature: AsciiDoc Support
       """
       <img src="/images/diagrams/io.png" alt="io"
       """
-    Then the file "build/images/diagrams/io.png" should exist
+    When I cd to "build"
+    Then the following files should exist:
+    | images/diagrams/io.png |
