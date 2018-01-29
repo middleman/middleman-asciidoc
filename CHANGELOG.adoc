@@ -1,14 +1,24 @@
-= Middleman AsciiDoc Changelog
+= {project-name} Changelog
+:project-name: Middleman AsciiDoc
+:uri-repo: https://github.com/middleman/middleman-asciidoc
 
-== 1.0.0 (pending) - @mojavelinux
+This document provides a high-level view of the changes to the {project-name} by release.
+For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
-* Split AsciiDoc support out of Middleman core into its own extension.
+== 1.0.0 (2018-01-28) - @mojavelinux
 
-//^
-Distribution Packages::
+* Split AsciiDoc support out of Middleman core into its own extension / gem (Middleman >= 4).
+* Generate standalone document when page-layout is unset or false.
+* Set env attribute to site instead of middleman.
+* Parse value of page attributes as YAML.
+* Add better integration between AsciiDoc header attributes and page data.
+* Support use of custom AsciiDoc templates.
+* Make AsciiDoc Document object available to template.
+* Add test suite.
+* Improve README.
+* Test integration with the Middleman blog extension.
+* Test integration with Asciidoctor Diagram.
 
-  * http://rubygems.org/gems/middleman-asciidoc[RubyGem (middleman-asciidoc)]
-
-https://github.com/middleman/middleman-asciidoc/issues?q=milestone%3Av1.0.0[issues resolved] |
-https://github.com/middleman/middleman-asciidoc/releases/tag/v1.0.0[git tag] |
-https://github.com/middleman/middleman-asciidoc/compare/1e7871a3237320239f31da10d982174f84497daa...v1.0.0[full diff]
+{uri-repo}/issues?q=milestone%3Av1.0.0[issues resolved] |
+{uri-repo}/releases/tag/v1.0.0[git tag] |
+{uri-repo}/compare/1e7871a3237320239f31da10d982174f84497daa...v1.0.0[full diff]
