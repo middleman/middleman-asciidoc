@@ -36,3 +36,5 @@ else
   gem 'middleman-cli', '~> 4.2.0', require: false
 end
 gem 'asciidoctor-diagram', require: false
+# NOTE Windows does not include zoneinfo files, so load tzinfo-data gem
+gem 'tzinfo-data', platform: [ :x64_mingw, :mingw ]
