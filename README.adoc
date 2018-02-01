@@ -32,16 +32,16 @@ endif::[]
 :uri-tilt: https://github.com/rtomayko/tilt
 :uri-yaml: https://en.wikipedia.org/wiki/YAML
 :uri-help-pr: https://help.github.com/articles/using-pull-requests
-:badge-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
-:uri-build: https://travis-ci.org/middleman/middleman-asciidoc
-:badge-build: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
-//:uri-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc
-//:badge-codequality: https://codeclimate.com/github/middleman/middleman-asciidoc.png
+:img-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
+:uri-ci-appveyor: https://ci.appveyor.com/project/mojavelinux/middleman-asciidoc
+:img-ci-appveyor: https://ci.appveyor.com/api/projects/status/e77c29uiaowv0ndf/branch/master?svg=true
+:uri-ci-travis: https://travis-ci.org/middleman/middleman-asciidoc
+:img-ci-travis: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
 
 ifdef::status[]
-image:{badge-gem}[Gem Version Badge,link={uri-gem}]
-image:{badge-build}[Build Status Badge,link={uri-build}]
-//image:{badge-codequality}[Code Quality Badge,link={uri-codequality}]
+image:{img-gem}[Gem Version,link={uri-gem}]
+image:{img-ci-travis}[Build Status (Travis CI),link={uri-ci-travis}]
+image:{img-ci-appveyor}[Build Status (AppVeyor),link={uri-ci-appveyor}]
 endif::[]
 
 Middleman AsciiDoc (gem: *middleman-asciidoc*) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] lightweight markup language.
