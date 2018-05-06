@@ -587,29 +587,30 @@ Now run the `bundle` command to install the new gems.
 
 === Step {counter:step}: Create a Templates Folder
 
-Next, create a new folder in your site named [.path]_source/_asciidoc_templates_ to store your templates for AsciiDoc.
+Next, create a new folder in your site named [.path]_asciidoc_templates_ to store your templates for AsciiDoc.
 
- $ mkdir source/_asciidoc_templates
+ $ mkdir asciidoc_templates
 
-We prefix the folder name with an underscore so it doesn't get included in the sitemap (i.e., Middleman won't look for pages in this folder).
+We don't put this folder under the [.path]_source_ directory since we don't need Middleman monitoring it.
+//We prefix the folder name with an underscore so it doesn't get included in the sitemap (i.e., Middleman won't look for pages in this folder).
 
 === Step {counter:step}: Configure Asciidoctor to Load Templates
 
-In your site's [.path]_config.rb_ file, configure Asciidoctor to load the templates by setting the `:template_dirs` option when activating the extension:
+In your site's [.path]_config.rb_ file, configure Asciidoctor to load the templates by setting the `:template_dirs` option (and optionally the `:template_engine` option) when activating the extension:
 
 [source,ruby]
 ----
-activate :asciidoc, template_dirs: 'source/_asciidoc_templates'
+activate :asciidoc, template_dirs: 'asciidoc_templates', template_engine: :slim
 ----
 
 === Step {counter:step}: Compose a Template
 
 The final step is to compose a template.
 We'll be customizing the unordered list node.
-Add a file named [.path]_ulist.html.slim_ to the [.path]_source/_asciidoc_templates_ directory.
+Add a file named [.path]_ulist.html.slim_ to the [.path]_asciidoc_templates_ directory.
 Populate the file with the following contents:
 
-.source/_asciidoc_templates/ulist.html.slim
+.asciidoc_templates/ulist.html.slim
 [source,slim]
 ----
 - if title?
