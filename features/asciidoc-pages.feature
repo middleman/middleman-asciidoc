@@ -12,7 +12,7 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering HTML page from AsciiDoc document with alternate extension
+  Scenario: Rendering HTML page from AsciiDoc document with alternate AsciiDoc extension
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/goodbye.html"
     Then I should see:
@@ -22,9 +22,52 @@ Feature: AsciiDoc Support
       </div>
       """
 
-  Scenario: Rendering html with double file extension
+  Scenario: Rendering HTML page with double file extension
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/hello-with-extension.html"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
+      </div>
+      """
+
+  Scenario: Rendering HTML page with custom outfilesuffix from AsciiDoc document
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(outfilesuffix=.jsp)
+      """
+    And the Server is running
+    When I go to "/hello.jsp"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
+      </div>
+      """
+
+  Scenario: Rendering HTML page from AsciiDoc document with double non-HTML file extension
+    Given the Server is running at "asciidoc-pages-app"
+    When I go to "/hello-with-alt-extension.jsp"
+    Then I should see:
+      """
+      <div class="paragraph">
+      <p>Hello, AsciiDoc!
+      Middleman, I am in you.</p>
+      </div>
+      """
+
+  Scenario: Rendering HTML page with custom outfilesuffix from AsciiDoc document with double non-HTML file extension
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(outfilesuffix=.jsp)
+      """
+    And the Server is running
+    When I go to "/hello-with-alt-extension.jsp"
     Then I should see:
       """
       <div class="paragraph">
