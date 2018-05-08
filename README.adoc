@@ -248,6 +248,32 @@ For example, to reference the site title, you'd use:
 If you want to support nested properties (e.g., `site.blog.title`), you can refactor the code above into a function you can call recursively.
 The convention is to flatten these paths into attribute names using the hyphen character (e.g., `site-blog-title`).
 
+=== Customizing the Output File Extension
+
+By default, the extension of an output file created from an AsciiDoc document is `.html`.
+If you want to customize this extension, for example to change it to `.jsp`, there are two ways to do so.
+
+First, you can give the AsciiDoc source document a double file extension, such as `.jsp.adoc`.
+In this case, the second file extension (`.adoc`) tells Middleman the file is an AsciiDoc file and the first file extension (`.jsp`) tells Middleman which extension to use for the output file.
+
+If you're working with existing AsciiDoc documents, you may not want to change the file extension from `.adoc`.
+In this case, you must set the `outfilesuffix` AsciiDoc attribute, either globally:
+
+[source,ruby]
+----
+activate :asciidoc, attributes: ['outfilesuffix=.jsp']
+----
+
+or per page you want to customize:
+
+[source,ruby]
+----
+page 'manual', attributes: { 'outfilesuffix' =>  '.jsp' }
+----
+
+Note that setting the outfilesuffix has no effect on a file with a double file extension.
+When the file has a double file extension, the first extension is always used as the extension for the output file.
+
 == Creating Pages
 
 Each AsciiDoc file in the source directory (except for files that begin with `+_+` or which are located in a directory that begins with `+_+`) becomes a page in the site.

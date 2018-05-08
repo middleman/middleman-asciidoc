@@ -181,10 +181,9 @@ module Middleman
             page.update adoc_front_matter
           end
 
-          unless resource.ext == doc.outfilesuffix
-            # NOTE we must use << or else the layout gets disabled
-            resource.destination_path << doc.outfilesuffix
-          end
+          # NOTE we must modify value directly instead of reassigning or else layout gets disabled
+          # NOTE if resource.ext is not empty, it means the file has a double file extension (e.g., .jsp.adoc)
+          resource.destination_path << doc.outfilesuffix if resource.ext.empty?
 
           # NOTE only options[:renderer_options] overrides keys defined in global options
           resource.add_metadata options: opts, page: page

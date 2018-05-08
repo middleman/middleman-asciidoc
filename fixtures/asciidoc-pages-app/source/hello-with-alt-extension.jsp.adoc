@@ -1,0 +1,4 @@
+Hello, AsciiDoc!
+ifdef::site-gen-middleman[]
+Middleman, I am in you.
+endif::[]
