@@ -2,7 +2,7 @@
 :project-name: Middleman AsciiDoc
 :uri-repo: https://github.com/middleman/middleman-asciidoc
 
-This document provides a high-level view of the changes to the {project-name} by release.
+This document provides a high-level view of the changes to {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
 == 1.0.0 (2018-01-28) - @mojavelinux
