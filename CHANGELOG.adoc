@@ -5,6 +5,10 @@
 This document provides a high-level view of the changes to {project-name} by release.
 For a detailed view of what has changed, refer to the {uri-repo}/commits/master[commit history] on GitHub.
 
+== Unreleased
+
+* Respect requested file extension (#87)
+
 == 1.0.0 (2018-01-28) - @mojavelinux
 
 * Split AsciiDoc support out of Middleman core into its own extension / gem (Middleman >= 4).
