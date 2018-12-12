@@ -16,11 +16,7 @@ gem 'rake', '~> 12.3.0', require: false
 # Test tools
 gem 'aruba', '~> 0.14.0', require: false
 gem 'capybara', '~> 2.16.0', require: false
-if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.2.0')
-  gem 'cucumber', '~> 2.99.0', require: false
-else
-  gem 'cucumber', '~> 3.1.0', require: false
-end
+gem 'cucumber', '~> 3.1.0', require: false
 
 # Code coverage tools
 gem 'simplecov', '~> 0.15.0', require: false
@@ -30,11 +26,7 @@ gem 'simplecov', '~> 0.15.0', require: false
 #gem 'middleman-core', :github => 'middleman/middleman', :branch => 'master'
 gem 'middleman-blog', '~> 4.0.2', require: false
 # NOTE middleman-cli required by middleman-blog
-if (Gem::Version.new RUBY_VERSION) < (Gem::Version.new '2.2.0')
-  gem 'middleman-cli', '~> 4.0.0', require: false
-else
-  gem 'middleman-cli', '~> 4.2.0', require: false
-end
+gem 'middleman-cli', '~> 4.2.0', require: false
 gem 'asciidoctor-diagram', require: false
 # NOTE Windows does not include zoneinfo files, so load tzinfo-data gem
 gem 'tzinfo-data', platform: [ :x64_mingw, :mingw ]

@@ -48,7 +48,8 @@ Specifically, this extension converts AsciiDoc files in your site source to HTML
 This conversion is performed using {uri-asciidoctor}[Asciidoctor] by default.
 
 IMPORTANT: This extension is designed for Middleman >= 4.0.0.
-Prior to Middleman 4, AsciiDoc support was bundled with Middleman.
+It's tested using the lastest Middleman 4 release running on C Ruby >= 2.3 and JRuby >= 9.1.
+Prior to Middleman 4, AsciiDoc support was bundled with Middleman core.
 
 == Installation
 
