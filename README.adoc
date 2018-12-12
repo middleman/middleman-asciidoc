@@ -490,7 +490,16 @@ So how does the xref work in that case?
 This extension provides built-in support for directory indexes.
 When the directory indexes extension is enabled, this extension automatically defines the `relfileprefix` and `relfilesuffix` attributes on the AsciiDoc document.
 The `relfilesuffix` attribute honors both the `:trailing_slash` and `:strip_index_file` options in Middleman.
-However, you have to make one change to your pages for these attributes to work with the xref macro.
+Here's the result of the xref macro when directory indexes are enabled.
+
+[source,html]
+----
+Meet our <a href="../team/">team</a>.
+----
+
+.Using the interdoc xref macro with directory indexes on Asciidoctor < 1.5.7
+****
+If you're using Asciidoctor < 1.5.7, you have to make one additional change to your pages to get the `relfilesuffix` to influence the output of the interdoc xref macro.
 
 Below the document header (but *not in* the document header), you must assign the `outfilesuffix` attribute to the value of the `relfilesuffix` attribute.
 Here's an example:
@@ -507,12 +516,8 @@ Here's an example:
 Meet our <<team.adoc#,team>>.
 ----
 
-With the help of the `outfilesuffix` assignment, Asciidoctor automatically produces the correct link to the other page.
-
-[source,html]
-----
-Meet our <a href="../team/">team</a>.
-----
+With the help of the `outfilesuffix` assignment, Asciidoctor < 1.5.7 will automatically produce the correct link to the other page when using directory indexes.
+****
 
 Optionally, you can construct the link manually using:
 

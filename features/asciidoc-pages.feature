@@ -590,6 +590,19 @@ Feature: AsciiDoc Support
       <p>Unresolved directive in index.adoc - include::_chapters/ch01.adoc[]</p>
       """
 
+  Scenario: Linking to a sibling page when using a custom outfilesuffix
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(outfilesuffix=.htm)
+      """
+    And the Server is running
+    When I go to "/link-to-page.htm"
+    Then I should see:
+      """
+      <p>See <a href="code.htm">code</a> run.</p>
+      """
+
   Scenario: Linking to a sibling page with directory indexes activated
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:

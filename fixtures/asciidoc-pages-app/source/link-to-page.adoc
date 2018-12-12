@@ -1,5 +1,3 @@
 = Code
 
-ifdef::relfilesuffix[:outfilesuffix: {relfilesuffix}]
-
 See <<code.adoc#,code>> run.
