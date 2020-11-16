@@ -116,7 +116,7 @@ With the exception of `layout`, these option keys map directly to options in the
 attributes (type: Hash or String Array, default: {})::
 Custom AsciiDoc attributes to pass to the processor.
 The following built-in attributes are automatically appended to this collection.
-(You can remove a built-in attribute by passing a custom attribute with the corresponding name prefixed with `-`).
+(You can remove one of these attributes by passing a custom attribute with the corresponding name prefixed with `-`).
 
 * env=site
 * env-site
