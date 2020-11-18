@@ -1,0 +1,11 @@
+= Page Title
+:figure-caption: Fig.
+:table-caption: Tab.
+
+[subs=attributes]
+++++
+ifdef::figure-caption[figure-caption={figure-caption}]
+ifndef::figure-caption[!figure-caption]
+ifdef::table-caption[table-caption={table-caption}]
+ifndef::table-caption[!table-caption]
+++++

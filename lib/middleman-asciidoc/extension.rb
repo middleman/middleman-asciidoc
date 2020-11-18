@@ -199,10 +199,18 @@ module Middleman
         if (is_array = ::Array === attrs) || ::Hash === attrs
           attrs.each_with_object(initial) {|entry, new_attrs|
             key, val = is_array ? (((entry.split '=', 2) + ['', '']).slice 0, 2) : entry
-            if key.start_with? '!'
-              new_attrs[key.slice 1, key.length] = nil
+            if key.end_with? '@'
+              if key.start_with? '!'
+                new_attrs[key.slice 1, key.length - 2] = false
+              elsif key.end_with? '!@'
+                new_attrs[key.slice 0, key.length - 2] = false
+              else
+                new_attrs[key.chop] = %(#{val}@)
+              end
+            elsif key.start_with? '!'
+              new_attrs[key.slice 1, key.length] = val == '@' ? false : nil
             elsif key.end_with? '!'
-              new_attrs[key.chop] = nil
+              new_attrs[key.chop] = val == '@' ? false : nil
             # "-" prefix means to remove key from accumulator
             elsif key.start_with? '-'
               new_attrs.delete (key.slice 1, key.length)
@@ -216,8 +224,6 @@ module Middleman
                 val.to_s
               when true
                 ''
-              when nil, false
-                nil
               else
                 val
               end

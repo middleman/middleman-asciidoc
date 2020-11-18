@@ -745,6 +745,46 @@ Feature: AsciiDoc Support
       !sectanchors
       """
 
+  Scenario: Soft unsetting AsciiDoc attributes with Array attributes setting
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: %w(!figure-caption@ table-caption!@)
+      """
+    And the Server is running
+    When I go to "/page-with-builtin-attributes.html"
+    Then I should see:
+      """
+      !figure-caption
+      !table-caption
+      """
+    When I go to "/page-with-builtin-attributes-overidden.html"
+    Then I should see:
+      """
+      figure-caption=Fig.
+      table-caption=Tab.
+      """
+
+  Scenario: Soft unsetting AsciiDoc attributes with Hash attributes setting
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, attributes: { 'figure-caption' => false, '!table-caption' => '@' }
+      """
+    And the Server is running
+    When I go to "/page-with-builtin-attributes.html"
+    Then I should see:
+      """
+      !figure-caption
+      !table-caption
+      """
+    When I go to "/page-with-builtin-attributes-overidden.html"
+    Then I should see:
+      """
+      figure-caption=Fig.
+      table-caption=Tab.
+      """
+
   Scenario: Configuring custom AsciiDoc attributes as Array
     Given a fixture app "asciidoc-pages-app"
     And a file named "config.rb" with:
