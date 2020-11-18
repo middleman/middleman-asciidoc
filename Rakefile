@@ -1,7 +1,7 @@
 begin
   require 'bundler/gem_tasks'
-rescue LoadError => e
-  warn.message
+rescue LoadError
+  warn $!.message
 end
 
 require 'cucumber/rake/task'

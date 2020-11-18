@@ -1,0 +1,51 @@
+name: CI
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+  pull_request:
+  schedule:
+  - cron: '0 2 * * 1'
+jobs:
+  activate:
+    if: "!endsWith(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Proceed
+      run: echo ok go
+  build:
+    needs: activate
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        ruby: ['2.3', '2.4', '2.5', '2.6']
+        include:
+        #- os: windows-latest
+        #  ruby: '2.7'
+        - os: macos-latest
+          ruby: '2.7'
+        - os: ubuntu-latest
+          ruby: '2.7'
+          primary: primary
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Configure Bundler
+      run: bundle config --local path .bundle/gems
+    - name: Install system dependencies (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install libxslt1-dev
+    - name: Install dependencies
+      run: bundle --jobs 3 --retry 3
+    - name: Enable coverage
+      if: matrix.primary
+      run: echo 'COVERAGE=true' >> $GITHUB_ENV
+    - name: Run tests
+      run: bundle exec ruby -w $(bundle exec ruby -e 'print File.join Gem.bindir, %q(rake)') cucumber
+      env:
+        TEST: 'true'
