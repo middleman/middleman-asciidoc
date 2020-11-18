@@ -8,6 +8,7 @@ For a detailed view of what has changed, refer to the {uri-repo}/commits/master[
 == Unreleased
 
 * Respect requested file extension (#87)
+* Add support for soft unsetting AsciiDoc attributes from the config (#93)
 
 == 1.0.0 (2018-01-28) - @mojavelinux
 
