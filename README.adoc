@@ -32,15 +32,12 @@ endif::[]
 :uri-yaml: https://en.wikipedia.org/wiki/YAML
 :uri-help-pr: https://help.github.com/articles/using-pull-requests
 :img-gem: https://img.shields.io/gem/v/middleman-asciidoc.svg?label=gem
-:uri-ci-appveyor: https://ci.appveyor.com/project/mojavelinux/middleman-asciidoc
-:img-ci-appveyor: https://ci.appveyor.com/api/projects/status/e77c29uiaowv0ndf/branch/master?svg=true
-:uri-ci-travis: https://travis-ci.org/middleman/middleman-asciidoc
-:img-ci-travis: https://img.shields.io/travis/middleman/middleman-asciidoc/master.svg
+:uri-ci-github: {uri-repo}/actions
+:img-ci-github: https://github.com/asciidoctor/asciidoctor/workflows/CI/badge.svg
 
 ifdef::status[]
 image:{img-gem}[Gem Version,link={uri-gem}]
-image:{img-ci-travis}[Build Status (Travis CI),link={uri-ci-travis}]
-image:{img-ci-appveyor}[Build Status (AppVeyor),link={uri-ci-appveyor}]
+image:{img-ci-github}[Build Status (GitHub Actions),link={uri-ci-github}]
 endif::[]
 
 Middleman AsciiDoc (gem: *middleman-asciidoc*) is an extension for the {uri-middleman}[Middleman] static site generator that adds support for the {uri-asciidoc}[AsciiDoc] lightweight markup language.
