@@ -133,6 +133,14 @@ The following built-in attributes are automatically appended to this collection.
  ** can be overridden by page, hence the trailing @
 * imagesoutdir=(imagesdir relative to site destination)
 
+promoted_attributes (type: String Array, default: [])::
+List of attribute names in the document header to convert to page data (aka front matter).
+Refer to the <<Adding Custom Page Data>> section for details.
+
+promoted_attributes_convert_dashes (type: Boolean, default: false)::
+Whether to replace dashes in attribute names to underscores when promoting them to page data.
+Refer to the <<Adding Custom Page Data>> section for details.
+
 backend (type: Symbol, default: :html5)::
 The moniker for a converter, which determines the output format to generate.
 
@@ -302,9 +310,11 @@ puts "Hello, World!"
 
 AsciiDoc attributes defined in the document header whose names begin with `page-` are promoted to page data (aka front matter).
 The part of the name after the `page-` prefix is used as the entry's key (e.g., page-layout becomes layout).
+You can also set the `:promoted_attributes` option to provide a list of attributes that are always promoted without the `page-` prefix.
+If the `:promoted_attributes_convert_dashes` option is set to true, dashes in the attribute names are replaced with underscores (e.g., page-a-very-long-name becomes a_very_long_name).
 The value is parsed as {uri-yaml}[YAML] data (that which can be expressed in a single line).
 
-In addition to these explicit page attributes, the following AsciiDoc attributes are also promoted to page data:
+In addition to these explicit page attributes and the `:promoted_attributes` option, the following AsciiDoc attributes are also promoted to page data:
 
 * doctitle (i.e., the document title) (becomes title)
 * author (becomes author.name)
