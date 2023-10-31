@@ -1,36 +1,35 @@
 name: CI
 on:
   push:
-    branches: ['**']
-    tags-ignore: ['**']
+    branches: [main]
   pull_request:
+    branches: [main]
   schedule:
-  - cron: '0 2 * * 1'
+  - cron: '45 2 * * MON'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  activate:
-    if: "!endsWith(github.event.head_commit.message, '[skip ci]')"
-    runs-on: ubuntu-latest
-    steps:
-    - name: Proceed
-      run: echo ok go
   build:
-    needs: activate
     strategy:
       matrix:
         os: [ubuntu-latest]
-        ruby: ['2.3', '2.4', '2.5', '2.6']
+        ruby: ['2.7', '3.2']
+        exclude:
+        - os: ubuntu-latest
+          ruby: '3.2'
         include:
         #- os: windows-latest
-        #  ruby: '2.7'
+        #  ruby: '3.2'
         - os: macos-latest
-          ruby: '2.7'
+          ruby: '3.2'
         - os: ubuntu-latest
-          ruby: '2.7'
+          ruby: '3.2'
           primary: primary
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
       with:
