@@ -10,3 +10,4 @@
 :page-v-numarray: [1, 2, 3]
 :page-v-chrarray: [a, b, c]
 :page-v-hash: { a: a, b: b, c: c }
+:regular-attribute: I am a regular attribute

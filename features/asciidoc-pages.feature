@@ -484,6 +484,32 @@ Feature: AsciiDoc Support
       <pre>{"document"=>"Page Data", "id"=>"page-data", "title"=>"Page Data", "v-chrarray"=>["a", "b", "c"], "v-dblquote"=>"\"", "v-empty"=>"", "v-false"=>false, "v-hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v-null"=>nil, "v-num"=>1, "v-numarray"=>[1, 2, 3], "v-quote"=>"'", "v-true"=>true}</pre>
       """
 
+  Scenario: Promote attributes to page data using promoted_attributes option
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, promoted_attributes: ['regular-attribute']
+      """
+    And the Server is running
+    When I go to "/page-data.html"
+    Then I should see:
+      """
+      <pre>{"document"=>"Page Data", "id"=>"page-data", "regular-attribute"=>"I am a regular attribute", "title"=>"Page Data", "v-chrarray"=>["a", "b", "c"], "v-dblquote"=>"\"", "v-empty"=>"", "v-false"=>false, "v-hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v-null"=>nil, "v-num"=>1, "v-numarray"=>[1, 2, 3], "v-quote"=>"'", "v-true"=>true}</pre>
+      """
+
+  Scenario: Convert dashes to underscores when promoting custom attributes to page data if promoted_attributes_convert_dashes option is true
+    Given a fixture app "asciidoc-pages-app"
+    And a file named "config.rb" with:
+      """
+      activate :asciidoc, promoted_attributes: ['regular-attribute'], promoted_attributes_convert_dashes: true
+      """
+    And the Server is running
+    When I go to "/page-data.html"
+    Then I should see:
+      """
+      <pre>{"document"=>"Page Data", "id"=>"page-data", "regular_attribute"=>"I am a regular attribute", "title"=>"Page Data", "v_chrarray"=>["a", "b", "c"], "v_dblquote"=>"\"", "v_empty"=>"", "v_false"=>false, "v_hash"=>{"a"=>"a", "b"=>"b", "c"=>"c"}, "v_null"=>nil, "v_num"=>1, "v_numarray"=>[1, 2, 3], "v_quote"=>"'", "v_true"=>true}</pre>
+      """
+
   Scenario: Promoting standard AsciiDoc attributes to page data
     Given the Server is running at "asciidoc-pages-app"
     When I go to "/inspect-standard-page-data.html"

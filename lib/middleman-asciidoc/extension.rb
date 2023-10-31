@@ -20,6 +20,8 @@ module Middleman
       AttributeReferenceRx = /\\?\{(\w+(?:[\-]\w+)*)\}/
 
       option :attributes, {}, 'AsciiDoc attributes passed to all AsciiDoc-based pages. Defaults to empty Hash. (Hash or Array)'
+      option :promoted_attributes, [], 'List of attribute names in the document header to convert to page data (aka front matter). (Array)'
+      option :promoted_attributes_convert_dashes, false, 'Whether to replace dashes in attribute names to underscores when promoting them to page data. (Boolean)'
       option :backend, :html5, 'Moniker used to select output format for AsciiDoc-based pages. Defaults to :html5. (Symbol)'
       option :base_dir, :docdir, 'Base directory to use for the current AsciiDoc document. Defaults to :docdir, which resolves to the document directory. (String)'
       option :safe, :safe, 'Safe mode level for AsciiDoc processor. Defaults to :safe. (Symbol)'
@@ -249,9 +251,20 @@ module Middleman
       # Returns the page variable name as a [String] or nothing if the attribute name is not the name of a page
       # attribute.
       def derive_page_variable_name attribute_name
-        if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' && attribute_name != 'page-ignored' &&
-            (attribute_name.start_with? 'page-')
-          (attribute_name.slice 5, attribute_name.length).to_sym
+        if attribute_name != 'page-layout' && attribute_name != 'page-layout-engine' && attribute_name != 'page-ignored'
+          if attribute_name.start_with? 'page-'
+            derived_name = (attribute_name.slice 5, attribute_name.length)
+          elsif options[:promoted_attributes].include? attribute_name
+            derived_name = attribute_name
+          else
+            return nil
+          end
+
+          if options[:promoted_attributes_convert_dashes]
+            derived_name.gsub('-', '_').to_sym
+          else
+            derived_name.to_sym
+          end
         end
       end
 
